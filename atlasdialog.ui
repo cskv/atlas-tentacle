@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>KernDialog</class>
- <widget class="QDialog" name="KernDialog">
+ <class>AtlasDialog</class>
+ <widget class="QDialog" name="AtlasDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -46,11 +46,8 @@
      <property name="text">
       <string/>
      </property>
-     <property name="textFormat">
-      <enum>Qt::RichText</enum>
-     </property>
      <property name="pixmap">
-      <pixmap resource="terminal.qrc">:/dialogimages/images/KernHelp1.png</pixmap>
+      <pixmap resource="../terminal.qrc">:/dialogimages/images/Atlas_I2C_Help.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -60,7 +57,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="terminal.qrc"/>
+  <include location="../terminal.qrc"/>
  </resources>
  <connections/>
 </ui>

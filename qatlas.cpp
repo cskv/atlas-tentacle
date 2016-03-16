@@ -1,66 +1,94 @@
 #include "qatlas.h"
 #include <QtDebug>
 
-QKERN::QKERN()
-{
-
+QATLAS::QATLAS(){
 }
 
-QKERN::~QKERN()
-{
-
+QATLAS::~QATLAS(){
 }
 
-// SET commands
-QByteArray QKERN::getW()
-//Function: Weighing value for the weight (stable or unstable)
-//is sent via the RS232 interface
+// ATLAS commands
+QByteArray QATLAS::readpH()
+//Function: pH value for the weight
+//is sent via the serial interface
 {
     QByteArray cmd;
-    cmd = "w";
+    cmd = "99:r\r";
     qDebug() << cmd;
-    lastKernCmd = cmd;
+    lastAtlasCmd = cmd;
     return cmd;
 }
 
-QByteArray QKERN::getS()
-//Function: Stable weighing value for the weight
-//is sent via the RS232 interface
-{
-    QByteArray cmd;
-    cmd = "s";
-    qDebug() << cmd;
-    lastKernCmd = cmd;
-    return cmd;
-}
-
-QByteArray QKERN::getT()
+QByteArray QATLAS::readTemp()
 //Function: No data are sent,
 //the balance carries out the tare function.
 {
     QByteArray cmd;
-    cmd = "t";
+    cmd = "99:t,?\r";
     qDebug() << cmd;
-    lastKernCmd = cmd;
+    lastAtlasCmd = cmd;
     return cmd;
 }
 
-void QKERN::parseKern(QByteArray kerndata)
+QByteArray QATLAS::readLED()
+//Function: No data are sent,
+//the balance carries out the tare function.
+{
+    QByteArray cmd;
+    cmd = "99:L,?\r";
+    qDebug() << cmd;
+    lastAtlasCmd = cmd;
+    return cmd;
+}
+
+QByteArray QATLAS::readCal()
+//Function: No data are sent,
+//the balance carries out the tare function.
+{
+    QByteArray cmd;
+    cmd = "99:CAL,?\r";
+    qDebug() << cmd;
+    lastAtlasCmd = cmd;
+    return cmd;
+}
+
+QByteArray QATLAS::writeLED(bool state)
+//Function: No data are sent,
+//the balance carries out the tare function.
+{
+    QByteArray cmd;
+    state ? cmd = "99:L,1\r" : cmd = "99:L,0\r";
+    qDebug() << cmd;
+    lastAtlasCmd = cmd;
+    return cmd;
+}
+
+QByteArray QATLAS::writeTemp()
+//Function: No data are sent,
+//the balance carries out the tare function.
+{
+    QByteArray cmd;
+    cmd = "99:T,20.0\r";
+    qDebug() << cmd;
+    lastAtlasCmd = cmd;
+    return cmd;
+}
+
+void QATLAS::parseAtlas(QByteArray atlasdata)
 {
     //bool ok;
-    QByteArray wt;
-    qDebug() << kerndata;
-    if (kerndata.contains("Error")) {
-        kernError = true;
-    } else if (kerndata.contains("    ")) {
-        wt = kerndata.mid(1,11);
-        kernWeight = wt.toDouble();
-        kernUnit = "   ";
-        kernStable = false;
-    } else {
-        wt = kerndata.mid(1,11);
-        kernWeight = wt.toDouble();
-        kernUnit = kerndata.mid(13,3);
-        kernStable = true;
+    QByteArray t;
+    qDebug() << atlasdata;
+    if ( atlasdata[0] == '1' ) {
+        if ( atlasdata.contains("?T,") ) {
+            t = atlasdata.mid(4,4);
+            currentTemp = t.toDouble();
+        } else if ( atlasdata.contains("?L,") ) {
+                t = atlasdata.mid(4,1);
+                ledState = t.toInt();
+        } else if ( atlasdata.contains("?CAL,") ) {
+            t = atlasdata.mid(6,1);
+            calState = t.toInt();
+        }
     }
 }

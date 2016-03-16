@@ -1,14 +1,14 @@
 #include "atlasdialog.h"
-#include "ui_kerndialog.h"
+#include "ui_atlasdialog.h"
 
-KernDialog::KernDialog(QWidget *parent) :
+AtlasDialog::AtlasDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::KernDialog)
+    ui(new Ui::AtlasDialog)
 {
     ui->setupUi(this);
 }
 
-KernDialog::~KernDialog()
+AtlasDialog::~AtlasDialog()
 {
     delete ui;
 }

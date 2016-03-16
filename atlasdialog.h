@@ -1,22 +1,22 @@
-#ifndef KERNDIALOG_H
-#define KERNDIALOG_H
+#ifndef ATLASDIALOG_H
+#define ATLASDIALOG_H
 
 #include <QDialog>
 
 namespace Ui {
-class KernDialog;
+class AtlasDialog;
 }
 
-class KernDialog : public QDialog
+class AtlasDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit KernDialog(QWidget *parent = 0);
-    ~KernDialog();
+    explicit AtlasDialog(QWidget *parent = 0);
+    ~AtlasDialog();
 
 private:
-    Ui::KernDialog *ui;
+    Ui::AtlasDialog *ui;
 };
 
-#endif // KERNDIALOG_H
+#endif // ATLASDIALOG_H

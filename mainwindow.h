@@ -43,6 +43,7 @@
 #include <QTimer>
 
 #include "atlasdialog.h"
+#include "qatlas.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -71,9 +72,17 @@ private slots:
 
     void on_action_Help_Kern_triggered();
 
-    void on_aupcRradioButton_clicked(bool checked);
+    void on_btnGetTemp_clicked();
 
-    void on_recrRadioButton_clicked();
+    void on_btnpH_clicked();
+
+    void on_btnLED_clicked();
+
+    void on_btnSetLED_toggled(bool checked);
+
+    void on_btnSetTemp_clicked();
+
+    void on_btnCal_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -81,7 +90,9 @@ private:
     QSerialPort *serial;
     QByteArray lastCmd;
 
-    KernDialog* kd;
+    QATLAS* tm;
+
+    AtlasDialog* ad;
 };
 
 #endif // MAINWINDOW_H

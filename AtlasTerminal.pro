@@ -9,7 +9,7 @@ QT      += serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = KernTerminal
+TARGET = AtlasTerminal
 TEMPLATE = app
 
 SOURCES += \

@@ -1,34 +1,41 @@
-#ifndef QKERN_H
-#define QKERN_H
+#ifndef QATLAS_H
+#define QATLAS_H
 
 #include <QtCore>
 
-class QKERN
+class QATLAS
 {
 public:
 // Constructors and Destructors
-    QKERN();
-    ~QKERN();
+    QATLAS();
+    ~QATLAS();
 
 // Getters and Setters
-    double getWeight() {
-        return kernWeight;
+    double getpH() {
+        return currentpH;
+    }
+
+    double getTemp() {
+        return currentTemp;
     }
 
 //Functions:
-    QByteArray getW();
-    QByteArray getS();
-    QByteArray getT();
+    QByteArray readpH();
+    QByteArray readTemp();
+    QByteArray readLED();
+    QByteArray readCal();
+    QByteArray writeLED(bool state);
+    QByteArray writeTemp();
 
-    void parseKern(QByteArray kerndata);
+    void parseAtlas(QByteArray atlasdata);
 
-    private:
-        int kernWeight;
-        QByteArray kernUnit;
-        bool kernStable;
-        bool kernError;
+private:
+    double currentpH;
+    double currentTemp;
+    bool ledState;
+    int calState;
 
-        QByteArray lastKernCmd;
+    QByteArray lastAtlasCmd;
 };
 
-#endif // QKERN_H
+#endif // QATLAS_H

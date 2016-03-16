@@ -47,7 +47,8 @@ MainWindow::MainWindow(QWidget *parent) :
     serial = new QSerialPort(this);
     settings = new SettingsDialog;
 
-    kd = new KernDialog(this);
+    tm = new QATLAS;
+    ad = new AtlasDialog(this);
 
     ui->actionQuit->setEnabled(true);
 
@@ -120,11 +121,15 @@ void MainWindow::writeData(const QByteArray &data)
 //! [7]
 void MainWindow::readData()
 {
-    //while(serial->canReadLine()) {
-      //  QByteArray serialdata = serial->readLine();
+    //QByteArray tentacledata = serial->readAll();
+    //tm->parseAtlas(tentacledata);
+
+    while(serial->canReadLine()) {
+        QByteArray serialdata = serial->readLine();
 //reads in data line by line, separated by \n or \r characters
-        //heiend->parseHEI(serialdata.trimmed());
-    //}
+        qDebug() << serialdata;
+        tm->parseAtlas(serialdata.trimmed());
+    }
 
     //QByteArray serialdata = serial->readLine(10);
     //if (serialdata.contains("\r")) {
@@ -147,21 +152,52 @@ void MainWindow::handleError(QSerialPort::SerialPortError error)
 
 void MainWindow::on_action_Help_Kern_triggered()
 {
-    kd->show();
+    ad->show();
 }
 
-void MainWindow::on_aupcRradioButton_clicked(bool checked)
+void MainWindow::on_btnGetTemp_clicked()
 {
-    ui->tareButton->setEnabled(false);
-    ui->weighButton->setEnabled(false);
-    ui->stableButton->setEnabled(false);
+    lastCmd = tm->readTemp();
+    serial->write(lastCmd);
 }
 
-void MainWindow::on_recrRadioButton_clicked()
+
+void MainWindow::on_btnpH_clicked()
 {
-    ui->tareButton->setEnabled(true);
-    ui->weighButton->setEnabled(true);
-    ui->stableButton->setEnabled(true);
-
+    lastCmd = tm->readpH();
+    serial->write(lastCmd);
 }
 
+void MainWindow::on_btnLED_clicked()
+{
+    lastCmd = tm->readLED();
+    serial->write(lastCmd);
+}
+
+void MainWindow::on_btnSetLED_toggled(bool checked)
+{
+    ui->btnSetLED->setText(checked ? "LED OFF" : "LED ON");
+
+    if (checked)
+    {
+        lastCmd = tm->writeLED(false);
+        serial->write(lastCmd);
+    }
+    else
+    {
+        lastCmd = tm->writeLED(true);
+        serial->write(lastCmd);
+    }
+}
+
+void MainWindow::on_btnSetTemp_clicked()
+{
+    lastCmd = tm->writeTemp();
+    serial->write(lastCmd);
+}
+
+void MainWindow::on_btnCal_clicked()
+{
+    lastCmd = tm->readCal();
+    serial->write(lastCmd);
+}
