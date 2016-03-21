@@ -201,3 +201,27 @@ void MainWindow::on_btnCal_clicked()
     lastCmd = tm->readCal();
     serial->write(lastCmd);
 }
+
+void MainWindow::on_btnCalClear_clicked()
+{
+    lastCmd = tm->doCal(0);
+    serial->write(lastCmd);
+}
+
+void MainWindow::on_btnCalMid_clicked()
+{
+    lastCmd = tm->doCal(1);
+    serial->write(lastCmd);
+}
+
+void MainWindow::on_btnCalLow_clicked()
+{
+    lastCmd = tm->doCal(2);
+    serial->write(lastCmd);
+}
+
+void MainWindow::on_btnCalHigh_clicked()
+{
+    lastCmd = tm->doCal(3);
+    serial->write(lastCmd);
+}

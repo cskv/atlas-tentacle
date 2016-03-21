@@ -84,6 +84,14 @@ private slots:
 
     void on_btnCal_clicked();
 
+    void on_btnCalClear_clicked();
+
+    void on_btnCalMid_clicked();
+
+    void on_btnCalLow_clicked();
+
+    void on_btnCalHigh_clicked();
+
 private:
     Ui::MainWindow *ui;
     SettingsDialog *settings;

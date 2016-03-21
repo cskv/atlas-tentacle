@@ -32,7 +32,7 @@
     <property name="title">
      <string>Cal</string>
     </property>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="btnCalMid">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -45,7 +45,7 @@
       <string>7.00</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="btnCalLow">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -58,7 +58,7 @@
       <string>4.00</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_3">
+    <widget class="QPushButton" name="btnCalHigh">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -71,7 +71,7 @@
       <string>10.00</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_7">
+    <widget class="QPushButton" name="btnCalClear">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -407,7 +407,4 @@ color: red;
   <include location="../terminal.qrc"/>
  </resources>
  <connections/>
- <buttongroups>
-  <buttongroup name="kernModeGroup"/>
- </buttongroups>
 </ui>

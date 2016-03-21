@@ -26,8 +26,10 @@ public:
     QByteArray readCal();
     QByteArray writeLED(bool state);
     QByteArray writeTemp();
+    QByteArray doCal(int taskid);
 
     void parseAtlas(QByteArray atlasdata);
+    void parseTentacleMini(QByteArray atlasdata);
 
 private:
     double currentpH;
