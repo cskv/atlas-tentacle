@@ -71,25 +71,15 @@ private slots:
     void handleError(QSerialPort::SerialPortError error);
 
     void on_action_Help_Kern_triggered();
-
     void on_btnGetTemp_clicked();
-
     void on_btnpH_clicked();
-
     void on_btnLED_clicked();
-
     void on_btnSetLED_toggled(bool checked);
-
     void on_btnSetTemp_clicked();
-
     void on_btnCal_clicked();
-
     void on_btnCalClear_clicked();
-
     void on_btnCalMid_clicked();
-
     void on_btnCalLow_clicked();
-
     void on_btnCalHigh_clicked();
 
 private:

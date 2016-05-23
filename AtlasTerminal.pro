@@ -41,3 +41,6 @@ QMAKE_CXXFLAGS += -Wextra
 INCLUDEPATH += ..
 
 include ( C:\qwt-6.1.2\features\qwt.prf )
+
+//INCLUDEPATH += D:\PROJECTS_LTD\Qt\QtPlugins\led-designer-plugin
+//win32: LIBS += D:\PROJECTS_LTD\Qt\QtPlugins\led-designer-plugin\build-led-designer-plugin\release\led-designer-plugin.dll

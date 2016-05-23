@@ -32,10 +32,11 @@ public:
     void parseTentacleMini(QByteArray atlasdata);
 
 private:
+    char   i2caddress;
     double currentpH;
     double currentTemp;
-    bool ledState;
-    int calState;
+    bool   ledState;
+    int    calState;
 
     QByteArray lastAtlasCmd;
 };
