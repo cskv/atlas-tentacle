@@ -1,0 +1,22 @@
+syntax: glob
+
+*.local
+__history
+*.identcache
+*.dcu
+*.exe
+
+*.pdf
+Delphi/Langevin
+*.jpg
+*.png
+
+*.o
+moc*.cpp
+debug
+build*
+*.vlb
+Precip
+Python
+*.zip
+*.odp
