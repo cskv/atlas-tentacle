@@ -189,22 +189,34 @@ QByteArray QATLAS::factoryReset()
     return cmd;
 }
 //----------------------------------------------------------------
-void QATLAS::parseAtlas(QByteArray atlasdata)
+void QATLAS::parseAtlasI2C(QByteArray atlasdata)
 {
-    //bool ok;
     QByteArray t;
     qDebug() << atlasdata;
-    if ( atlasdata[0] == '1' ) {
-        if ( atlasdata.contains("?T,") ) {
-            t = atlasdata.mid(4,4);
-            currentTemp = t.toDouble();
-        } else if ( atlasdata.contains("?L,") ) {
-                t = atlasdata.mid(4,1);
-                ledState = t.toInt();
-        } else if ( atlasdata.contains("?CAL,") ) {
-            t = atlasdata.mid(6,1);
-            calState = t.toInt();
-        }
+
+    if ( atlasdata.contains("?L,") ) {
+        t = atlasdata.mid(4,1);
+        //ledState = t.toInt;
+    }
+    if ( atlasdata.contains("?T,") ) {
+        t = atlasdata.mid(4,4);
+        currentTemp = t.toDouble();
+    }
+    if ( atlasdata.contains("?CAL,") ) {
+        t = atlasdata.mid(6,1);
+        calState = t.toInt();
+    }
+    if ( atlasdata.contains("?SLOPE,") ) {
+        t = atlasdata.mid(8,4);
+        acidSlope = t.toDouble();
+        t = atlasdata.mid(13,5);
+        basicSlope = t.toDouble();
+    }
+    if ( atlasdata.contains("?STATUS,") ) {
+        t = atlasdata.mid(8,1);
+        rstCode = t;
+        t = atlasdata.mid(10,5);
+        voltage = t.toDouble();
     }
 }
 

@@ -41,13 +41,21 @@ public:
 
     void parseAtlas(QByteArray atlasdata);
     void parseTentacleMini(QByteArray atlasdata);
+    void parseAtlasI2C(QByteArray atlasdata);
 
 private:
     char   i2caddress;
+    QString   probe;
+    QString  version;
+    QString rstCode;
+    double voltage;
+
     double currentpH;
     double currentTemp;
     bool   ledState;
     int    calState;
+    double acidSlope;
+    double basicSlope;
 
     QByteArray lastAtlasCmd;
 };

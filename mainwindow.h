@@ -68,6 +68,8 @@ private slots:
     void closeSerialPort();
     void writeData(const QByteArray &data);
     void readData();
+    void readRawAtlasI2CData();
+
     void handleError(QSerialPort::SerialPortError error);
 
     void on_action_Help_Kern_triggered();

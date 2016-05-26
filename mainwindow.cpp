@@ -128,7 +128,7 @@ void MainWindow::readData()
         QByteArray serialdata = serial->readLine();
 //reads in data line by line, separated by \n or \r characters
         qDebug() << serialdata;
-        tm->parseAtlas(serialdata.trimmed());
+        //tm->parseAtlas(serialdata.trimmed());
     }
 
     //QByteArray serialdata = serial->readLine(10);
@@ -136,6 +136,26 @@ void MainWindow::readData()
         //heiend->parseHEI(serialdata);
     //}
 }
+void MainWindow::readRawAtlasI2CData()
+{
+    //QByteArray tentacledata = serial->readAll();
+    //tm->parseAtlas(tentacledata);
+
+    while(serial->canReadLine()) {
+        QByteArray serialdata = serial->readLine();
+//reads in data line by line, separated by \n or \r characters
+        qDebug() << serialdata;
+        QByteArray reply = serialdata.trimmed();
+        if (reply[0] == 0x01) {
+            ui->statusBar->showMessage("Success");
+            tm->parseAtlasI2C(reply);
+        }
+        else if (reply[0] == 0x02) ui->statusBar->showMessage("Request Failed");
+        else if (reply[0] == 0xFE) ui->statusBar->showMessage("Data Pending");
+        else if (reply[0] == 0xFF) ui->statusBar->showMessage("No Data");
+    }
+}
+
 //! [7]
 
 //! [8]
