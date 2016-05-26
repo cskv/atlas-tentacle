@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/new/images">
+        <file>images/connect.png</file>
+        <file>images/disconnect.png</file>
+        <file>images/application-exit.png</file>
+        <file>images/clear.png</file>
+        <file>images/atlas-logo-blue.png</file>
+        <file>images/atlas-logo-red.png</file>
+        <file>images/top_logo.png</file>
+        <file>images/settings.png</file>
+        <file>images/AtlasHelp1.png</file>
+    </qresource>
+</RCC>

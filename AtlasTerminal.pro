@@ -15,23 +15,23 @@ TEMPLATE = app
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    ../settingsdialog.cpp \
+    settingsdialog.cpp \
     atlasdialog.cpp \
     qatlas.cpp
 
 HEADERS += \
     mainwindow.h \
-    ../settingsdialog.h \
+    settingsdialog.h \
     atlasdialog.h \
     qatlas.h
 
 FORMS += \
     mainwindow.ui \
-    ../settingsdialog.ui \
+    settingsdialog.ui \
     atlasdialog.ui
 
 RESOURCES += \
-    ../terminal.qrc
+    atlasterminal.qrc
 
 CONFIG += c++11
 CONFIG += warn_on

@@ -20,13 +20,24 @@ public:
     }
 
 //Functions:
+    QByteArray readLED();
+    QByteArray writeLED(bool state);
+
     QByteArray readpH();
     QByteArray readTemp();
-    QByteArray readLED();
-    QByteArray readCal();
-    QByteArray writeLED(bool state);
     QByteArray writeTemp();
+
+    QByteArray readCal();
     QByteArray doCal(int taskid);
+
+    QByteArray readSlope();
+    QByteArray readInfo();
+    QByteArray readStatus();
+
+    QByteArray changeI2C(char addr);
+    QByteArray sleep();
+    QByteArray serial(int baudrate); // switch to UART mode
+    QByteArray factoryReset();
 
     void parseAtlas(QByteArray atlasdata);
     void parseTentacleMini(QByteArray atlasdata);

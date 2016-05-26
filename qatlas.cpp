@@ -150,7 +150,7 @@ QByteArray QATLAS::changeI2C(char addr)
 //Response: 1 (Success)
 {
     QByteArray cmd;
-    state ? cmd = "99:I2C,addr\r";
+    cmd = "99:I2C,addr\r";
     qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -161,7 +161,7 @@ QByteArray QATLAS::sleep()
 //Response: none
 {
     QByteArray cmd;
-    state ? cmd = "99:SLEEP\r";
+    cmd = "99:SLEEP\r";
     qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -172,7 +172,7 @@ QByteArray QATLAS::serial(int baudrate) // switch to UART mode
 //Response: none
 {
     QByteArray cmd;
-    state ? cmd = "99:SERIAL\r";
+    cmd = "99:SERIAL\r";
     qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -183,7 +183,7 @@ QByteArray QATLAS::factoryReset()
 //Response: issue STATUS query after this command and see if "S" is in the repaly
 {
     QByteArray cmd;
-    state ? cmd = "99:SERIAL\r";
+    cmd = "99:STATUS\r";
     qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;

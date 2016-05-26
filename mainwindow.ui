@@ -320,7 +320,7 @@ color: red;
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="../terminal.qrc">:/brands/images/atlas-logo-red.png</pixmap>
+     <pixmap resource="atlasterminal.qrc">:/new/images/images/atlas-logo-red.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -339,7 +339,7 @@ color: red;
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="../terminal.qrc">:/brands/images/top_logo.png</pixmap>
+     <pixmap resource="atlasterminal.qrc">:/new/images/images/top_logo.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -393,15 +393,16 @@ color: red;
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionQuit"/>
+   <addaction name="actionConfigure"/>
    <addaction name="actionConnect"/>
    <addaction name="actionDisconnect"/>
-   <addaction name="actionConfigure"/>
-   <addaction name="action_Help_Kern"/>
+   <addaction name="action_Help_Tentacle"/>
   </widget>
   <action name="actionQuit">
    <property name="icon">
-    <iconset resource="../terminal.qrc">
-     <normaloff>:/images/application-exit.png</normaloff>:/images/application-exit.png</iconset>
+    <iconset resource="atlasterminal.qrc">
+     <normaloff>:/new/images/images/application-exit.png</normaloff>:/new/images/images/application-exit.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Quit</string>
@@ -412,32 +413,45 @@ color: red;
   </action>
   <action name="actionConnect">
    <property name="icon">
-    <iconset resource="../terminal.qrc">
-     <normaloff>:/images/connect.png</normaloff>:/images/connect.png</iconset>
+    <iconset resource="atlasterminal.qrc">
+     <normaloff>:/new/images/images/connect.png</normaloff>:/new/images/images/connect.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Connect Kern</string>
+    <string>&amp;Connect</string>
+   </property>
+   <property name="toolTip">
+    <string>Connect Atlas</string>
    </property>
   </action>
   <action name="actionDisconnect">
    <property name="icon">
-    <iconset resource="../terminal.qrc">
-     <normaloff>:/images/disconnect.png</normaloff>:/images/disconnect.png</iconset>
+    <iconset resource="atlasterminal.qrc">
+     <normaloff>:/new/images/images/disconnect.png</normaloff>:/new/images/images/disconnect.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Disconnect Kern</string>
+    <string>&amp;Disconnect</string>
+   </property>
+   <property name="toolTip">
+    <string>Disconnect Atlas</string>
    </property>
   </action>
   <action name="actionConfigure">
    <property name="icon">
-    <iconset resource="../terminal.qrc">
-     <normaloff>:/images/settings.png</normaloff>:/images/settings.png</iconset>
+    <iconset resource="atlasterminal.qrc">
+     <normaloff>:/new/images/images/settings.png</normaloff>:/new/images/images/settings.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Configure Kern</string>
+    <string>&amp;Configure</string>
+   </property>
+   <property name="toolTip">
+    <string>Configure Atlas</string>
    </property>
   </action>
-  <action name="action_Help_Kern">
+  <action name="action_Help_Tentacle">
+   <property name="icon">
+    <iconset resource="atlasterminal.qrc">
+     <normaloff>:/new/images/images/AtlasHelp1.png</normaloff>:/new/images/images/AtlasHelp1.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Help Tentacle</string>
    </property>
@@ -445,7 +459,7 @@ color: red;
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="../terminal.qrc"/>
+  <include location="atlasterminal.qrc"/>
  </resources>
  <connections/>
 </ui>
