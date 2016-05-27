@@ -17,13 +17,15 @@ SOURCES += \
     mainwindow.cpp \
     settingsdialog.cpp \
     atlasdialog.cpp \
-    qatlas.cpp
+    qatlas.cpp \
+    qatlasusb.cpp
 
 HEADERS += \
     mainwindow.h \
     settingsdialog.h \
     atlasdialog.h \
-    qatlas.h
+    qatlas.h \
+    qatlasusb.h
 
 FORMS += \
     mainwindow.ui \

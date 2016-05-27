@@ -156,6 +156,28 @@ void MainWindow::readRawAtlasI2CData()
     }
 }
 
+void MainWindow::readAtlasUSBData()
+{
+    //QByteArray tentacledata = serial->readAll();
+    //tm->parseAtlas(tentacledata);
+
+    while(serial->canReadLine()) {
+        QByteArray serialdata = serial->readLine();
+//reads in data line by line, separated by \n or \r characters
+        qDebug() << serialdata;
+        QByteArray response = serialdata.trimmed();
+        if ( response.contains("OK") ) ui->statusBar->showMessage("Success");
+        else if ( response.contains("*ER") ) ui->statusBar->showMessage("Request Unknown");
+        else if ( response.contains("*OV") ) ui->statusBar->showMessage("Over Voltage");
+        else if ( response.contains("*UV") ) ui->statusBar->showMessage("Under Voltage");
+        else if ( response.contains("*RS") ) ui->statusBar->showMessage("Device Reset");
+        else if ( response.contains("*RE") ) ui->statusBar->showMessage("Boot up Completed");
+        else if ( response.contains("*SL") ) ui->statusBar->showMessage("Device Asleep");
+        else if ( response.contains("*WA") ) ui->statusBar->showMessage("Device Woken Up");
+        else tm->parseAtlasI2C(response);
+    }
+
+}
 //! [7]
 
 //! [8]

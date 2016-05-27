@@ -44,6 +44,7 @@
 
 #include "atlasdialog.h"
 #include "qatlas.h"
+#include "qatlasusb.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -83,6 +84,7 @@ private slots:
     void on_btnCalMid_clicked();
     void on_btnCalLow_clicked();
     void on_btnCalHigh_clicked();
+    void readAtlasUSBData();
 
 private:
     Ui::MainWindow *ui;
@@ -93,6 +95,7 @@ private:
     QATLAS* tm;
 
     AtlasDialog* ad;
+
 };
 
 #endif // MAINWINDOW_H
