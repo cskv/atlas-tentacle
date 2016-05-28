@@ -69,11 +69,9 @@ private slots:
     void closeSerialPort();
     void writeData(const QByteArray &data);
     void readData();
-    void readRawAtlasI2CData();
 
     void handleError(QSerialPort::SerialPortError error);
 
-    void on_action_Help_Kern_triggered();
     void on_btnGetTemp_clicked();
     void on_btnpH_clicked();
     void on_btnLED_clicked();
@@ -84,7 +82,20 @@ private slots:
     void on_btnCalMid_clicked();
     void on_btnCalLow_clicked();
     void on_btnCalHigh_clicked();
+
+    void readTentacleI2CData();
     void readAtlasUSBData();
+
+    void on_action_Help_Tentacle_triggered();
+
+    void updateAll();
+    void readRawI2CData();
+
+    void on_btnSlope_clicked();
+
+    void on_btnInfo_clicked();
+
+    void on_btnStatus_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -93,8 +104,10 @@ private:
     QByteArray lastCmd;
 
     QATLAS* tm;
+    QTimer* aTimer;
 
     AtlasDialog* ad;
+
 
 };
 

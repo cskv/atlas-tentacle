@@ -43,14 +43,25 @@ public:
     void parseTentacleMini(QByteArray atlasdata);
     void parseAtlasI2C(QByteArray atlasdata);
 
+    double getAcidSlope() const;
+    double getBasicSlope() const;
+
+    QString getProbeType() const;
+
+    QString getVersion() const;
+
+    QString getRstCode() const;
+
+    double getVoltage() const;
+
 private:
     char   i2caddress;
-    QString   probe;
+    QString probeType;
     QString  version;
     QString rstCode;
     double voltage;
 
-    double currentpH;
+    double currentpH = -7.0;
     double currentTemp;
     bool   ledState;
     int    calState;

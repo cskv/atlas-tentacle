@@ -12,16 +12,13 @@ Command     Function
 L           Enable / Disable or Query the LEDs (pg.46)
 R           Returns a single reading (pg.47)
 T           Set or Query the temperature compensation (pg.48)
-Cal         Performs calibration (pg.49)
-Slope       Queries slope (p.55)
+CAL         Performs calibration (pg.49)
+SLOPE       Queries slope (p.55)
 I           Device information (pg.56)
-Status      Retrieve status information (pg.57)
+STATUS      Retrieve status information (pg.57)
 I2C         I2C address change (pg.58)
-Sleep       Enter low power sleep mode (pg.59)
-Serial      Switch back to UART mode (pg.60)
-
-
-
+SLEEP       Enter low power sleep mode (pg.59)
+SERIAL      Switch back to UART mode (pg.60)
 */
 
 // ATLAS commands
@@ -53,7 +50,7 @@ QByteArray QATLAS::readpH()
 //Response: 1,x.xxx with x.xxx is the pH value e.g. 7.012
 {
     QByteArray cmd;
-    cmd = "99:r\r";
+    cmd = "99:R\r";         // Capital R to comply with manual  changed in .ino
     qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -64,7 +61,7 @@ QByteArray QATLAS::readTemp()
 //Response: 1?T,xx.x with xx.x is the temperature e.g. 19.5
 {
     QByteArray cmd;
-    cmd = "99:t,?\r";
+    cmd = "99:T,?\r";
     qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -196,7 +193,8 @@ void QATLAS::parseAtlasI2C(QByteArray atlasdata)
 
     if ( atlasdata.contains("?L,") ) {
         t = atlasdata.mid(4,1);
-        //ledState = t.toInt;
+        ledState = (t.toInt() == 1);
+        ledState = (t.toInt() != 0);
     }
     if ( atlasdata.contains("?T,") ) {
         t = atlasdata.mid(4,4);
@@ -212,6 +210,13 @@ void QATLAS::parseAtlasI2C(QByteArray atlasdata)
         t = atlasdata.mid(13,5);
         basicSlope = t.toDouble();
     }
+    if ( atlasdata.contains("?I,") ) {
+        t = atlasdata.mid(3,3);
+        t =t.trimmed();
+        probeType = QString(t);
+        t = atlasdata.mid(5,4);
+        version = QString(t);
+    }
     if ( atlasdata.contains("?STATUS,") ) {
         t = atlasdata.mid(8,1);
         rstCode = t;
@@ -220,21 +225,68 @@ void QATLAS::parseAtlasI2C(QByteArray atlasdata)
     }
 }
 
+double QATLAS::getAcidSlope() const
+{
+    return acidSlope;
+}
+
+double QATLAS::getBasicSlope() const
+{
+    return basicSlope;
+}
+
+QString QATLAS::getProbeType() const
+{
+    return probeType;
+}
+
+QString QATLAS::getVersion() const
+{
+    return version;
+}
+
+QString QATLAS::getRstCode() const
+{
+    return rstCode;
+}
+
+double QATLAS::getVoltage() const
+{
+    return voltage;
+}
+
 void QATLAS::parseTentacleMini(QByteArray atlasdata)
 {
-    //bool ok;
     QByteArray t;
     qDebug() << atlasdata;
-    if ( atlasdata[0] == '1' ) {
-        if ( atlasdata.contains("?T,") ) {
-            t = atlasdata.mid(4,4);
-            currentTemp = t.toDouble();
-        } else if ( atlasdata.contains("?L,") ) {
-                t = atlasdata.mid(4,1);
-                ledState = t.toInt();
-        } else if ( atlasdata.contains("?CAL,") ) {
-            t = atlasdata.mid(6,1);
-            calState = t.toInt();
-        }
+
+    if ( atlasdata.contains("?L,") ) {
+        t = atlasdata.mid(4,1);
+        ledState = (t.toInt() == 1);
+        ledState = (t.toInt() != 0);
+    } else if ( atlasdata.contains("?T,") ) {
+        t = atlasdata.mid(4,4);
+        currentTemp = t.toDouble();
+    } else if ( atlasdata.contains("?CAL,") ) {
+        t = atlasdata.mid(6,1);
+        calState = t.toInt();
+    } else if ( atlasdata.contains("?SLOPE,") ) {
+        t = atlasdata.mid(7,4);
+        acidSlope = t.toDouble();
+        t = atlasdata.mid(12,6);
+        basicSlope = t.toDouble();
+    } else if ( atlasdata.contains("?I,") ) {
+        t = atlasdata.mid(3,2);
+        probeType = QString(t);
+        t = atlasdata.mid(6,4);
+        version = QString(t);
+    } else if ( atlasdata.contains("?STATUS,") ) {
+        t = atlasdata.mid(8,1);
+        rstCode = t;
+        t = atlasdata.mid(10,5);
+        voltage = t.toDouble();
+    } else {
+        t = atlasdata.mid(0,6);     // one char too much to be sure
+        currentpH = t.toDouble();
     }
 }

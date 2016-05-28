@@ -47,7 +47,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="../terminal.qrc">:/dialogimages/images/Atlas_I2C_Help.png</pixmap>
+      <pixmap resource="atlasterminal.qrc">:/new/images/images/AtlasHelp1.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -57,7 +57,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="../terminal.qrc"/>
+  <include location="atlasterminal.qrc"/>
  </resources>
  <connections/>
 </ui>

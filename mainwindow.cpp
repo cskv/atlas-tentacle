@@ -49,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     tm = new QATLAS;
     ad = new AtlasDialog(this);
+    aTimer = new QTimer(this);
+    aTimer->start(2000);
 
     ui->actionQuit->setEnabled(true);
 
@@ -61,9 +63,11 @@ MainWindow::MainWindow(QWidget *parent) :
 // make other connections (see Terminal example)
     connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
             SLOT(handleError(QSerialPort::SerialPortError)));
+    connect(aTimer, SIGNAL(timeout()), this, SLOT(updateAll()));
 
 //! [2]
-    connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+    //connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+    connect(serial, SIGNAL(readyRead()), this, SLOT(readTentacleI2CData()));
     //connect(serial, SIGNAL(bytesWritten(qint64)), this, SLOT(start2()));
 //! [2]
 }
@@ -75,6 +79,27 @@ MainWindow::~MainWindow()
 }
 
 //! [4]
+
+void MainWindow::updateAll()
+{
+    ui->btnSlope->click();
+    ui->acidSlopeLabel->setText(QString::number(tm->getAcidSlope()));
+    ui->basicSlopeLabel->setText(QString::number(tm->getBasicSlope()));
+
+    ui->btnInfo->click();
+    ui->probeLabel->setText(tm->getProbeType());
+    ui->versionLabel->setText(tm->getVersion());
+
+    ui->btnStatus->click();
+    ui->rstLabel->setText(tm->getRstCode());
+    ui->voltLabel->setText(QString::number(tm->getVoltage()));
+
+    if ( ui->cbAuto->isChecked() ) {
+        ui->btnpH->click();
+        ui->pHLabel->setText(QString::number(tm->getpH()));
+    }
+}
+
 void MainWindow::openSerialPort()
 {
     SettingsDialog::Settings p = settings->settings();
@@ -130,13 +155,24 @@ void MainWindow::readData()
         qDebug() << serialdata;
         //tm->parseAtlas(serialdata.trimmed());
     }
-
-    //QByteArray serialdata = serial->readLine(10);
-    //if (serialdata.contains("\r")) {
-        //heiend->parseHEI(serialdata);
-    //}
 }
-void MainWindow::readRawAtlasI2CData()
+
+void MainWindow::readTentacleI2CData()
+{
+    while(serial->canReadLine()) {
+        QByteArray tentacledata = serial->readLine();
+//reads in data line by line, separated by \n or \r characters
+        qDebug() << tentacledata;
+        QByteArray reply = tentacledata.trimmed();
+        if (reply[0] == '<') ui->statusBar->showMessage(QString(reply));
+        else {
+            ui->statusBar->showMessage("");
+            tm->parseTentacleMini(reply);
+        }
+    }
+}
+
+void MainWindow::readRawI2CData()
 {
     //QByteArray tentacledata = serial->readAll();
     //tm->parseAtlas(tentacledata);
@@ -146,13 +182,13 @@ void MainWindow::readRawAtlasI2CData()
 //reads in data line by line, separated by \n or \r characters
         qDebug() << serialdata;
         QByteArray reply = serialdata.trimmed();
-        if (reply[0] == 0x01) {
+        if (reply[0] == (char)0x01) {
             ui->statusBar->showMessage("Success");
             tm->parseAtlasI2C(reply);
         }
-        else if (reply[0] == 0x02) ui->statusBar->showMessage("Request Failed");
-        else if (reply[0] == 0xFE) ui->statusBar->showMessage("Data Pending");
-        else if (reply[0] == 0xFF) ui->statusBar->showMessage("No Data");
+        else if (reply[0] == (char)0x02) ui->statusBar->showMessage("Request Failed");
+        else if (reply.at(0) == (char)0xFE) ui->statusBar->showMessage("Data Pending");
+        else if (reply.at(0) == (char)0xFF) ui->statusBar->showMessage("No Data");
     }
 }
 
@@ -176,7 +212,6 @@ void MainWindow::readAtlasUSBData()
         else if ( response.contains("*WA") ) ui->statusBar->showMessage("Device Woken Up");
         else tm->parseAtlasI2C(response);
     }
-
 }
 //! [7]
 
@@ -192,17 +227,11 @@ void MainWindow::handleError(QSerialPort::SerialPortError error)
 }
 //! [8]
 
-void MainWindow::on_action_Help_Kern_triggered()
-{
-    ad->show();
-}
-
 void MainWindow::on_btnGetTemp_clicked()
 {
     lastCmd = tm->readTemp();
     serial->write(lastCmd);
 }
-
 
 void MainWindow::on_btnpH_clicked()
 {
@@ -265,5 +294,28 @@ void MainWindow::on_btnCalLow_clicked()
 void MainWindow::on_btnCalHigh_clicked()
 {
     lastCmd = tm->doCal(3);
+    serial->write(lastCmd);
+}
+
+void MainWindow::on_action_Help_Tentacle_triggered()
+{
+    ad->show();
+}
+
+void MainWindow::on_btnSlope_clicked()
+{
+    lastCmd = tm->readSlope();
+    serial->write(lastCmd);
+}
+
+void MainWindow::on_btnInfo_clicked()
+{
+    lastCmd = tm->readInfo();
+    serial->write(lastCmd);
+}
+
+void MainWindow::on_btnStatus_clicked()
+{
+    lastCmd = tm->readStatus();
     serial->write(lastCmd);
 }
