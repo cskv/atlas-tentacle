@@ -79,7 +79,7 @@
     </widget>
     <widget class="QPushButton" name="btnCalClear">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -230,7 +230,7 @@ color: yellow;
 </string>
      </property>
      <property name="text">
-      <string>-7.000</string>
+      <string/>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -265,7 +265,7 @@ color: yellow;
 </string>
      </property>
      <property name="text">
-      <string>-7.000</string>
+      <string/>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -300,7 +300,7 @@ color: yellow;
 </string>
      </property>
      <property name="text">
-      <string>-7.000</string>
+      <string/>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -335,7 +335,7 @@ color: yellow;
 </string>
      </property>
      <property name="text">
-      <string>-7.000</string>
+      <string/>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -370,7 +370,7 @@ color: yellow;
 </string>
      </property>
      <property name="text">
-      <string>-7.000</string>
+      <string/>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -405,7 +405,7 @@ color: yellow;
 </string>
      </property>
      <property name="text">
-      <string>-7.000</string>
+      <string/>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -466,7 +466,7 @@ color: yellow;
 </string>
      </property>
      <property name="text">
-      <string>-7.000</string>
+      <string/>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -514,7 +514,7 @@ color: yellow;
 </string>
      </property>
      <property name="text">
-      <string>-7.000</string>
+      <string/>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -645,7 +645,7 @@ color: lime;
 </string>
      </property>
      <property name="text">
-      <string>25.0</string>
+      <string>20.0</string>
      </property>
      <property name="frame">
       <bool>false</bool>
@@ -726,7 +726,7 @@ color: orange;
 </string>
     </property>
     <property name="text">
-     <string>14.386</string>
+     <string>-7.00</string>
     </property>
     <property name="textFormat">
      <enum>Qt::PlainText</enum>

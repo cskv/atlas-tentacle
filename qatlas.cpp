@@ -1,10 +1,13 @@
 #include "qatlas.h"
 #include <QtDebug>
 
-QATLAS::QATLAS(){
+QATLAS::QATLAS(const qint8 addr)
+{
+    i2caddress = addr;
 }
 
-QATLAS::~QATLAS(){
+QATLAS::~QATLAS()
+{
 }
 
 /*
@@ -27,8 +30,8 @@ QByteArray QATLAS::readLED()
 //Atlas function: L?
 //Response: 1?L,x with x is 0 (led off) or 1 (led on)
 {
-    QByteArray cmd;
-    cmd = "99:L,?\r";
+    QByteArray cmd = QByteArray::number(i2caddress);
+    cmd.append(":L,?\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -36,10 +39,9 @@ QByteArray QATLAS::readLED()
 
 QByteArray QATLAS::writeLED(bool state)
 //Atlas function: L,state
-//Response: 1 (Success)
 {
-    QByteArray cmd;
-    state ? cmd = "99:L,1\r" : cmd = "99:L,0\r";
+    QByteArray cmd = QByteArray::number(i2caddress);
+    state ? cmd.append(":L,1\r") : cmd.append(":L,0\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -47,10 +49,10 @@ QByteArray QATLAS::writeLED(bool state)
 //--------------------------------------------------------
 QByteArray QATLAS::readpH()
 //Atlas function: R
-//Response: 1,x.xxx with x.xxx is the pH value e.g. 7.012
+//Response: x.xxx with x.xxx is the pH value e.g. 7.012
 {
-    QByteArray cmd;
-    cmd = "99:R\r";         // Capital R to comply with manual  changed in .ino
+    QByteArray cmd = QByteArray::number(i2caddress);
+    cmd.append(":R\r");         // Capital R to comply with manual  changed in .ino
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -58,10 +60,10 @@ QByteArray QATLAS::readpH()
 //---------------------------------------------------------
 QByteArray QATLAS::readTemp()
 //Atlas function: T?
-//Response: 1?T,xx.x with xx.x is the temperature e.g. 19.5
+//Response: ?T,xx.x with xx.x is the temperature e.g. 19.5
 {
-    QByteArray cmd;
-    cmd = "99:T,?\r";
+    QByteArray cmd = QByteArray::number(i2caddress);
+    cmd.append(":T,?\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -69,10 +71,9 @@ QByteArray QATLAS::readTemp()
 
 QByteArray QATLAS::writeTemp()
 //Atlas function: T,xx.x
-//Response: 1 (Success)
 {
-    QByteArray cmd;
-    cmd = "99:T,20.0\r";
+    QByteArray cmd = QByteArray::number(i2caddress);
+    cmd.append(":T,20.0\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -82,8 +83,8 @@ QByteArray QATLAS::readCal()
 //Atlas function: Cal?
 //Response: ?CAL,x with x is 0, 1, 2, 3
 {
-    QByteArray cmd;
-    cmd = "99:CAL,?\r";
+    QByteArray cmd = QByteArray::number(i2caddress);
+    cmd.append(":CAL,?\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -91,10 +92,9 @@ QByteArray QATLAS::readCal()
 
 QByteArray QATLAS::doCal(int taskid)
 //Atlas function: Cal,taskid (clear, mid, low, high)
-//Response: 1 (Success)
 {
-    QByteArray cmd;
-    cmd = "99:CAL,";
+    QByteArray cmd = QByteArray::number(i2caddress);
+    cmd.append(":CAL,");
     switch (taskid) {
             case 0 : cmd += "clear\r"; break;
             case 1 : cmd += "mid,7.00\r"; break;
@@ -108,11 +108,11 @@ QByteArray QATLAS::doCal(int taskid)
 //---------------------------------------------------
 QByteArray QATLAS::readSlope()
 //Atlas function: SLOPE,?
-//Response: 1?SLOPE,xx.x,yyy.y
+//Response: ?SLOPE,xx.x,yyy.y
 //with xx.x is acid slope e.g 99.7, yyy.y is basic slope e.g. 100.3
 {
-    QByteArray cmd;
-    cmd = "99:SLOPE,?\r";
+    QByteArray cmd = QByteArray::number(i2caddress);
+    cmd.append(":SLOPE,?\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -120,11 +120,11 @@ QByteArray QATLAS::readSlope()
 //--------------------------------------------------
 QByteArray QATLAS::readInfo()
 //Atlas function: I
-//Response: 1?I,pH,x.x
+//Response: ?I,pH,x.x
 //with x.x is firmware version number e.g 1.0
 {
-    QByteArray cmd;
-    cmd = "99:I\r";
+    QByteArray cmd = QByteArray::number(i2caddress);
+    cmd.append(":I\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -135,8 +135,8 @@ QByteArray QATLAS::readStatus()
 //Response: ?STATUS,x,y.yyy
 //with x is PSBWU, y.yyy supply voltage Vcc
 {
-    QByteArray cmd;
-    cmd = "99:STATUS\r";
+    QByteArray cmd = QByteArray::number(i2caddress);
+    cmd.append(":STATUS\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -144,10 +144,9 @@ QByteArray QATLAS::readStatus()
 //-------------------------------------------------
 QByteArray QATLAS::changeI2C(char addr)
 //Atlas function: I2C,char
-//Response: 1 (Success)
 {
-    QByteArray cmd;
-    cmd = "99:I2C,addr\r";
+    QByteArray cmd = QByteArray::number(i2caddress);
+    cmd.append(":I2C,addr\r");
     qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -157,8 +156,8 @@ QByteArray QATLAS::sleep()
 //Atlas function: SLEEP
 //Response: none
 {
-    QByteArray cmd;
-    cmd = "99:SLEEP\r";
+    QByteArray cmd = QByteArray::number(i2caddress);
+    cmd.append(":SLEEP\r");
     qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -168,8 +167,8 @@ QByteArray QATLAS::serial(int baudrate) // switch to UART mode
 //Atlas function: SERIAL, baudrate
 //Response: none
 {
-    QByteArray cmd;
-    cmd = "99:SERIAL\r";
+    QByteArray cmd = QByteArray::number(i2caddress);
+    cmd.append(":SERIAL\r");
     qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -177,10 +176,10 @@ QByteArray QATLAS::serial(int baudrate) // switch to UART mode
 //---------------------------------------
 QByteArray QATLAS::factoryReset()
 //Atlas function: Factory
-//Response: issue STATUS query after this command and see if "S" is in the repaly
+//Response: issue STATUS query after this command and see if "S" is in the reply
 {
-    QByteArray cmd;
-    cmd = "99:STATUS\r";
+    QByteArray cmd = QByteArray::number(i2caddress);
+    cmd.append(":STATUS\r");
     qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
@@ -262,12 +261,12 @@ void QATLAS::parseTentacleMini(QByteArray atlasdata)
 }
 
 // Getters and Setters
-double QATLAS::getpH()
+double QATLAS::getCurrentpH() const
 {
     return currentpH;
 }
 
-double QATLAS::getTemp()
+double QATLAS::getCurrentTemp() const
 {
     return currentTemp;
 }

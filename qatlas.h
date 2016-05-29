@@ -7,7 +7,7 @@ class QATLAS
 {
 public:
 // Constructors and Destructors
-    QATLAS();
+    QATLAS(const qint8 addr);
     ~QATLAS();
 
 //Functions:
@@ -34,36 +34,31 @@ public:
     void parseTentacleMini(QByteArray atlasdata);
     void parseAtlasI2C(QByteArray atlasdata);
 
-    double getAcidSlope() const;
-    double getBasicSlope() const;
-
-    QString getProbeType() const;
-
-    QString getVersion() const;
-
-    QString getRstCode() const;
-
-    double getVoltage() const;
-
-    double getpH();
-    double getTemp();
+    double getCurrentpH() const;
+    double getCurrentTemp() const ;
     bool getLedState() const;
     int getCalState() const;
+    double getAcidSlope() const;
+    double getBasicSlope() const;
+    QString getProbeType() const;
+    QString getVersion() const;
+    QString getRstCode() const;
+    double getVoltage() const;
 
 //signals:
     //ledChanged(bool ledState); class QATLAS moet hiervoor een QOBJECT zijn
 
 private:
-    char   i2caddress;
-    QString probeType;
-    QString  version;
-    QString rstCode;
-    double voltage;
+    qint8   i2caddress = -1;
+    QString probeType = "";
+    QString  version = "";
+    QString rstCode = "";
+    double voltage = 0;
 
     double currentpH = -7.0;
     double currentTemp = -273.0;
     bool   ledState = true;
-    int    calState = 0;
+    int    calState = -1;
     double acidSlope = 0.0;
     double basicSlope = 0.0;
 

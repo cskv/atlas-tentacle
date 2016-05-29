@@ -21,8 +21,8 @@
 ** Software Foundation and appearing in the file LICENSE.LGPLv21 and
 ** LICENSE.LGPLv3 included in the packaging of this file. Please review the
 ** following information to ensure the GNU Lesser General Public License
-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+** requirements will be met: https://www.gnu.org/licenses/lgpl.htm1l and
+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.htm1l.
 **
 ** As a special exception, The Qt Company gives you certain additional
 ** rights. These rights are described in The Qt Company LGPL Exception
@@ -51,7 +51,6 @@ MainWindow::MainWindow(QWidget *parent) :
     serial = new QSerialPort(this);
     settings = new SettingsDialog;
 
-    tm = new QATLAS;
     ad = new AtlasDialog(this);
     mainTimer = new QTimer(this);
     //mainTimer->start(1000);
@@ -72,11 +71,12 @@ MainWindow::MainWindow(QWidget *parent) :
             SLOT(handleError(QSerialPort::SerialPortError)));
     connect(mainTimer, SIGNAL(timeout()), this, SLOT(updateAll()));
 
-//! [2]
     //connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(serial, SIGNAL(readyRead()), this, SLOT(readTentacleI2CData()));
     //connect(serial, SIGNAL(bytesWritten(qint64)), this, SLOT(start2()));
-//! [2]
+
+    settings->setModal(true);
+    settings->show();
 }
 
 MainWindow::~MainWindow()
@@ -95,30 +95,35 @@ void MainWindow::updateAll()
     if ( ui->cbAuto->isChecked() ) {
         ui->btnpH->click();
     }
-
     //ui->btnGetTemp->click();
     //ui->btnCal->click();
     displayAll();
 }
 void MainWindow::displayAll()
 {
-    ui->stateLed->setState( tm->getLedState() );
+    ui->stateLed->setState( tm1->getLedState() );
 
-    ui->acidSlopeLabel->setText(QString::number(tm->getAcidSlope()));
-    ui->basicSlopeLabel->setText(QString::number(tm->getBasicSlope()));
+    double dval = tm1->getAcidSlope();
+    if (dval > 0) ui->acidSlopeLabel->setText(QString::number(dval));
+    dval = tm1->getBasicSlope();
+    if (dval > 0) ui->basicSlopeLabel->setText(QString::number(dval));
 
-    ui->probeLabel->setText(tm->getProbeType());
-    ui->versionLabel->setText(tm->getVersion());
+    ui->probeLabel->setText(tm1->getProbeType());
+    ui->versionLabel->setText(tm1->getVersion());
 
-    ui->rstLabel->setText(tm->getRstCode());
-    ui->voltLabel->setText(QString::number(tm->getVoltage()));
+    ui->rstLabel->setText(tm1->getRstCode());
+    dval = tm1->getVoltage();
+    if (dval > 0) ui->voltLabel->setText(QString::number(dval));
 
     if ( ui->cbAuto->isChecked() ) {
-        ui->pHLabel->setText(QString::number(tm->getpH(), 'f', 2 ));
+        dval = tm1->getCurrentpH();
+        if (dval > -1 && dval < 15) ui->pHLabel->setText(QString::number(dval, 'f', 2 ));
     }
 
-    ui->tempLabel->setText(QString::number( tm->getTemp(), 'f', 1 ));
-    ui->calLabel->setText(QString::number( tm->getCalState() ));
+    dval = tm1->getCurrentTemp();
+    if (dval > 0) ui->tempLabel->setText(QString::number(dval , 'f', 1 ));
+    int ival = tm1->getCalState();
+    if (ival > -1) ui->calLabel->setText(QString::number(ival));
 }
 
 void MainWindow::openSerialPort()
@@ -162,13 +167,13 @@ void MainWindow::writeData(const QByteArray &data)
 void MainWindow::readData()
 {
     //QByteArray tentacledata = serial->readAll();
-    //tm->parseAtlas(tentacledata);
+    //tm1->parseAtlas(tentacledata);
 
     while(serial->canReadLine()) {
         QByteArray serialdata = serial->readLine();
 //reads in data line by line, separated by \n or \r characters
         qDebug() << serialdata;
-        //tm->parseAtlas(serialdata.trimmed());
+        //tm1->parseAtlas(serialdata.trimmed());
     }
 }
 
@@ -181,7 +186,7 @@ void MainWindow::readTentacleI2CData()
         QByteArray reply = tentacledata.trimmed();
         if ( !reply.isEmpty() ) {
             if (reply[0] == '<') ui->statusBar->showMessage(QString(reply),1500);
-            else tm->parseTentacleMini(reply);
+            else tm1->parseTentacleMini(reply);
         }
     }
 }
@@ -189,7 +194,7 @@ void MainWindow::readTentacleI2CData()
 void MainWindow::readRawI2CData()
 {
     //QByteArray tentacledata = serial->readAll();
-    //tm->parseAtlas(tentacledata);
+    //tm1->parseAtlas(tentacledata);
 
     while(serial->canReadLine()) {
         QByteArray serialdata = serial->readLine();
@@ -198,7 +203,7 @@ void MainWindow::readRawI2CData()
         QByteArray reply = serialdata.trimmed();
         if (reply[0] == (char)0x01) {
             ui->statusBar->showMessage("Success");
-            tm->parseAtlasI2C(reply);
+            tm1->parseAtlasI2C(reply);
         }
         else if (reply[0] == (char)0x02) ui->statusBar->showMessage("Request Failed");
         else if (reply.at(0) == (char)0xFE) ui->statusBar->showMessage("Data Pending");
@@ -209,7 +214,7 @@ void MainWindow::readRawI2CData()
 void MainWindow::readAtlasUSBData()
 {
     //QByteArray tentacledata = serial->readAll();
-    //tm->parseAtlas(tentacledata);
+    //tm1->parseAtlas(tentacledata);
 
     while(serial->canReadLine()) {
         QByteArray serialdata = serial->readLine();
@@ -224,7 +229,7 @@ void MainWindow::readAtlasUSBData()
         else if ( response.contains("*RE") ) ui->statusBar->showMessage("Boot up Completed");
         else if ( response.contains("*SL") ) ui->statusBar->showMessage("Device Asleep");
         else if ( response.contains("*WA") ) ui->statusBar->showMessage("Device Woken Up");
-        else tm->parseAtlasI2C(response);
+        else tm1->parseAtlasI2C(response);
     }
 }
 
@@ -239,38 +244,38 @@ void MainWindow::handleError(QSerialPort::SerialPortError error)
 
 void MainWindow::on_btnGetTemp_clicked()
 {
-    lastCmd = tm->readTemp();
+    lastCmd = tm1->readTemp();
     serial->write(lastCmd);
 }
 
 void MainWindow::on_btnpH_clicked()
 {
-    lastCmd = tm->readpH();
+    lastCmd = tm1->readpH();
     serial->write(lastCmd);
 }
 
 void MainWindow::on_btnLED_clicked()
 {
-    lastCmd = tm->readLED();
+    lastCmd = tm1->readLED();
     serial->write(lastCmd);
 }
 
 void MainWindow::on_btnSetTemp_clicked()
 {
-    lastCmd = tm->writeTemp();
+    lastCmd = tm1->writeTemp();
     serial->write(lastCmd);
     QTimer::singleShot(300, this, SLOT(on_btnGetTemp_clicked()));
 }
 
 void MainWindow::on_btnCal_clicked()
 {
-    lastCmd = tm->readCal();
+    lastCmd = tm1->readCal();
     serial->write(lastCmd);
 }
 
 void MainWindow::on_btnCalClear_clicked()
 {
-    lastCmd = tm->doCal(0);
+    lastCmd = tm1->doCal(0);
     serial->write(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
     ui->btnCalHigh->setEnabled(false);
@@ -279,7 +284,7 @@ void MainWindow::on_btnCalClear_clicked()
 
 void MainWindow::on_btnCalMid_clicked()
 {
-    lastCmd = tm->doCal(1);
+    lastCmd = tm1->doCal(1);
     serial->write(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
     ui->btnCalHigh->setEnabled(true);
@@ -288,14 +293,14 @@ void MainWindow::on_btnCalMid_clicked()
 
 void MainWindow::on_btnCalLow_clicked()
 {
-    lastCmd = tm->doCal(2);
+    lastCmd = tm1->doCal(2);
     serial->write(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
 }
 
 void MainWindow::on_btnCalHigh_clicked()
 {
-    lastCmd = tm->doCal(3);
+    lastCmd = tm1->doCal(3);
     serial->write(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
 }
@@ -307,25 +312,25 @@ void MainWindow::on_action_Help_Tentacle_triggered()
 
 void MainWindow::on_btnSlope_clicked()
 {
-    lastCmd = tm->readSlope();
+    lastCmd = tm1->readSlope();
     serial->write(lastCmd);
 }
 
 void MainWindow::on_btnInfo_clicked()
 {
-    lastCmd = tm->readInfo();
+    lastCmd = tm1->readInfo();
     serial->write(lastCmd);
 }
 
 void MainWindow::on_btnStatus_clicked()
 {
-    lastCmd = tm->readStatus();
+    lastCmd = tm1->readStatus();
     serial->write(lastCmd);
 }
 
 void MainWindow::on_ledCheckBox_clicked(bool checked)
 {
-    lastCmd = tm->writeLED(checked);
+    lastCmd = tm1->writeLED(checked);
     serial->write(lastCmd);
     QTimer::singleShot(300, this, SLOT(on_btnLED_clicked()));
 }
@@ -338,6 +343,6 @@ void MainWindow::on_contCB_clicked(bool checked)
 
 void MainWindow::on_btnSleep_clicked()
 {
-    lastCmd = tm->sleep();
+    lastCmd = tm1->sleep();
     serial->write(lastCmd);
 }
