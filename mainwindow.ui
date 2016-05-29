@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Simple Terminal for Tentacle pH meter</string>
+   <string>Terminal for Tentacle Mini pH meter</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGroupBox" name="gbCalibration">
