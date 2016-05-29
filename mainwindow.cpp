@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->stateLed->setOnColor(Qt::blue);
     ui->stateLed->setOffColor(Qt::gray);
+    ui->stateLed->setState(true);
 
     serial = new QSerialPort(this);
     settings = new SettingsDialog;
@@ -53,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent) :
     tm = new QATLAS;
     ad = new AtlasDialog(this);
     mainTimer = new QTimer(this);
-    mainTimer->start(1000);
+    //mainTimer->start(1000);
 
     delayTimer = new QTimer(this);
     delayTimer->setSingleShot(true);
@@ -113,10 +114,10 @@ void MainWindow::displayAll()
     ui->voltLabel->setText(QString::number(tm->getVoltage()));
 
     if ( ui->cbAuto->isChecked() ) {
-        ui->pHLabel->setText(QString::number(tm->getpH()));
+        ui->pHLabel->setText(QString::number(tm->getpH(), 'f', 2 ));
     }
 
-    ui->tempLabel->setText(QString::number( tm->getTemp() ));
+    ui->tempLabel->setText(QString::number( tm->getTemp(), 'f', 1 ));
     ui->calLabel->setText(QString::number( tm->getCalState() ));
 }
 
@@ -258,6 +259,7 @@ void MainWindow::on_btnSetTemp_clicked()
 {
     lastCmd = tm->writeTemp();
     serial->write(lastCmd);
+    QTimer::singleShot(300, this, SLOT(on_btnGetTemp_clicked()));
 }
 
 void MainWindow::on_btnCal_clicked()
@@ -270,24 +272,32 @@ void MainWindow::on_btnCalClear_clicked()
 {
     lastCmd = tm->doCal(0);
     serial->write(lastCmd);
+    QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
+    ui->btnCalHigh->setEnabled(false);
+    ui->btnCalLow->setEnabled(false);
 }
 
 void MainWindow::on_btnCalMid_clicked()
 {
     lastCmd = tm->doCal(1);
     serial->write(lastCmd);
+    QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
+    ui->btnCalHigh->setEnabled(true);
+    ui->btnCalLow->setEnabled(true);
 }
 
 void MainWindow::on_btnCalLow_clicked()
 {
     lastCmd = tm->doCal(2);
     serial->write(lastCmd);
+    QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
 }
 
 void MainWindow::on_btnCalHigh_clicked()
 {
     lastCmd = tm->doCal(3);
     serial->write(lastCmd);
+    QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
 }
 
 void MainWindow::on_action_Help_Tentacle_triggered()
@@ -318,4 +328,16 @@ void MainWindow::on_ledCheckBox_clicked(bool checked)
     lastCmd = tm->writeLED(checked);
     serial->write(lastCmd);
     QTimer::singleShot(300, this, SLOT(on_btnLED_clicked()));
+}
+
+void MainWindow::on_contCB_clicked(bool checked)
+{
+    if (checked) mainTimer->start(1000);
+    else mainTimer->stop();
+}
+
+void MainWindow::on_btnSleep_clicked()
+{
+    lastCmd = tm->sleep();
+    serial->write(lastCmd);
 }

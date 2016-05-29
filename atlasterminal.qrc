@@ -9,5 +9,12 @@
         <file>images/top_logo.png</file>
         <file>images/settings.png</file>
         <file>images/AtlasHelp1.png</file>
+        <file>images/logo2016_zonderrand.png</file>
+    </qresource>
+    <qresource prefix="/new/arrows">
+        <file>images/1446825708_icon-arrow-up-b.ico</file>
+        <file>images/1446825729_icon-arrow-down-b.ico</file>
+        <file>images/1446825746_icon-arrow-left-b.ico</file>
+        <file>images/1458581231_icon-arrow-right-b.ico</file>
     </qresource>
 </RCC>

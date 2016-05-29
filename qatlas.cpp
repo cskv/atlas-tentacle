@@ -96,10 +96,10 @@ QByteArray QATLAS::doCal(int taskid)
     QByteArray cmd;
     cmd = "99:CAL,";
     switch (taskid) {
-            case 0 : cmd += "clear\r";
-            case 1 : cmd += "mid,7.00\r";
-            case 2 : cmd += "low,4.00\r";
-            case 3 : cmd += "high,10.00\r";
+            case 0 : cmd += "clear\r"; break;
+            case 1 : cmd += "mid,7.00\r"; break;
+            case 2 : cmd += "low,4.00\r"; break;
+            case 3 : cmd += "high,10.00\r"; break;
     }
     qDebug() << cmd;
     lastAtlasCmd = cmd;
@@ -230,27 +230,27 @@ void QATLAS::parseTentacleMini(QByteArray atlasdata)
 {
     QByteArray t;
     //qDebug() << atlasdata;
-    if ( atlasdata.contains("?L,") ) {
+    if ( atlasdata.startsWith("?L,") ) {
         t = atlasdata.mid(3,1);
         ledState = (t.toInt() == 1);
         ledState = (t.toInt() != 0);
-    } else if ( atlasdata.contains("?T,") ) {
+    } else if ( atlasdata.startsWith("?T,") ) {
         t = atlasdata.mid(3,5);
         currentTemp = t.toDouble();
-    } else if ( atlasdata.contains("?CAL,") ) {
-        t = atlasdata.mid(6,1);
+    } else if ( atlasdata.startsWith("?CAL,") ) {
+        t = atlasdata.mid(5,1);
         calState = t.toInt();
-    } else if ( atlasdata.contains("?SLOPE,") ) {
+    } else if ( atlasdata.startsWith("?SLOPE,") ) {
         t = atlasdata.mid(7,4);
         acidSlope = t.toDouble();
         t = atlasdata.mid(12,6);
         basicSlope = t.toDouble();
-    } else if ( atlasdata.contains("?I,") ) {
+    } else if ( atlasdata.startsWith("?I,") ) {
         t = atlasdata.mid(3,2);
         probeType = QString(t);
         t = atlasdata.mid(6,4);
         version = QString(t);
-    } else if ( atlasdata.contains("?STATUS,") ) {
+    } else if ( atlasdata.startsWith("?STATUS,") ) {
         t = atlasdata.mid(8,1);
         rstCode = t;
         t = atlasdata.mid(10,5);

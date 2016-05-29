@@ -103,6 +103,10 @@ private slots:
 
     void on_btnLED_clicked();
 
+    void on_contCB_clicked(bool checked);
+
+    void on_btnSleep_clicked();
+
 private:
     Ui::MainWindow *ui;
     LedIndicator* ledStateLed;

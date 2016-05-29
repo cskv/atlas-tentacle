@@ -19,7 +19,8 @@ SOURCES += \
     atlasdialog.cpp \
     qatlas.cpp \
     qatlasusb.cpp \
-    ledindicator.cpp
+    ledindicator.cpp \
+    about.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -27,12 +28,14 @@ HEADERS += \
     atlasdialog.h \
     qatlas.h \
     qatlasusb.h \
-    ledindicator.h
+    ledindicator.h \
+    about.h
 
 FORMS += \
     mainwindow.ui \
     settingsdialog.ui \
-    atlasdialog.ui
+    atlasdialog.ui \
+    about.ui
 
 RESOURCES += \
     atlasterminal.qrc

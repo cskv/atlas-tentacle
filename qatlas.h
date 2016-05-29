@@ -61,11 +61,11 @@ private:
     double voltage;
 
     double currentpH = -7.0;
-    double currentTemp;
-    bool   ledState;
-    int    calState;
-    double acidSlope;
-    double basicSlope;
+    double currentTemp = -273.0;
+    bool   ledState = true;
+    int    calState = 0;
+    double acidSlope = 0.0;
+    double basicSlope = 0.0;
 
     QByteArray lastAtlasCmd;
 };
