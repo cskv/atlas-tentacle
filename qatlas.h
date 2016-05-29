@@ -10,15 +10,6 @@ public:
     QATLAS();
     ~QATLAS();
 
-// Getters and Setters
-    double getpH() {
-        return currentpH;
-    }
-
-    double getTemp() {
-        return currentTemp;
-    }
-
 //Functions:
     QByteArray readLED();
     QByteArray writeLED(bool state);
@@ -53,6 +44,14 @@ public:
     QString getRstCode() const;
 
     double getVoltage() const;
+
+    double getpH();
+    double getTemp();
+    bool getLedState() const;
+    int getCalState() const;
+
+//signals:
+    //ledChanged(bool ledState); class QATLAS moet hiervoor een QOBJECT zijn
 
 private:
     char   i2caddress;

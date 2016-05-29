@@ -29,7 +29,7 @@ QByteArray QATLAS::readLED()
 {
     QByteArray cmd;
     cmd = "99:L,?\r";
-    qDebug() << cmd;
+    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -40,7 +40,7 @@ QByteArray QATLAS::writeLED(bool state)
 {
     QByteArray cmd;
     state ? cmd = "99:L,1\r" : cmd = "99:L,0\r";
-    qDebug() << cmd;
+    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -51,7 +51,7 @@ QByteArray QATLAS::readpH()
 {
     QByteArray cmd;
     cmd = "99:R\r";         // Capital R to comply with manual  changed in .ino
-    qDebug() << cmd;
+    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -62,7 +62,7 @@ QByteArray QATLAS::readTemp()
 {
     QByteArray cmd;
     cmd = "99:T,?\r";
-    qDebug() << cmd;
+    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -73,7 +73,7 @@ QByteArray QATLAS::writeTemp()
 {
     QByteArray cmd;
     cmd = "99:T,20.0\r";
-    qDebug() << cmd;
+    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -84,7 +84,7 @@ QByteArray QATLAS::readCal()
 {
     QByteArray cmd;
     cmd = "99:CAL,?\r";
-    qDebug() << cmd;
+    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -113,7 +113,7 @@ QByteArray QATLAS::readSlope()
 {
     QByteArray cmd;
     cmd = "99:SLOPE,?\r";
-    qDebug() << cmd;
+    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -125,7 +125,7 @@ QByteArray QATLAS::readInfo()
 {
     QByteArray cmd;
     cmd = "99:I\r";
-    qDebug() << cmd;
+    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -137,7 +137,7 @@ QByteArray QATLAS::readStatus()
 {
     QByteArray cmd;
     cmd = "99:STATUS\r";
-    qDebug() << cmd;
+    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -189,12 +189,13 @@ QByteArray QATLAS::factoryReset()
 void QATLAS::parseAtlasI2C(QByteArray atlasdata)
 {
     QByteArray t;
-    qDebug() << atlasdata;
+    //qDebug() << atlasdata;
 
     if ( atlasdata.contains("?L,") ) {
-        t = atlasdata.mid(4,1);
+        t = atlasdata.mid(3,1);
         ledState = (t.toInt() == 1);
         ledState = (t.toInt() != 0);
+        //emit ledChanged(ledState);
     }
     if ( atlasdata.contains("?T,") ) {
         t = atlasdata.mid(4,4);
@@ -225,6 +226,62 @@ void QATLAS::parseAtlasI2C(QByteArray atlasdata)
     }
 }
 
+void QATLAS::parseTentacleMini(QByteArray atlasdata)
+{
+    QByteArray t;
+    //qDebug() << atlasdata;
+    if ( atlasdata.contains("?L,") ) {
+        t = atlasdata.mid(3,1);
+        ledState = (t.toInt() == 1);
+        ledState = (t.toInt() != 0);
+    } else if ( atlasdata.contains("?T,") ) {
+        t = atlasdata.mid(3,5);
+        currentTemp = t.toDouble();
+    } else if ( atlasdata.contains("?CAL,") ) {
+        t = atlasdata.mid(6,1);
+        calState = t.toInt();
+    } else if ( atlasdata.contains("?SLOPE,") ) {
+        t = atlasdata.mid(7,4);
+        acidSlope = t.toDouble();
+        t = atlasdata.mid(12,6);
+        basicSlope = t.toDouble();
+    } else if ( atlasdata.contains("?I,") ) {
+        t = atlasdata.mid(3,2);
+        probeType = QString(t);
+        t = atlasdata.mid(6,4);
+        version = QString(t);
+    } else if ( atlasdata.contains("?STATUS,") ) {
+        t = atlasdata.mid(8,1);
+        rstCode = t;
+        t = atlasdata.mid(10,5);
+        voltage = t.toDouble();
+    } else {
+        t = atlasdata.mid(0,6);     // one char too much to be sure
+        currentpH = t.toDouble();
+    }
+}
+
+// Getters and Setters
+double QATLAS::getpH()
+{
+    return currentpH;
+}
+
+double QATLAS::getTemp()
+{
+    return currentTemp;
+}
+
+bool QATLAS::getLedState() const
+{
+    return ledState;
+}
+
+int QATLAS::getCalState() const
+{
+    return calState;
+}
+
 double QATLAS::getAcidSlope() const
 {
     return acidSlope;
@@ -253,40 +310,4 @@ QString QATLAS::getRstCode() const
 double QATLAS::getVoltage() const
 {
     return voltage;
-}
-
-void QATLAS::parseTentacleMini(QByteArray atlasdata)
-{
-    QByteArray t;
-    qDebug() << atlasdata;
-
-    if ( atlasdata.contains("?L,") ) {
-        t = atlasdata.mid(4,1);
-        ledState = (t.toInt() == 1);
-        ledState = (t.toInt() != 0);
-    } else if ( atlasdata.contains("?T,") ) {
-        t = atlasdata.mid(4,4);
-        currentTemp = t.toDouble();
-    } else if ( atlasdata.contains("?CAL,") ) {
-        t = atlasdata.mid(6,1);
-        calState = t.toInt();
-    } else if ( atlasdata.contains("?SLOPE,") ) {
-        t = atlasdata.mid(7,4);
-        acidSlope = t.toDouble();
-        t = atlasdata.mid(12,6);
-        basicSlope = t.toDouble();
-    } else if ( atlasdata.contains("?I,") ) {
-        t = atlasdata.mid(3,2);
-        probeType = QString(t);
-        t = atlasdata.mid(6,4);
-        version = QString(t);
-    } else if ( atlasdata.contains("?STATUS,") ) {
-        t = atlasdata.mid(8,1);
-        rstCode = t;
-        t = atlasdata.mid(10,5);
-        voltage = t.toDouble();
-    } else {
-        t = atlasdata.mid(0,6);     // one char too much to be sure
-        currentpH = t.toDouble();
-    }
 }

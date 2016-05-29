@@ -46,6 +46,8 @@
 #include "qatlas.h"
 #include "qatlasusb.h"
 
+#include "ledindicator.h"
+
 QT_BEGIN_NAMESPACE
 
 namespace Ui {
@@ -74,8 +76,6 @@ private slots:
 
     void on_btnGetTemp_clicked();
     void on_btnpH_clicked();
-    void on_btnLED_clicked();
-    void on_btnSetLED_toggled(bool checked);
     void on_btnSetTemp_clicked();
     void on_btnCal_clicked();
     void on_btnCalClear_clicked();
@@ -89,6 +89,8 @@ private slots:
     void on_action_Help_Tentacle_triggered();
 
     void updateAll();
+    void displayAll();
+
     void readRawI2CData();
 
     void on_btnSlope_clicked();
@@ -97,18 +99,23 @@ private slots:
 
     void on_btnStatus_clicked();
 
+    void on_ledCheckBox_clicked(bool checked);
+
+    void on_btnLED_clicked();
+
 private:
     Ui::MainWindow *ui;
+    LedIndicator* ledStateLed;
+
     SettingsDialog *settings;
     QSerialPort *serial;
     QByteArray lastCmd;
 
     QATLAS* tm;
-    QTimer* aTimer;
+    QTimer* mainTimer;
+    QTimer* delayTimer;
 
     AtlasDialog* ad;
-
-
 };
 
 #endif // MAINWINDOW_H

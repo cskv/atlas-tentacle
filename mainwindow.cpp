@@ -44,13 +44,19 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->stateLed->setOnColor(Qt::blue);
+    ui->stateLed->setOffColor(Qt::gray);
+
     serial = new QSerialPort(this);
     settings = new SettingsDialog;
 
     tm = new QATLAS;
     ad = new AtlasDialog(this);
-    aTimer = new QTimer(this);
-    aTimer->start(2000);
+    mainTimer = new QTimer(this);
+    mainTimer->start(1000);
+
+    delayTimer = new QTimer(this);
+    delayTimer->setSingleShot(true);
 
     ui->actionQuit->setEnabled(true);
 
@@ -63,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
 // make other connections (see Terminal example)
     connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
             SLOT(handleError(QSerialPort::SerialPortError)));
-    connect(aTimer, SIGNAL(timeout()), this, SLOT(updateAll()));
+    connect(mainTimer, SIGNAL(timeout()), this, SLOT(updateAll()));
 
 //! [2]
     //connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
@@ -78,26 +84,40 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//! [4]
-
 void MainWindow::updateAll()
 {
-    ui->btnSlope->click();
+    //ui->btnLED->click();
+    //ui->btnSlope->click();
+    //ui->btnInfo->click();
+    //ui->btnStatus->click();
+
+    if ( ui->cbAuto->isChecked() ) {
+        ui->btnpH->click();
+    }
+
+    //ui->btnGetTemp->click();
+    //ui->btnCal->click();
+    displayAll();
+}
+void MainWindow::displayAll()
+{
+    ui->stateLed->setState( tm->getLedState() );
+
     ui->acidSlopeLabel->setText(QString::number(tm->getAcidSlope()));
     ui->basicSlopeLabel->setText(QString::number(tm->getBasicSlope()));
 
-    ui->btnInfo->click();
     ui->probeLabel->setText(tm->getProbeType());
     ui->versionLabel->setText(tm->getVersion());
 
-    ui->btnStatus->click();
     ui->rstLabel->setText(tm->getRstCode());
     ui->voltLabel->setText(QString::number(tm->getVoltage()));
 
     if ( ui->cbAuto->isChecked() ) {
-        ui->btnpH->click();
         ui->pHLabel->setText(QString::number(tm->getpH()));
     }
+
+    ui->tempLabel->setText(QString::number( tm->getTemp() ));
+    ui->calLabel->setText(QString::number( tm->getCalState() ));
 }
 
 void MainWindow::openSerialPort()
@@ -122,9 +142,7 @@ void MainWindow::openSerialPort()
         ui->statusBar->showMessage(tr("Open error"));
     }
 }
-//! [4]
 
-//! [5]
 void MainWindow::closeSerialPort()
 {
     if (serial->isOpen())
@@ -134,16 +152,12 @@ void MainWindow::closeSerialPort()
     ui->actionConfigure->setEnabled(true);
     ui->statusBar->showMessage(tr("Disconnected"));
 }
-//! [5]
 
-//! [6]
 void MainWindow::writeData(const QByteArray &data)
 {
     serial->write(data);
 }
-//! [6]
 
-//! [7]
 void MainWindow::readData()
 {
     //QByteArray tentacledata = serial->readAll();
@@ -164,10 +178,9 @@ void MainWindow::readTentacleI2CData()
 //reads in data line by line, separated by \n or \r characters
         qDebug() << tentacledata;
         QByteArray reply = tentacledata.trimmed();
-        if (reply[0] == '<') ui->statusBar->showMessage(QString(reply));
-        else {
-            ui->statusBar->showMessage("");
-            tm->parseTentacleMini(reply);
+        if ( !reply.isEmpty() ) {
+            if (reply[0] == '<') ui->statusBar->showMessage(QString(reply),1500);
+            else tm->parseTentacleMini(reply);
         }
     }
 }
@@ -213,9 +226,6 @@ void MainWindow::readAtlasUSBData()
         else tm->parseAtlasI2C(response);
     }
 }
-//! [7]
-
-//! [8]
 
 void MainWindow::handleError(QSerialPort::SerialPortError error)
 {
@@ -225,7 +235,6 @@ void MainWindow::handleError(QSerialPort::SerialPortError error)
         closeSerialPort();
     }
 }
-//! [8]
 
 void MainWindow::on_btnGetTemp_clicked()
 {
@@ -243,22 +252,6 @@ void MainWindow::on_btnLED_clicked()
 {
     lastCmd = tm->readLED();
     serial->write(lastCmd);
-}
-
-void MainWindow::on_btnSetLED_toggled(bool checked)
-{
-    ui->btnSetLED->setText(checked ? "LED OFF" : "LED ON");
-
-    if (checked)
-    {
-        lastCmd = tm->writeLED(false);
-        serial->write(lastCmd);
-    }
-    else
-    {
-        lastCmd = tm->writeLED(true);
-        serial->write(lastCmd);
-    }
 }
 
 void MainWindow::on_btnSetTemp_clicked()
@@ -318,4 +311,11 @@ void MainWindow::on_btnStatus_clicked()
 {
     lastCmd = tm->readStatus();
     serial->write(lastCmd);
+}
+
+void MainWindow::on_ledCheckBox_clicked(bool checked)
+{
+    lastCmd = tm->writeLED(checked);
+    serial->write(lastCmd);
+    QTimer::singleShot(300, this, SLOT(on_btnLED_clicked()));
 }
