@@ -48,10 +48,6 @@ MainWindow::MainWindow(QWidget *parent) :
     pH1Frame = new EZOFrame(ui->pH1Tab);
     pH2Frame = new EZOFrame(ui->pH2Tab);
 
-    ui->stateLed->setOnColor(Qt::blue);
-    ui->stateLed->setOffColor(Qt::gray);
-    ui->stateLed->setState(true);
-
     serial = new QSerialPort(this);
     settings = new SettingsDialog;
 
@@ -113,29 +109,14 @@ void MainWindow::updateAll()
 }
 void MainWindow::displayAll()
 {
-    ui->stateLed->setState( tm1->getLedState() );
-
-    double dval = tm1->getAcidSlope();
-    if (dval > 0) ui->acidSlopeLabel->setText(QString::number(dval));
-    dval = tm1->getBasicSlope();
-    if (dval > 0) ui->basicSlopeLabel->setText(QString::number(dval));
-
-    ui->probeLabel->setText(tm1->getProbeType());
-    ui->versionLabel->setText(tm1->getVersion());
-
-    ui->rstLabel->setText(tm1->getRstCode());
-    dval = tm1->getVoltage();
-    if (dval > 0) ui->voltLabel->setText(QString::number(dval));
-
+    double dval = 0;
     if ( ui->cbAuto->isChecked() ) {
         dval = tm1->getCurrentpH();
-        if (dval > -1 && dval < 15) ui->pHLabel->setText(QString::number(dval, 'f', 2 ));
+        if (dval > -1 && dval < 15) ui->pH1Label->setText(QString::number(dval, 'f', 2 ));
     }
 
     dval = tm1->getCurrentTemp();
     if (dval > 0) ui->tempLabel->setText(QString::number(dval , 'f', 1 ));
-    int ival = tm1->getCalState();
-    if (ival > -1) ui->calLabel->setText(QString::number(ival));
 }
 
 void MainWindow::openSerialPort()
@@ -261,12 +242,6 @@ void MainWindow::on_btnpH_clicked()
     serial->write(lastCmd);
 }
 
-void MainWindow::on_btnLED_clicked()
-{
-    lastCmd = tm1->readLED();
-    serial->write(lastCmd);
-}
-
 void MainWindow::on_btnSetTemp_clicked()
 {
     lastCmd = tm1->writeTemp();
@@ -274,82 +249,13 @@ void MainWindow::on_btnSetTemp_clicked()
     QTimer::singleShot(300, this, SLOT(on_btnGetTemp_clicked()));
 }
 
-void MainWindow::on_btnCal_clicked()
-{
-    lastCmd = tm1->readCal();
-    serial->write(lastCmd);
-}
-
-void MainWindow::on_btnCalClear_clicked()
-{
-    lastCmd = tm1->doCal(0);
-    serial->write(lastCmd);
-    QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
-    ui->btnCalHigh->setEnabled(false);
-    ui->btnCalLow->setEnabled(false);
-}
-
-void MainWindow::on_btnCalMid_clicked()
-{
-    lastCmd = tm1->doCal(1);
-    serial->write(lastCmd);
-    QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
-    ui->btnCalHigh->setEnabled(true);
-    ui->btnCalLow->setEnabled(true);
-}
-
-void MainWindow::on_btnCalLow_clicked()
-{
-    lastCmd = tm1->doCal(2);
-    serial->write(lastCmd);
-    QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
-}
-
-void MainWindow::on_btnCalHigh_clicked()
-{
-    lastCmd = tm1->doCal(3);
-    serial->write(lastCmd);
-    QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
-}
-
 void MainWindow::on_action_Help_Tentacle_triggered()
 {
     ad->show();
-}
-
-void MainWindow::on_btnSlope_clicked()
-{
-    lastCmd = tm1->readSlope();
-    serial->write(lastCmd);
-}
-
-void MainWindow::on_btnInfo_clicked()
-{
-    lastCmd = tm1->readInfo();
-    serial->write(lastCmd);
-}
-
-void MainWindow::on_btnStatus_clicked()
-{
-    lastCmd = tm1->readStatus();
-    serial->write(lastCmd);
-}
-
-void MainWindow::on_ledCheckBox_clicked(bool checked)
-{
-    lastCmd = tm1->writeLED(checked);
-    serial->write(lastCmd);
-    QTimer::singleShot(300, this, SLOT(on_btnLED_clicked()));
 }
 
 void MainWindow::on_contCB_clicked(bool checked)
 {
     if (checked) mainTimer->start(1000);
     else mainTimer->stop();
-}
-
-void MainWindow::on_btnSleep_clicked()
-{
-    lastCmd = tm1->sleep();
-    serial->write(lastCmd);
 }

@@ -78,11 +78,6 @@ private slots:
     void on_btnGetTemp_clicked();
     void on_btnpH_clicked();
     void on_btnSetTemp_clicked();
-    void on_btnCal_clicked();
-    void on_btnCalClear_clicked();
-    void on_btnCalMid_clicked();
-    void on_btnCalLow_clicked();
-    void on_btnCalHigh_clicked();
 
     void readTentacleI2CData();
     void readAtlasUSBData();
@@ -94,19 +89,7 @@ private slots:
 
     void readRawI2CData();
 
-    void on_btnSlope_clicked();
-
-    void on_btnInfo_clicked();
-
-    void on_btnStatus_clicked();
-
-    void on_ledCheckBox_clicked(bool checked);
-
-    void on_btnLED_clicked();
-
     void on_contCB_clicked(bool checked);
-
-    void on_btnSleep_clicked();
 
 private:
     Ui::MainWindow *ui;
