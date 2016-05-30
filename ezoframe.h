@@ -32,6 +32,7 @@ private slots:
     void on_btnGetTemp_clicked();
     void on_btnpH_clicked();
     void on_btnSetTemp_clicked();
+
     void on_btnCal_clicked();
     void on_btnCalClear_clicked();
     void on_btnCalMid_clicked();
@@ -40,6 +41,7 @@ private slots:
 
     void updateAll();
     void displayAll();
+
     void on_btnSlope_clicked();
     void on_btnInfo_clicked();
     void on_btnStatus_clicked();
@@ -51,10 +53,6 @@ private slots:
 private:
     Ui::EZOFrame *ui;
     LedIndicator* ledStateLed;
-
-
-    //QATLAS* tm2 = new QATLAS(101);
-    //QTimer* mainTimer;
 };
 
 #endif // EZOFRAME_H

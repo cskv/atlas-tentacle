@@ -70,16 +70,16 @@ public:
 private slots:
     void openSerialPort();
     void closeSerialPort();
+    void handleError(QSerialPort::SerialPortError error);
+
     void writeData(const QByteArray &data);
     void readData();
-
-    void handleError(QSerialPort::SerialPortError error);
 
     void on_btnGetTemp_clicked();
     void on_btnpH_clicked();
     void on_btnSetTemp_clicked();
 
-    //void readTentacleI2CData();
+    void readTentacleI2CData();
     //void readAtlasUSBData();
 
     void on_action_Help_Tentacle_triggered();
@@ -102,8 +102,6 @@ private:
     EZOFrame* pH1Frame;
     EZOFrame* pH2Frame;
 
-    //QATLAS* tm1 = new QATLAS(99);
-    //QATLAS* tm2 = new QATLAS(101);
     QTimer* mainTimer;
     QTimer* delayTimer;
 

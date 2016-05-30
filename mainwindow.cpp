@@ -166,7 +166,7 @@ void MainWindow::readData()
         //tm1->parseAtlas(serialdata.trimmed());
     }
 }
-/*
+
 void MainWindow::readTentacleI2CData()
 {
     while(serial->canReadLine()) {
@@ -176,11 +176,11 @@ void MainWindow::readTentacleI2CData()
         QByteArray reply = tentacledata.trimmed();
         if ( !reply.isEmpty() ) {
             if (reply[0] == '<') ui->statusBar->showMessage(QString(reply),1500);
-            else tm1->parseTentacleMini(reply);
+            else pH1Frame->tm->parseTentacleMini(reply);
         }
     }
 }
-*/
+
 /*
 void MainWindow::readRawI2CData()
 {
