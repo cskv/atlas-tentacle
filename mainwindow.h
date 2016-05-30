@@ -43,7 +43,7 @@
 #include <QTimer>
 
 #include "atlasdialog.h"
-#include "qatlas.h"
+//#include "qatlas.h"
 #include "qatlasusb.h"
 
 #include "ledindicator.h"

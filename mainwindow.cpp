@@ -93,6 +93,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::writeData(const QByteArray &data)
 {
+    qDebug() << data;
     serial->write(data);
 }
 

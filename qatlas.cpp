@@ -11,10 +11,11 @@ QATLAS::~QATLAS()
 }
 
 /*
+EZO pH
 Command     Function
 L           Enable / Disable or Query the LEDs (pg.46)
 R           Returns a single reading (pg.47)
-T           Set or Query the temperature compensation (pg.48)
+T           Set or Query the temperature compensation (pg.48)  diff
 CAL         Performs calibration (pg.49)
 SLOPE       Queries slope (p.55)
 I           Device information (pg.56)
@@ -22,6 +23,19 @@ STATUS      Retrieve status information (pg.57)
 I2C         I2C address change (pg.58)
 SLEEP       Enter low power sleep mode (pg.59)
 SERIAL      Switch back to UART mode (pg.60)
+Factory     Factory reset (p.47)
+
+EZO ORP
+L           Enable / Disable or Query the LEDs (pg.39)
+R           Returns a single reading (pg.40)
+Cal         Performs calibration (pg.41)
+I           Device information (pg.42)
+Status      Retrieve status information (pg.43)
+I2C         I2C address change (pg.44)
+Sleep       Enter low power sleep mode (pg.45)
+Serial      Switch back to UART mode (pg.46)
+Factory     Factory reset (p.47)
+PLOCK       Protocol lock (p.49)
 */
 
 // ATLAS commands

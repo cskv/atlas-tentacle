@@ -74,12 +74,14 @@ void EZOFrame::on_btnpH_clicked()
 void EZOFrame::on_btnLED_clicked()
 {
     lastCmd = tm1->readLED();
+    emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
 
 void EZOFrame::on_btnSetTemp_clicked()
 {
     lastCmd = tm1->writeTemp();
+    emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
     QTimer::singleShot(300, this, SLOT(on_btnGetTemp_clicked()));
 }
@@ -87,6 +89,7 @@ void EZOFrame::on_btnSetTemp_clicked()
 void EZOFrame::on_btnCal_clicked()
 {
     lastCmd = tm1->readCal();
+    emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
 
@@ -94,6 +97,7 @@ void EZOFrame::on_btnCalClear_clicked()
 {
     lastCmd = tm1->doCal(0);
     //serial->write(lastCmd);
+    emit cmdAvailable(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
     ui->btnCalHigh->setEnabled(false);
     ui->btnCalLow->setEnabled(false);
@@ -103,6 +107,7 @@ void EZOFrame::on_btnCalMid_clicked()
 {
     lastCmd = tm1->doCal(1);
     //serial->write(lastCmd);
+    emit cmdAvailable(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
     ui->btnCalHigh->setEnabled(true);
     ui->btnCalLow->setEnabled(true);
@@ -112,12 +117,14 @@ void EZOFrame::on_btnCalLow_clicked()
 {
     lastCmd = tm1->doCal(2);
     //serial->write(lastCmd);
+    emit cmdAvailable(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
 }
 
 void EZOFrame::on_btnCalHigh_clicked()
 {
     lastCmd = tm1->doCal(3);
+    emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
 }
@@ -125,18 +132,21 @@ void EZOFrame::on_btnCalHigh_clicked()
 void EZOFrame::on_btnSlope_clicked()
 {
     lastCmd = tm1->readSlope();
+    emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
 
 void EZOFrame::on_btnInfo_clicked()
 {
     lastCmd = tm1->readInfo();
+    emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
 
 void EZOFrame::on_btnStatus_clicked()
 {
     lastCmd = tm1->readStatus();
+    emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
 
@@ -144,6 +154,7 @@ void EZOFrame::on_ledCheckBox_clicked(bool checked)
 {
     lastCmd = tm1->writeLED(checked);
     //serial->write(lastCmd);
+    emit cmdAvailable(lastCmd);
     QTimer::singleShot(300, this, SLOT(on_btnLED_clicked()));
 }
 
@@ -156,5 +167,6 @@ void EZOFrame::on_contCB_clicked(bool checked)
 void EZOFrame::on_btnSleep_clicked()
 {
     lastCmd = tm1->sleep();
+    emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
