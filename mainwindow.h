@@ -79,15 +79,15 @@ private slots:
     void on_btnpH_clicked();
     void on_btnSetTemp_clicked();
 
-    void readTentacleI2CData();
-    void readAtlasUSBData();
+    //void readTentacleI2CData();
+    //void readAtlasUSBData();
 
     void on_action_Help_Tentacle_triggered();
 
     void updateAll();
     void displayAll();
 
-    void readRawI2CData();
+    //void readRawI2CData();
 
     void on_contCB_clicked(bool checked);
 
@@ -102,8 +102,8 @@ private:
     EZOFrame* pH1Frame;
     EZOFrame* pH2Frame;
 
-    QATLAS* tm1 = new QATLAS(99);
-    QATLAS* tm2 = new QATLAS(101);
+    //QATLAS* tm1 = new QATLAS(99);
+    //QATLAS* tm2 = new QATLAS(101);
     QTimer* mainTimer;
     QTimer* delayTimer;
 

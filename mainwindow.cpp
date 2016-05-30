@@ -47,6 +47,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     pH1Frame = new EZOFrame(ui->pH1Tab);
     pH2Frame = new EZOFrame(ui->pH2Tab);
+    pH1Frame->tm->setI2cAddress(99);
+    pH2Frame->tm->setI2cAddress(101);
 
     serial = new QSerialPort(this);
     settings = new SettingsDialog;
@@ -111,11 +113,11 @@ void MainWindow::displayAll()
 {
     double dval = 0;
     if ( ui->cbAuto->isChecked() ) {
-        dval = tm1->getCurrentpH();
+        dval = pH1Frame->tm->getCurrentpH();
         if (dval > -1 && dval < 15) ui->pH1Label->setText(QString::number(dval, 'f', 2 ));
     }
 
-    dval = tm1->getCurrentTemp();
+    dval = pH1Frame->tm->getCurrentTemp();
     if (dval > 0) ui->tempLabel->setText(QString::number(dval , 'f', 1 ));
 }
 
@@ -164,7 +166,7 @@ void MainWindow::readData()
         //tm1->parseAtlas(serialdata.trimmed());
     }
 }
-
+/*
 void MainWindow::readTentacleI2CData()
 {
     while(serial->canReadLine()) {
@@ -178,7 +180,8 @@ void MainWindow::readTentacleI2CData()
         }
     }
 }
-
+*/
+/*
 void MainWindow::readRawI2CData()
 {
     //QByteArray tentacledata = serial->readAll();
@@ -198,7 +201,8 @@ void MainWindow::readRawI2CData()
         else if (reply.at(0) == (char)0xFF) ui->statusBar->showMessage("No Data");
     }
 }
-
+*/
+/*
 void MainWindow::readAtlasUSBData()
 {
     //QByteArray tentacledata = serial->readAll();
@@ -220,7 +224,7 @@ void MainWindow::readAtlasUSBData()
         else tm1->parseAtlasI2C(response);
     }
 }
-
+*/
 void MainWindow::handleError(QSerialPort::SerialPortError error)
 {
     if (error == QSerialPort::ResourceError)
@@ -232,19 +236,19 @@ void MainWindow::handleError(QSerialPort::SerialPortError error)
 
 void MainWindow::on_btnGetTemp_clicked()
 {
-    lastCmd = tm1->readTemp();
+    lastCmd = pH1Frame->tm->readTemp();
     serial->write(lastCmd);
 }
 
 void MainWindow::on_btnpH_clicked()
 {
-    lastCmd = tm1->readpH();
+    lastCmd = pH1Frame->tm->readpH();
     serial->write(lastCmd);
 }
 
 void MainWindow::on_btnSetTemp_clicked()
 {
-    lastCmd = tm1->writeTemp();
+    lastCmd = pH1Frame->tm->writeTemp();
     serial->write(lastCmd);
     QTimer::singleShot(300, this, SLOT(on_btnGetTemp_clicked()));
 }

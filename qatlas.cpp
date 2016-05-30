@@ -1,9 +1,8 @@
 #include "qatlas.h"
 #include <QtDebug>
 
-QATLAS::QATLAS(const qint8 addr)
+QATLAS::QATLAS()
 {
-    i2caddress = addr;
 }
 
 QATLAS::~QATLAS()
@@ -44,7 +43,7 @@ QByteArray QATLAS::readLED()         // pH, ORP
 //Atlas function: L?
 //Response: 1?L,x with x is 0 (led off) or 1 (led on)
 {
-    QByteArray cmd = QByteArray::number(i2caddress);
+    QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":L,?\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
@@ -54,7 +53,7 @@ QByteArray QATLAS::readLED()         // pH, ORP
 QByteArray QATLAS::writeLED(bool state)        // pH, ORP
 //Atlas function: L,state
 {
-    QByteArray cmd = QByteArray::number(i2caddress);
+    QByteArray cmd = QByteArray::number(i2cAddress);
     state ? cmd.append(":L,1\r") : cmd.append(":L,0\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
@@ -65,7 +64,7 @@ QByteArray QATLAS::readpH()
 //Atlas function: R
 //Response: x.xxx with x.xxx is the pH value e.g. 7.012
 {
-    QByteArray cmd = QByteArray::number(i2caddress);
+    QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":R\r");         // Capital R to comply with manual  changed in .ino
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
@@ -76,7 +75,7 @@ QByteArray QATLAS::readTemp()
 //Atlas function: T?
 //Response: ?T,xx.x with xx.x is the temperature e.g. 19.5
 {
-    QByteArray cmd = QByteArray::number(i2caddress);
+    QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":T,?\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
@@ -86,7 +85,7 @@ QByteArray QATLAS::readTemp()
 QByteArray QATLAS::writeTemp()
 //Atlas function: T,xx.x
 {
-    QByteArray cmd = QByteArray::number(i2caddress);
+    QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":T,20.0\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
@@ -97,7 +96,7 @@ QByteArray QATLAS::readCal()
 //Atlas function: Cal?
 //Response: ?CAL,x with x is 0, 1, 2, 3
 {
-    QByteArray cmd = QByteArray::number(i2caddress);
+    QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":CAL,?\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
@@ -107,7 +106,7 @@ QByteArray QATLAS::readCal()
 QByteArray QATLAS::doCal(int taskid)
 //Atlas function: Cal,taskid (clear, mid, low, high)
 {
-    QByteArray cmd = QByteArray::number(i2caddress);
+    QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":CAL,");
     switch (taskid) {
             case 0 : cmd += "clear\r"; break;
@@ -125,7 +124,7 @@ QByteArray QATLAS::readSlope()
 //Response: ?SLOPE,xx.x,yyy.y
 //with xx.x is acid slope e.g 99.7, yyy.y is basic slope e.g. 100.3
 {
-    QByteArray cmd = QByteArray::number(i2caddress);
+    QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":SLOPE,?\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
@@ -137,7 +136,7 @@ QByteArray QATLAS::readInfo()
 //Response: ?I,pH,x.x
 //with x.x is firmware version number e.g 1.0
 {
-    QByteArray cmd = QByteArray::number(i2caddress);
+    QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":I\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
@@ -149,7 +148,7 @@ QByteArray QATLAS::readStatus()
 //Response: ?STATUS,x,y.yyy
 //with x is PSBWU, y.yyy supply voltage Vcc
 {
-    QByteArray cmd = QByteArray::number(i2caddress);
+    QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":STATUS\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
@@ -159,7 +158,7 @@ QByteArray QATLAS::readStatus()
 QByteArray QATLAS::changeI2C(char addr)
 //Atlas function: I2C,char
 {
-    QByteArray cmd = QByteArray::number(i2caddress);
+    QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":I2C,addr\r");
     qDebug() << cmd;
     lastAtlasCmd = cmd;
@@ -170,7 +169,7 @@ QByteArray QATLAS::sleep()
 //Atlas function: SLEEP
 //Response: none
 {
-    QByteArray cmd = QByteArray::number(i2caddress);
+    QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":SLEEP\r");
     qDebug() << cmd;
     lastAtlasCmd = cmd;
@@ -181,7 +180,7 @@ QByteArray QATLAS::serial(int baudrate) // switch to UART mode
 //Atlas function: SERIAL, baudrate
 //Response: none
 {
-    QByteArray cmd = QByteArray::number(i2caddress);
+    QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":SERIAL\r");
     qDebug() << cmd;
     lastAtlasCmd = cmd;
@@ -192,7 +191,7 @@ QByteArray QATLAS::factoryReset()
 //Atlas function: Factory
 //Response: issue STATUS query after this command and see if "S" is in the reply
 {
-    QByteArray cmd = QByteArray::number(i2caddress);
+    QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":STATUS\r");
     qDebug() << cmd;
     lastAtlasCmd = cmd;
@@ -323,4 +322,14 @@ QString QATLAS::getRstCode() const
 double QATLAS::getVoltage() const
 {
     return voltage;
+}
+
+qint8 QATLAS::getI2cAddress() const
+{
+    return i2cAddress;
+}
+
+void QATLAS::setI2cAddress(const qint8 &value)
+{
+    i2cAddress = value;
 }

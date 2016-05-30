@@ -7,7 +7,7 @@ class QATLAS
 {
 public:
 // Constructors and Destructors
-    QATLAS(const qint8 addr);
+    QATLAS();
     ~QATLAS();
 
 //Functions:
@@ -48,8 +48,11 @@ public:
 //signals:
     //ledChanged(bool ledState); class QATLAS moet hiervoor een QOBJECT zijn
 
+    qint8 getI2cAddress() const;
+    void setI2cAddress(const qint8 &value);
+
 private:
-    qint8   i2caddress = -1;
+    qint8   i2cAddress = -1;
     QString probeType = "";
     QString  version = "";
     QString rstCode = "";

@@ -23,6 +23,7 @@ public:
     ~EZOFrame();
 
     QByteArray lastCmd;
+    QATLAS* tm = new QATLAS();  // wel even aanmaken !
 
 signals:
     void cmdAvailable(QByteArray newCommand);
@@ -51,9 +52,9 @@ private:
     Ui::EZOFrame *ui;
     LedIndicator* ledStateLed;
 
-    QATLAS* tm1 = new QATLAS(99);
-    QATLAS* tm2 = new QATLAS(101);
-    QTimer* mainTimer;
+
+    //QATLAS* tm2 = new QATLAS(101);
+    //QTimer* mainTimer;
 };
 
 #endif // EZOFRAME_H
