@@ -26,7 +26,7 @@ SERIAL      Switch back to UART mode (pg.60)
 
 // ATLAS commands
 //---------------------------------------------------
-QByteArray QATLAS::readLED()
+QByteArray QATLAS::readLED()         // pH, ORP
 //Atlas function: L?
 //Response: 1?L,x with x is 0 (led off) or 1 (led on)
 {
@@ -37,7 +37,7 @@ QByteArray QATLAS::readLED()
     return cmd;
 }
 
-QByteArray QATLAS::writeLED(bool state)
+QByteArray QATLAS::writeLED(bool state)        // pH, ORP
 //Atlas function: L,state
 {
     QByteArray cmd = QByteArray::number(i2caddress);

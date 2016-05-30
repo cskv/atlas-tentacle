@@ -20,7 +20,8 @@ SOURCES += \
     qatlas.cpp \
     qatlasusb.cpp \
     ledindicator.cpp \
-    about.cpp
+    about.cpp \
+    ezoframe.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -29,13 +30,15 @@ HEADERS += \
     qatlas.h \
     qatlasusb.h \
     ledindicator.h \
-    about.h
+    about.h \
+    ezoframe.h
 
 FORMS += \
     mainwindow.ui \
     settingsdialog.ui \
     atlasdialog.ui \
-    about.ui
+    about.ui \
+    ezoframe.ui
 
 RESOURCES += \
     atlasterminal.qrc

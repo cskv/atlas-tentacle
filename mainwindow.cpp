@@ -44,6 +44,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    pH1Frame = new EZOFrame(ui->pH1Tab);
+    pH2Frame = new EZOFrame(ui->pH2Tab);
+
     ui->stateLed->setOnColor(Qt::blue);
     ui->stateLed->setOffColor(Qt::gray);
     ui->stateLed->setState(true);
@@ -74,6 +78,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(serial, SIGNAL(readyRead()), this, SLOT(readTentacleI2CData()));
     //connect(serial, SIGNAL(bytesWritten(qint64)), this, SLOT(start2()));
+    connect( pH1Frame, SIGNAL(cmdAvailable(QByteArray)),
+             this, SLOT(writeData(QByteArray)) );
 
     settings->setModal(true);
     settings->show();
@@ -83,6 +89,11 @@ MainWindow::~MainWindow()
 {
     delete settings;
     delete ui;
+}
+
+void MainWindow::writeData(const QByteArray &data)
+{
+    serial->write(data);
 }
 
 void MainWindow::updateAll()
@@ -157,11 +168,6 @@ void MainWindow::closeSerialPort()
     ui->actionDisconnect->setEnabled(false);
     ui->actionConfigure->setEnabled(true);
     ui->statusBar->showMessage(tr("Disconnected"));
-}
-
-void MainWindow::writeData(const QByteArray &data)
-{
-    serial->write(data);
 }
 
 void MainWindow::readData()

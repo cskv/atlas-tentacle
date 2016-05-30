@@ -47,6 +47,7 @@
 #include "qatlasusb.h"
 
 #include "ledindicator.h"
+#include "ezoframe.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -114,6 +115,9 @@ private:
     SettingsDialog *settings;
     QSerialPort *serial;
     QByteArray lastCmd;
+
+    EZOFrame* pH1Frame;
+    EZOFrame* pH2Frame;
 
     QATLAS* tm1 = new QATLAS(99);
     QATLAS* tm2 = new QATLAS(101);
