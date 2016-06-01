@@ -114,10 +114,12 @@ QByteArray QATLAS::readTemp()
  * Atlas function: T,xx.xx?
  * Response: 1
  */
-QByteArray QATLAS::writeTemp()
+QByteArray QATLAS::writeTemp(double temperature)
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
-    cmd.append(":T,20.0\r");
+    cmd.append(":T,");
+    cmd.append(QByteArray::number(temperature, 'f', 2));
+    cmd.append("\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
