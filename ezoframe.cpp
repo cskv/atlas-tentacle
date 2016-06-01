@@ -10,6 +10,10 @@ EZOFrame::EZOFrame(QWidget *parent) :
     ui->stateLed->setOnColor(Qt::blue);
     ui->stateLed->setOffColor(Qt::gray);
     ui->stateLed->setState(true);
+    stampTimer = new QTimer;
+
+    connect( tm, SIGNAL(ledChanged(bool)),
+             this, SLOT(displayLedState()) );
 }
 
 EZOFrame::~EZOFrame()
@@ -17,25 +21,29 @@ EZOFrame::~EZOFrame()
     delete ui;
 }
 
-void EZOFrame::updateAll()
+void EZOFrame::updateInfo()
 {
-    //ui->btnLED->click();
-    //ui->btnSlope->click();
-    //ui->btnInfo->click();
-    //ui->btnStatus->click();
-
-    if ( ui->cbAuto->isChecked() ) {
-        ui->btnpH->click();
-    }
-    //ui->btnGetTemp->click();
-    //ui->btnCal->click();
-    displayAll();
+    ui->btnSlope->click();
+    ui->btnInfo->click();
+    ui->btnStatus->click();
+    ui->btnGetTemp->click();
+    ui->btnCal->click();
+    displayInfo();
 }
 
-void EZOFrame::displayAll()
+void EZOFrame::updateMeas()
+{
+    ui->btnReadMeas->click();
+    displayMeas();
+}
+
+void EZOFrame::displayLedState()
 {
     ui->stateLed->setState( tm->getLedState() );
+}
 
+void EZOFrame::displayInfo()
+{
     double dval = tm->getAcidSlope();
     if (dval > 0) ui->acidSlopeLabel->setText(QString::number(dval));
     dval = tm->getBasicSlope();
@@ -48,26 +56,28 @@ void EZOFrame::displayAll()
     dval = tm->getVoltage();
     if (dval > 0) ui->voltLabel->setText(QString::number(dval));
 
-    if ( ui->cbAuto->isChecked() ) {
-        dval = tm->getCurrentpH();
-        if (dval > -1 && dval < 15) ui->pHLabel->setText(QString::number(dval, 'f', 2 ));
-    }
-
     dval = tm->getCurrentTemp();
     if (dval > 0) ui->tempLabel->setText(QString::number(dval , 'f', 1 ));
     int ival = tm->getCalState();
     if (ival > -1) ui->calLabel->setText(QString::number(ival));
 }
 
+void EZOFrame::displayMeas()
+{
+    double dval = tm->getCurrentpH();
+    if (dval > -1 && dval < 15) ui->pHLabel->setText(QString::number(dval, 'f', 2 ));
+}
+
 void EZOFrame::on_btnGetTemp_clicked()
 {
     lastCmd = tm->readTemp();
+    emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
 
-void EZOFrame::on_btnpH_clicked()
+void EZOFrame::on_btnReadMeas_clicked()
 {
-    lastCmd = tm->readpH();
+    lastCmd = tm->readpHORP();
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
@@ -96,9 +106,10 @@ void EZOFrame::on_btnCal_clicked()
 
 void EZOFrame::on_btnCalClear_clicked()
 {
-    lastCmd = tm->doCal(0);
-    //serial->write(lastCmd);
+    if (tm->getProbeType() == "pH") lastCmd = tm->dopHCal(0);
+    else if (tm->getProbeType() == "ORP") lastCmd = tm->doORPCal(200.0);
     emit cmdAvailable(lastCmd);
+    //serial->write(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
     ui->btnCalHigh->setEnabled(false);
     ui->btnCalLow->setEnabled(false);
@@ -106,7 +117,7 @@ void EZOFrame::on_btnCalClear_clicked()
 
 void EZOFrame::on_btnCalMid_clicked()
 {
-    lastCmd = tm->doCal(1);
+    lastCmd = tm->dopHCal(1);
     //serial->write(lastCmd);
     emit cmdAvailable(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
@@ -116,7 +127,7 @@ void EZOFrame::on_btnCalMid_clicked()
 
 void EZOFrame::on_btnCalLow_clicked()
 {
-    lastCmd = tm->doCal(2);
+    lastCmd = tm->dopHCal(2);
     //serial->write(lastCmd);
     emit cmdAvailable(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
@@ -124,7 +135,7 @@ void EZOFrame::on_btnCalLow_clicked()
 
 void EZOFrame::on_btnCalHigh_clicked()
 {
-    lastCmd = tm->doCal(3);
+    lastCmd = tm->dopHCal(3);
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
@@ -161,8 +172,8 @@ void EZOFrame::on_ledCheckBox_clicked(bool checked)
 
 void EZOFrame::on_contCB_clicked(bool checked)
 {
-    //if (checked) mainTimer->start(1000);
-    //else mainTimer->stop();
+    if (checked) stampTimer->start(1000);
+    else stampTimer->stop();
 }
 
 void EZOFrame::on_btnSleep_clicked()

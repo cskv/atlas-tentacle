@@ -15,7 +15,7 @@ Command     Function
 L           Enable / Disable or Query the LEDs (pg.46)
 R           Returns a single reading (pg.47)
 T           Set or Query the temperature compensation (pg.48)  diff
-CAL         Performs calibration (pg.49)
+Cal         Performs calibration (pg.49)
 SLOPE       Queries slope (p.55)
 I           Device information (pg.56)
 STATUS      Retrieve status information (pg.57)
@@ -39,9 +39,15 @@ PLOCK       Protocol lock (p.49)
 
 // ATLAS commands
 //---------------------------------------------------
+/**
+ * @brief Get the current state of the LED on the Atlas Scientific stamp
+ *
+ * Example:
+ * @code readLED(); @endcode
+ * Atlas function: L?
+ * Response: 1?L,x with x is 0 (LED off) or 1 (LED on)
+ */
 QByteArray QATLAS::readLED()         // pH, ORP
-//Atlas function: L?
-//Response: 1?L,x with x is 0 (led off) or 1 (led on)
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":L,?\r");
@@ -49,7 +55,14 @@ QByteArray QATLAS::readLED()         // pH, ORP
     lastAtlasCmd = cmd;
     return cmd;
 }
-
+/**
+ * @brief Set the state of the LED on the Atlas Scientific stamp
+ *
+ * Example:
+ * @code writeLED(); @endcode
+ * Atlas function: L,state?
+ * Response: 1
+ */
 QByteArray QATLAS::writeLED(bool state)        // pH, ORP
 //Atlas function: L,state
 {
@@ -60,20 +73,32 @@ QByteArray QATLAS::writeLED(bool state)        // pH, ORP
     return cmd;
 }
 //--------------------------------------------------------
-QByteArray QATLAS::readpH()
-//Atlas function: R
-//Response: x.xxx with x.xxx is the pH value e.g. 7.012
+/**
+ * @brief Get the current pH, ORP, EC or D.O. value from the Atlas Scientific stamp
+ *
+ * Example:
+ * @code readpHORP(); @endcode
+ * Atlas function: R
+ * Response: xx.xxx with the pH or ORP value
+ */
+QByteArray QATLAS::readpHORP()
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
-    cmd.append(":R\r");         // Capital R to comply with manual  changed in .ino
+    cmd.append(":R\r");         // Capital R to comply with manual ( changed in .ino)
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
 //---------------------------------------------------------
+/**
+ * @brief Get the current temperature from the Atlas Scientific stamp
+ *
+ * Example:
+ * @code readTemp(); @endcode
+ * Atlas function: T?
+ * Response: ?T,xx.xx with xx.xx is the temperature e.g. 25.00
+ */
 QByteArray QATLAS::readTemp()
-//Atlas function: T?
-//Response: ?T,xx.x with xx.x is the temperature e.g. 19.5
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":T,?\r");
@@ -81,9 +106,15 @@ QByteArray QATLAS::readTemp()
     lastAtlasCmd = cmd;
     return cmd;
 }
-
+/**
+ * @brief Set the temperature on the Atlas Scientific stamp
+ *
+ * Example:
+ * @code writeTemp(); @endcode
+ * Atlas function: T,xx.xx?
+ * Response: 1
+ */
 QByteArray QATLAS::writeTemp()
-//Atlas function: T,xx.x
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":T,20.0\r");
@@ -92,22 +123,37 @@ QByteArray QATLAS::writeTemp()
     return cmd;
 }
 //----------------------------------------------
+/**
+ * @brief Get the Calibration state from the Atlas Scientific stamp
+ *
+ * Example:
+ * @code readCal(); @endcode
+ * Atlas function: Cal?
+ * Response: ?Cal,x with x is 0, 1, 2, 3
+ */
 QByteArray QATLAS::readCal()
 //Atlas function: Cal?
 //Response: ?CAL,x with x is 0, 1, 2, 3
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
-    cmd.append(":CAL,?\r");
+    cmd.append(":Cal,?\r");
     //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
-
-QByteArray QATLAS::doCal(int taskid)
+/**
+ * @brief Perform a pH calibration of the Atlas Scientific stamp
+ *
+ * Example:
+ * @code dopHCal(int taskid); @endcode
+ * Atlas function: Cal,0 (clear), 1 (pH7), 2 (pH4) or 3 (pH10)
+ * Response: 1
+ */
+QByteArray QATLAS::dopHCal(int taskid)
 //Atlas function: Cal,taskid (clear, mid, low, high)
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
-    cmd.append(":CAL,");
+    cmd.append(":Cal,");
     switch (taskid) {
             case 0 : cmd += "clear\r"; break;
             case 1 : cmd += "mid,7.00\r"; break;
@@ -118,11 +164,35 @@ QByteArray QATLAS::doCal(int taskid)
     lastAtlasCmd = cmd;
     return cmd;
 }
+/**
+ * @brief Perform a ORP (mV) calibration of the Atlas Scientific stamp
+ *
+ * Example:
+ * @code doORPCal(double orpRef); @endcode
+ * Atlas function: Cal,xxx.x with xxx.x in mV
+ * Response: 1
+ */
+QByteArray QATLAS::doORPCal(double orpRef)
+//Atlas function: Cal,taskid (clear, mid, low, high)
+{
+    QByteArray cmd = QByteArray::number(i2cAddress);
+    cmd.append(":Cal,");
+    cmd.append(QByteArray::number(orpRef,'f',1));
+    qDebug() << cmd;
+    lastAtlasCmd = cmd;
+    return cmd;
+}
 //---------------------------------------------------
+/**
+ * @brief Get the pH calibration slopes after executing Cal,123 commands
+ *
+ * Example:
+ * @code readSlope(); @endcode
+ * Atlas function: SLOPE,?
+ * Response: ?SLOPE,xx.x,yyy.y
+ * with xx.x is acid slope e.g 99.7, yyy.y is basic slope e.g. 100.3
+ */
 QByteArray QATLAS::readSlope()
-//Atlas function: SLOPE,?
-//Response: ?SLOPE,xx.x,yyy.y
-//with xx.x is acid slope e.g 99.7, yyy.y is basic slope e.g. 100.3
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":SLOPE,?\r");
@@ -241,11 +311,12 @@ void QATLAS::parseAtlasI2C(QByteArray atlasdata)
 void QATLAS::parseTentacleMini(QByteArray atlasdata)
 {
     QByteArray t;
-    //qDebug() << atlasdata;
+    qDebug() << atlasdata;
     if ( atlasdata.startsWith("?L,") ) {
         t = atlasdata.mid(3,1);
         ledState = (t.toInt() == 1);
         ledState = (t.toInt() != 0);
+        emit ledChanged(ledState);
     } else if ( atlasdata.startsWith("?T,") ) {
         t = atlasdata.mid(3,5);
         currentTemp = t.toDouble();
@@ -259,16 +330,23 @@ void QATLAS::parseTentacleMini(QByteArray atlasdata)
         basicSlope = t.toDouble();
     } else if ( atlasdata.startsWith("?I,") ) {
         t = atlasdata.mid(3,2);
-        probeType = QString(t);
-        t = atlasdata.mid(6,4);
-        version = QString(t);
+        if (t.contains("pH")) {
+            probeType = QString(t);     // EZO "pH" stamp
+            t = atlasdata.mid(6,4);
+            version = QString(t);
+        } else {
+            t = atlasdata.mid(3,3);    // EZO "ORP" stamp
+            probeType = QString(t);
+            t = atlasdata.mid(7,4);
+            version = QString(t);
+        }
     } else if ( atlasdata.startsWith("?STATUS,") ) {
         t = atlasdata.mid(8,1);
         rstCode = t;
         t = atlasdata.mid(10,5);
         voltage = t.toDouble();
     } else {
-        t = atlasdata.mid(0,6);     // one char too much to be sure
+        t = atlasdata.mid(0,7);     // pH: 6 bytes ORP: 7 bytes max
         currentpH = t.toDouble();
     }
 }
@@ -332,4 +410,9 @@ qint8 QATLAS::getI2cAddress() const
 void QATLAS::setI2cAddress(const qint8 &value)
 {
     i2cAddress = value;
+}
+
+double QATLAS::getCurrentORP() const
+{
+    return currentORP;
 }

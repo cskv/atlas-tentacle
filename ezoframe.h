@@ -30,7 +30,7 @@ signals:
 
 private slots:
     void on_btnGetTemp_clicked();
-    void on_btnpH_clicked();
+    void on_btnReadMeas_clicked();
     void on_btnSetTemp_clicked();
 
     void on_btnCal_clicked();
@@ -38,9 +38,6 @@ private slots:
     void on_btnCalMid_clicked();
     void on_btnCalLow_clicked();
     void on_btnCalHigh_clicked();
-
-    void updateAll();
-    void displayAll();
 
     void on_btnSlope_clicked();
     void on_btnInfo_clicked();
@@ -50,9 +47,17 @@ private slots:
     void on_contCB_clicked(bool checked);
     void on_btnSleep_clicked();
 
+    void updateInfo();
+    void updateMeas();
+
+    void displayLedState();
+    void displayInfo();
+    void displayMeas();
+
 private:
     Ui::EZOFrame *ui;
     LedIndicator* ledStateLed;
+    QTimer* stampTimer;
 };
 
 #endif // EZOFRAME_H

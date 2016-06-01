@@ -72,10 +72,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
             SLOT(handleError(QSerialPort::SerialPortError)));
     connect(mainTimer, SIGNAL(timeout()), this, SLOT(updateAll()));
+    connect(mainTimer, SIGNAL(timeout()), pH1Frame, SLOT(updateMeas()));
+    connect(mainTimer, SIGNAL(timeout()), pH2Frame, SLOT(updateMeas()));
 
     //connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(serial, SIGNAL(readyRead()), this, SLOT(readTentacleI2CData()));
-    //connect(serial, SIGNAL(bytesWritten(qint64)), this, SLOT(start2()));
     connect( pH1Frame, SIGNAL(cmdAvailable(QByteArray)),
              this, SLOT(writeData(QByteArray)) );
 
@@ -169,16 +170,26 @@ void MainWindow::readData()
 
 void MainWindow::readTentacleI2CData()
 {
+    int address;
     while(serial->canReadLine()) {
         QByteArray tentacledata = serial->readLine();
 //reads in data line by line, separated by \n or \r characters
-        qDebug() << tentacledata;
         QByteArray reply = tentacledata.trimmed();
         if ( !reply.isEmpty() ) {
             if (reply[0] == '<') ui->statusBar->showMessage(QString(reply),1500);
-            else pH1Frame->tm->parseTentacleMini(reply);
-        }
-    }
+            else {
+                address = reply.left(2).toInt();
+                reply = reply.mid(3, -1);
+                if ( !reply.isEmpty() ) {
+                  if (address == pH1Frame->tm->getI2cAddress())
+                      pH1Frame->tm->parseTentacleMini(reply);
+                  if (address == pH2Frame->tm->getI2cAddress())
+                      pH2Frame->tm->parseTentacleMini(reply);
+                }
+            }
+            qDebug() << address << reply << "(" << tentacledata << ")";
+        }   // if not empty
+    }       // while canReadLine
 }
 
 /*
@@ -242,7 +253,7 @@ void MainWindow::on_btnGetTemp_clicked()
 
 void MainWindow::on_btnpH_clicked()
 {
-    lastCmd = pH1Frame->tm->readpH();
+    lastCmd = pH1Frame->tm->readpHORP();
     serial->write(lastCmd);
 }
 

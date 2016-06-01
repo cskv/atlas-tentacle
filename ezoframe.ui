@@ -644,6 +644,9 @@ color: yellow;
     </property>
    </widget>
    <widget class="QCheckBox" name="contCB">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -710,7 +713,7 @@ color: orange;
    <property name="title">
     <string>Reading</string>
    </property>
-   <widget class="QPushButton" name="btnpH">
+   <widget class="QPushButton" name="btnReadMeas">
     <property name="geometry">
      <rect>
       <x>10</x>
