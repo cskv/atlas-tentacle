@@ -259,7 +259,7 @@ void MainWindow::on_btnpH_clicked()
 
 void MainWindow::on_btnSetTemp_clicked()
 {
-    lastCmd = pH1Frame->tm->writeTemp();
+    lastCmd = pH1Frame->tm->writeTemp(ui->leTemp->text().toDouble());
     serial->write(lastCmd);
     QTimer::singleShot(300, this, SLOT(on_btnGetTemp_clicked()));
 }

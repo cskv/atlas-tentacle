@@ -91,7 +91,7 @@ void EZOFrame::on_btnLED_clicked()
 
 void EZOFrame::on_btnSetTemp_clicked()
 {
-    lastCmd = tm->writeTemp();
+    lastCmd = tm->writeTemp(ui->leTemp->text().toDouble());
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
     QTimer::singleShot(300, this, SLOT(on_btnGetTemp_clicked()));
