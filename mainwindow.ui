@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>487</width>
+    <width>577</width>
     <height>504</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>464</width>
+      <width>550</width>
       <height>424</height>
      </rect>
     </property>
@@ -56,7 +56,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>200</y>
+        <y>110</y>
         <width>122</width>
         <height>60</height>
        </rect>
@@ -81,8 +81,8 @@
      <widget class="QLabel" name="pH1Label">
       <property name="geometry">
        <rect>
-        <x>140</x>
-        <y>200</y>
+        <x>160</x>
+        <y>110</y>
         <width>311</width>
         <height>71</height>
        </rect>
@@ -116,10 +116,10 @@ color: orange;
      <widget class="QGroupBox" name="gbRead">
       <property name="geometry">
        <rect>
-        <x>230</x>
-        <y>90</y>
+        <x>150</x>
+        <y>10</y>
         <width>221</width>
-        <height>61</height>
+        <height>71</height>
        </rect>
       </property>
       <property name="font">
@@ -158,82 +158,12 @@ color: orange;
        </property>
       </widget>
      </widget>
-     <widget class="QGroupBox" name="gbTemp">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>70</y>
-        <width>101</width>
-        <height>91</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="title">
-       <string>Temperature</string>
-      </property>
-      <widget class="QPushButton" name="btnSetTemp">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>75</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>T</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="leTemp">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>50</y>
-         <width>75</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arial</family>
-         <pointsize>14</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background: black;
-color: lime;
-</string>
-       </property>
-       <property name="text">
-        <string>20.0</string>
-       </property>
-       <property name="frame">
-        <bool>false</bool>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="clearButtonEnabled">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </widget>
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>10</x>
         <y>10</y>
-        <width>221</width>
+        <width>121</width>
         <height>71</height>
        </rect>
       </property>
@@ -252,59 +182,11 @@ color: lime;
       <property name="title">
        <string>Information</string>
       </property>
-      <widget class="QPushButton" name="btnGetTemp">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>40</y>
-         <width>61</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>T ?</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="tempLabel">
-       <property name="geometry">
-        <rect>
-         <x>80</x>
-         <y>40</y>
-         <width>61</width>
-         <height>21</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <family>Arial</family>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background: black;
-color: yellow;
-</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::PlainText</enum>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="margin">
-        <number>4</number>
-       </property>
-      </widget>
       <widget class="QCheckBox" name="contCB">
        <property name="geometry">
         <rect>
-         <x>110</x>
-         <y>20</y>
+         <x>10</x>
+         <y>30</y>
          <width>83</width>
          <height>17</height>
         </rect>
@@ -317,8 +199,8 @@ color: yellow;
      <widget class="QLabel" name="pH2Label">
       <property name="geometry">
        <rect>
-        <x>140</x>
-        <y>310</y>
+        <x>160</x>
+        <y>220</y>
         <width>311</width>
         <height>71</height>
        </rect>
@@ -353,7 +235,7 @@ color: orange;
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>310</y>
+        <y>220</y>
         <width>122</width>
         <height>60</height>
        </rect>
@@ -393,7 +275,7 @@ color: orange;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>487</width>
+     <width>577</width>
      <height>21</height>
     </rect>
    </property>

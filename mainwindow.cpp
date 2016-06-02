@@ -71,14 +71,22 @@ MainWindow::MainWindow(QWidget *parent) :
 // make other connections (see Terminal example)
     connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
             SLOT(handleError(QSerialPort::SerialPortError)));
-    connect(mainTimer, SIGNAL(timeout()), this, SLOT(updateAll()));
+
     connect(mainTimer, SIGNAL(timeout()), pH1Frame, SLOT(updateMeas()));
     connect(mainTimer, SIGNAL(timeout()), pH2Frame, SLOT(updateMeas()));
 
-    //connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
-    connect(serial, SIGNAL(readyRead()), this, SLOT(readTentacleI2CData()));
+    connect(serial, SIGNAL(readyRead()),
+            this, SLOT(readTentacleI2CData()));
+
     connect( pH1Frame, SIGNAL(cmdAvailable(QByteArray)),
              this, SLOT(writeData(QByteArray)) );
+    connect( pH2Frame, SIGNAL(cmdAvailable(QByteArray)),
+             this, SLOT(writeData(QByteArray)) );
+
+    connect( pH1Frame->tm, SIGNAL(measRead()),
+             this, SLOT(displayAllMeas()) );
+    connect( pH2Frame->tm, SIGNAL(measRead()),
+             this, SLOT(displayAllMeas()) );
 
     settings->setModal(true);
     settings->show();
@@ -96,30 +104,17 @@ void MainWindow::writeData(const QByteArray &data)
     serial->write(data);
 }
 
-void MainWindow::updateAll()
+void MainWindow::displayAllMeas()
 {
-    //ui->btnLED->click();
-    //ui->btnSlope->click();
-    //ui->btnInfo->click();
-    //ui->btnStatus->click();
-
-    if ( ui->cbAuto->isChecked() ) {
-        ui->btnpH->click();
+    double dval = -7.0;
+    dval = pH1Frame->tm->getCurrentpH();
+    if (dval > -1 && dval < 15) {
+        ui->pH1Label->setText(QString::number(dval, 'f', 2 ));
     }
-    //ui->btnGetTemp->click();
-    //ui->btnCal->click();
-    displayAll();
-}
-void MainWindow::displayAll()
-{
-    double dval = 0;
-    if ( ui->cbAuto->isChecked() ) {
-        dval = pH1Frame->tm->getCurrentpH();
-        if (dval > -1 && dval < 15) ui->pH1Label->setText(QString::number(dval, 'f', 2 ));
+    dval = pH2Frame->tm->getCurrentpH();
+    if (dval > -1 && dval < 15) {
+        ui->pH2Label->setText(QString::number(dval, 'f', 2 ));
     }
-
-    dval = pH1Frame->tm->getCurrentTemp();
-    if (dval > 0) ui->tempLabel->setText(QString::number(dval , 'f', 1 ));
 }
 
 void MainWindow::openSerialPort()
@@ -170,7 +165,9 @@ void MainWindow::readData()
 
 void MainWindow::readTentacleI2CData()
 {
-    int address;
+    int address = 0;
+    //QByteArray adr;
+    int colonpos = 0;
     while(serial->canReadLine()) {
         QByteArray tentacledata = serial->readLine();
 //reads in data line by line, separated by \n or \r characters
@@ -178,18 +175,48 @@ void MainWindow::readTentacleI2CData()
         if ( !reply.isEmpty() ) {
             if (reply[0] == '<') ui->statusBar->showMessage(QString(reply),1500);
             else {
-                address = reply.left(2).toInt();
-                reply = reply.mid(3, -1);
-                if ( !reply.isEmpty() ) {
-                  if (address == pH1Frame->tm->getI2cAddress())
-                      pH1Frame->tm->parseTentacleMini(reply);
-                  if (address == pH2Frame->tm->getI2cAddress())
-                      pH2Frame->tm->parseTentacleMini(reply);
+                colonpos = reply.indexOf(':');
+                if (colonpos > 0 ) {
+                    address = reply.left(colonpos).toInt();
+                    //adr = strtok(reply.data(), ":");
+                    reply = reply.mid(colonpos+1, -1);
+                    if ( !reply.isEmpty() ) {
+                        if (address == pH1Frame->tm->getI2cAddress())
+                          pH1Frame->tm->parseTentacleMini(reply);
+                        if (address == pH2Frame->tm->getI2cAddress())
+                          pH2Frame->tm->parseTentacleMini(reply);
+                    }
                 }
             }
-            qDebug() << address << reply << "(" << tentacledata << ")";
+            qDebug() << address << colonpos << reply << "(" << tentacledata << ")";
         }   // if not empty
     }       // while canReadLine
+}
+
+void MainWindow::handleError(QSerialPort::SerialPortError error)
+{
+    if (error == QSerialPort::ResourceError)
+    {
+        QMessageBox::critical(this, tr("Critical Error"), serial->errorString());
+        closeSerialPort();
+    }
+}
+
+void MainWindow::on_btnpH_clicked()
+{
+    lastCmd = pH1Frame->tm->readpHORP();
+    serial->write(lastCmd);
+}
+
+void MainWindow::on_action_Help_Tentacle_triggered()
+{
+    ad->show();
+}
+
+void MainWindow::on_contCB_clicked(bool checked)
+{
+    if (checked) mainTimer->start(1000);
+    else mainTimer->stop();
 }
 
 /*
@@ -236,41 +263,3 @@ void MainWindow::readAtlasUSBData()
     }
 }
 */
-void MainWindow::handleError(QSerialPort::SerialPortError error)
-{
-    if (error == QSerialPort::ResourceError)
-    {
-        QMessageBox::critical(this, tr("Critical Error"), serial->errorString());
-        closeSerialPort();
-    }
-}
-
-void MainWindow::on_btnGetTemp_clicked()
-{
-    lastCmd = pH1Frame->tm->readTemp();
-    serial->write(lastCmd);
-}
-
-void MainWindow::on_btnpH_clicked()
-{
-    lastCmd = pH1Frame->tm->readpHORP();
-    serial->write(lastCmd);
-}
-
-void MainWindow::on_btnSetTemp_clicked()
-{
-    lastCmd = pH1Frame->tm->writeTemp(ui->leTemp->text().toDouble());
-    serial->write(lastCmd);
-    QTimer::singleShot(300, this, SLOT(on_btnGetTemp_clicked()));
-}
-
-void MainWindow::on_action_Help_Tentacle_triggered()
-{
-    ad->show();
-}
-
-void MainWindow::on_contCB_clicked(bool checked)
-{
-    if (checked) mainTimer->start(1000);
-    else mainTimer->stop();
-}

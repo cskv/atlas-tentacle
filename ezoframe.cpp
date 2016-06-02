@@ -10,10 +10,17 @@ EZOFrame::EZOFrame(QWidget *parent) :
     ui->stateLed->setOnColor(Qt::blue);
     ui->stateLed->setOffColor(Qt::gray);
     ui->stateLed->setState(true);
+
     stampTimer = new QTimer;
 
-    connect( tm, SIGNAL(ledChanged(bool)),
+    connect(stampTimer, SIGNAL(timeout()), this, SLOT(on_btnReadMeas_clicked()));
+
+    connect( tm, SIGNAL(ledRead(bool)),
              this, SLOT(displayLedState()) );
+    connect( tm, SIGNAL(infoRead()),
+             this, SLOT(displayInfo()) );
+    connect( tm, SIGNAL(measRead()),
+             this, SLOT(displayMeas()) );
 }
 
 EZOFrame::~EZOFrame()
@@ -57,9 +64,11 @@ void EZOFrame::displayInfo()
     if (dval > 0) ui->voltLabel->setText(QString::number(dval));
 
     dval = tm->getCurrentTemp();
-    if (dval > 0) ui->tempLabel->setText(QString::number(dval , 'f', 1 ));
+    if (dval > 0) ui->leTemp->setText(QString::number(dval , 'f', 1 ));
     int ival = tm->getCalState();
     if (ival > -1) ui->calLabel->setText(QString::number(ival));
+
+    ui->leI2CAddress->setText(QString::number(tm->getI2cAddress()));
 }
 
 void EZOFrame::displayMeas()
@@ -94,7 +103,7 @@ void EZOFrame::on_btnSetTemp_clicked()
     lastCmd = tm->writeTemp(ui->leTemp->text().toDouble());
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
-    QTimer::singleShot(300, this, SLOT(on_btnGetTemp_clicked()));
+    QTimer::singleShot(400, this, SLOT(on_btnGetTemp_clicked()));
 }
 
 void EZOFrame::on_btnCal_clicked()
@@ -181,4 +190,10 @@ void EZOFrame::on_btnSleep_clicked()
     lastCmd = tm->sleep();
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
+}
+
+void EZOFrame::on_cbAuto_clicked(bool checked)
+{
+    if (checked) stampTimer->start(1000);
+    else stampTimer->stop();
 }

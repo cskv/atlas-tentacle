@@ -39,11 +39,11 @@ PLOCK       Protocol lock (p.49)
 
 // ATLAS commands
 //---------------------------------------------------
-/**
- * @brief Get the current state of the LED on the Atlas Scientific stamp
+/*!
+ * \brief Get the current state of the LED on the Atlas Scientific stamp.
  *
  * Example:
- * @code readLED(); @endcode
+ * \code readLED(); \endcode
  * Atlas function: L?
  * Response: 1?L,x with x is 0 (LED off) or 1 (LED on)
  */
@@ -55,12 +55,15 @@ QByteArray QATLAS::readLED()         // pH, ORP
     lastAtlasCmd = cmd;
     return cmd;
 }
-/**
- * @brief Set the state of the LED on the Atlas Scientific stamp
+/*!
+ * \brief Set the state of the LED on the Atlas Scientific stamp.
+ *
+ * \param state
+ * \retval cmd
  *
  * Example:
- * @code writeLED(); @endcode
- * Atlas function: L,state?
+ * @code writeLED(bool state); @endcode
+ * Atlas function: L,state
  * Response: 1
  */
 QByteArray QATLAS::writeLED(bool state)        // pH, ORP
@@ -76,8 +79,8 @@ QByteArray QATLAS::writeLED(bool state)        // pH, ORP
 /**
  * @brief Get the current pH, ORP, EC or D.O. value from the Atlas Scientific stamp
  *
- * Example:
  * @code readpHORP(); @endcode
+ * Example:
  * Atlas function: R
  * Response: xx.xxx with the pH or ORP value
  */
@@ -313,23 +316,26 @@ void QATLAS::parseAtlasI2C(QByteArray atlasdata)
 void QATLAS::parseTentacleMini(QByteArray atlasdata)
 {
     QByteArray t;
-    qDebug() << atlasdata;
+    //qDebug() << atlasdata;
     if ( atlasdata.startsWith("?L,") ) {
         t = atlasdata.mid(3,1);
         ledState = (t.toInt() == 1);
         ledState = (t.toInt() != 0);
-        emit ledChanged(ledState);
+        emit ledRead(ledState);
     } else if ( atlasdata.startsWith("?T,") ) {
         t = atlasdata.mid(3,5);
         currentTemp = t.toDouble();
+        emit infoRead();
     } else if ( atlasdata.startsWith("?CAL,") ) {
         t = atlasdata.mid(5,1);
         calState = t.toInt();
+        emit infoRead();
     } else if ( atlasdata.startsWith("?SLOPE,") ) {
         t = atlasdata.mid(7,4);
         acidSlope = t.toDouble();
         t = atlasdata.mid(12,6);
         basicSlope = t.toDouble();
+        emit infoRead();
     } else if ( atlasdata.startsWith("?I,") ) {
         t = atlasdata.mid(3,2);
         if (t.contains("pH")) {
@@ -342,31 +348,39 @@ void QATLAS::parseTentacleMini(QByteArray atlasdata)
             t = atlasdata.mid(7,4);
             version = QString(t);
         }
+        emit infoRead();
     } else if ( atlasdata.startsWith("?STATUS,") ) {
         t = atlasdata.mid(8,1);
         rstCode = t;
         t = atlasdata.mid(10,5);
         voltage = t.toDouble();
+        emit infoRead();
     } else {
         t = atlasdata.mid(0,7);     // pH: 6 bytes ORP: 7 bytes max
         currentpH = t.toDouble();
+        emit measRead();
     }
 }
 
 // Getters and Setters
+bool QATLAS::getLedState() const
+{
+    return ledState;
+}
+
 double QATLAS::getCurrentpH() const
 {
     return currentpH;
 }
 
+double QATLAS::getCurrentORP() const
+{
+    return currentORP;
+}
+
 double QATLAS::getCurrentTemp() const
 {
     return currentTemp;
-}
-
-bool QATLAS::getLedState() const
-{
-    return ledState;
 }
 
 int QATLAS::getCalState() const
@@ -414,7 +428,13 @@ void QATLAS::setI2cAddress(const qint8 &value)
     i2cAddress = value;
 }
 
-double QATLAS::getCurrentORP() const
+QATLAS::AtlasProperties QATLAS::getProps() const
 {
-    return currentORP;
+    return props;
 }
+
+void QATLAS::setProps(const AtlasProperties &value)
+{
+    props = value;
+}
+

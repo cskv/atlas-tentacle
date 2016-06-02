@@ -27,7 +27,6 @@ typedef struct {
     qint8   i2cAddress = -1;
     } AtlasProperties;
 
-
 // Atlas Scientific commands
     QByteArray readLED();
     QByteArray writeLED(bool state);
@@ -69,13 +68,20 @@ typedef struct {
     double  getVoltage() const;
     qint8   getI2cAddress() const;
 
+    AtlasProperties getProps() const;
+
 // setters
     void setI2cAddress(const qint8 &value);
+    void setProps(const AtlasProperties &value);
 
 signals:
-    void ledChanged(bool state); //class QATLAS moet hiervoor een QOBJECT zijn
+    void ledRead(bool state); //class QATLAS moet hiervoor een QOBJECT zijn
+    void infoRead();
+    void measRead();
 
 private:
+
+    AtlasProperties props;
     bool    ledState = true;
     double  currentpH = -7.0;
     double  currentORP = -999.9;
@@ -88,11 +94,6 @@ private:
     QString rstCode = "";
     double  voltage = 0;
     qint8   i2cAddress = -1;
-
-
-
-
-
 
     QByteArray lastAtlasCmd;
 };

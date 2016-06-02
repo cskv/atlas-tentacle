@@ -426,7 +426,7 @@ LOOKUP_CACHE_SIZE      = 0
 # normally produced when WARNINGS is set to YES.
 # The default value is: NO.
 
-EXTRACT_ALL            = NO
+EXTRACT_ALL            = YES
 
 # If the EXTRACT_PRIVATE tag is set to YES, all private members of a class will
 # be included in the documentation.
@@ -863,7 +863,9 @@ RECURSIVE              = YES
 # Note that relative paths are relative to the directory from which doxygen is
 # run.
 
-EXCLUDE                = D:\PROJECTS_LTD\APPLIC\UMCApps\Atlas\AtlasTerminal-hg\build-AtlasTerminal-Desktop_Qt_5_5_1_MinGW_32bit-Debug
+EXCLUDE                = D:\PROJECTS_LTD\APPLIC\UMCApps\Atlas\AtlasTerminal-hg\build-AtlasTerminal-Desktop_Qt_5_5_1_MinGW_32bit-Debug \
+                         build-AtlasTerminal-Desktop_Qt_5_5_1_MinGW_32bit-Release \
+                         build-AtlasTerminal-Desktop_Qt_5_5_1_MinGW_32bit-Release
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded

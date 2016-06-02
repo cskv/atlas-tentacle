@@ -54,6 +54,8 @@ private slots:
     void displayInfo();
     void displayMeas();
 
+    void on_cbAuto_clicked(bool checked);
+
 private:
     Ui::EZOFrame *ui;
     LedIndicator* ledStateLed;
