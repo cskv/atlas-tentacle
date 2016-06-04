@@ -75,8 +75,6 @@ private slots:
     void writeData(const QByteArray &data);
     void readData();
 
-    void on_btnpH_clicked();
-
     void readTentacleI2CData();
     //void readAtlasUSBData();
 

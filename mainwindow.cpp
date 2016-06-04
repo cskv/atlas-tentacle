@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
     pH1Frame = new EZOFrame(ui->pH1Tab);
     pH2Frame = new EZOFrame(ui->pH2Tab);
     pH1Frame->tm->setI2cAddress(99);
-    pH2Frame->tm->setI2cAddress(101);
+    pH2Frame->tm->setI2cAddress(98);
 
     serial = new QSerialPort(this);
     settings = new SettingsDialog;
@@ -72,8 +72,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
             SLOT(handleError(QSerialPort::SerialPortError)));
 
-    connect(mainTimer, SIGNAL(timeout()), pH1Frame, SLOT(updateMeas()));
-    connect(mainTimer, SIGNAL(timeout()), pH2Frame, SLOT(updateMeas()));
+    connect(mainTimer, SIGNAL(timeout()), pH1Frame, SLOT(on_btnReadMeas_clicked()));
+    connect(mainTimer, SIGNAL(timeout()), pH2Frame, SLOT(on_btnReadMeas_clicked()));
 
     connect(serial, SIGNAL(readyRead()),
             this, SLOT(readTentacleI2CData()));
@@ -202,12 +202,6 @@ void MainWindow::handleError(QSerialPort::SerialPortError error)
     }
 }
 
-void MainWindow::on_btnpH_clicked()
-{
-    lastCmd = pH1Frame->tm->readpHORP();
-    serial->write(lastCmd);
-}
-
 void MainWindow::on_action_Help_Tentacle_triggered()
 {
     ad->show();
@@ -215,7 +209,7 @@ void MainWindow::on_action_Help_Tentacle_triggered()
 
 void MainWindow::on_contCB_clicked(bool checked)
 {
-    if (checked) mainTimer->start(1000);
+    if (checked) mainTimer->start(2000);
     else mainTimer->stop();
 }
 

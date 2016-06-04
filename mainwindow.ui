@@ -113,51 +113,6 @@ color: orange;
        <number>4</number>
       </property>
      </widget>
-     <widget class="QGroupBox" name="gbRead">
-      <property name="geometry">
-       <rect>
-        <x>150</x>
-        <y>10</y>
-        <width>221</width>
-        <height>71</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="title">
-       <string>Reading</string>
-      </property>
-      <widget class="QPushButton" name="btnpH">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>61</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>R</string>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="cbAuto">
-       <property name="geometry">
-        <rect>
-         <x>110</x>
-         <y>20</y>
-         <width>81</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>AutoRead</string>
-       </property>
-      </widget>
-     </widget>
      <widget class="QGroupBox" name="groupBox">
       <property name="geometry">
        <rect>

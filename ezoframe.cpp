@@ -35,13 +35,6 @@ void EZOFrame::updateInfo()
     ui->btnStatus->click();
     ui->btnGetTemp->click();
     ui->btnCal->click();
-    displayInfo();
-}
-
-void EZOFrame::updateMeas()
-{
-    ui->btnReadMeas->click();
-    displayMeas();
 }
 
 void EZOFrame::displayLedState()
@@ -196,4 +189,10 @@ void EZOFrame::on_cbAuto_clicked(bool checked)
 {
     if (checked) stampTimer->start(1000);
     else stampTimer->stop();
+}
+
+void EZOFrame::on_btnI2CAddr_clicked()
+{
+    lastCmd = tm->changeI2C(ui->leI2CAddress->text().toInt());
+    emit cmdAvailable(lastCmd);
 }

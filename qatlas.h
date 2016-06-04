@@ -44,7 +44,7 @@ typedef struct {
     QByteArray readInfo();
     QByteArray readStatus();
 
-    QByteArray changeI2C(char addr);
+    QByteArray changeI2C(qint8 newAddr);
     QByteArray sleep();
     QByteArray serial(int baudrate); // switch to UART mode
     QByteArray factoryReset();

@@ -230,11 +230,13 @@ QByteArray QATLAS::readStatus()
     return cmd;
 }
 //-------------------------------------------------
-QByteArray QATLAS::changeI2C(char addr)
+QByteArray QATLAS::changeI2C(qint8 newAddr)
 //Atlas function: I2C,char
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
-    cmd.append(":I2C,addr\r");
+    cmd.append(":I2C,");
+    cmd.append(QByteArray::number(newAddr));
+    cmd.append("\r");
     qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;

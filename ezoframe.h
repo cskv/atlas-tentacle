@@ -48,13 +48,14 @@ private slots:
     void on_btnSleep_clicked();
 
     void updateInfo();
-    void updateMeas();
 
     void displayLedState();
     void displayInfo();
     void displayMeas();
 
     void on_cbAuto_clicked(bool checked);
+
+    void on_btnI2CAddr_clicked();
 
 private:
     Ui::EZOFrame *ui;
