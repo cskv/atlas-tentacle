@@ -88,6 +88,8 @@ private slots:
     void on_contCB_clicked(bool checked);
     void setupPlot();
     void setupPlot2();
+    void setupPlot3();
+    void realtimeDataSlot();
 
 private:
     Ui::MainWindow *ui;
@@ -101,7 +103,8 @@ private:
     EZOFrame* pH2Frame;
 
     QTimer* mainTimer;
-    QTimer* delayTimer;
+    //QTimer* delayTimer;
+    QTimer* dataTimer;
 
     AtlasDialog* ad;
     QCPPlotTitle* plotTitle;

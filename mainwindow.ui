@@ -224,7 +224,7 @@ color: orange;
      </attribute>
     </widget>
    </widget>
-   <widget class="QCustomPlot" name="myCustomPlot" native="true">
+   <widget class="QCustomPlot" name="customPlot" native="true">
     <property name="geometry">
      <rect>
       <x>580</x>
