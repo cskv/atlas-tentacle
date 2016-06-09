@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setupPlot2();
 
     pH1Frame = new EZOFrame(ui->pH1Tab);
     pH2Frame = new EZOFrame(ui->pH2Tab);
@@ -96,6 +97,85 @@ MainWindow::~MainWindow()
 {
     delete settings;
     delete ui;
+}
+
+
+void MainWindow::setupPlot()
+{
+// generate some data:
+    QVector<double> x(101), y(101); // initialize with entries 0..100
+    for (int i=0; i<101; ++i)
+    {
+      x[i] = i/50.0 - 1; // x goes from -1 to 1
+      y[i] = x[i]*x[i]; // let's plot a quadratic function
+    }
+    // create graph and assign data to it:
+    ui->myCustomPlot->plotLayout()->insertRow(0); // inserts an empty row above the default axis rect
+    ui->myCustomPlot->plotLayout()->
+            addElement(0, 0, plotTitle = new QCPPlotTitle(ui->myCustomPlot, "pH during experiment"));
+    ui->myCustomPlot->addGraph();
+    ui->myCustomPlot->graph(0)->setData(x, y);
+    ui->myCustomPlot->graph(0)->setLineStyle(QCPGraph::lsImpulse);
+    // give the axes some labels:
+    ui->myCustomPlot->xAxis->setLabel("time");
+    ui->myCustomPlot->yAxis->setLabel("pH");
+    // set axes ranges, so we see all data:
+    ui->myCustomPlot->xAxis->setRange(-1, 1);
+    ui->myCustomPlot->yAxis->setRange(0, 14);
+    ui->myCustomPlot->replot();
+}
+
+void MainWindow::setupPlot2()
+{
+// set locale to English, so we get english month names:
+    ui->myCustomPlot->setLocale(QLocale(QLocale::English, QLocale::UnitedStates));
+// seconds of current time, we'll use it as starting point in time for data:
+    double now = QDateTime::currentDateTime().toTime_t();
+    srand(8); // set the random seed, so we always get the same random data
+// create multiple graphs:
+    for (int gi=0; gi<2; ++gi) {
+        ui->myCustomPlot->addGraph();
+        QPen pen;
+        pen.setColor(QColor(0, 0, 255, 200));
+        pen.setColor(QColor(Qt::red));
+        ui->myCustomPlot->graph()->setLineStyle(QCPGraph::lsLine);
+        ui->myCustomPlot->graph()->setPen(pen);
+       // ui->myCustomPlot->graph()->setBrush(QBrush(QColor(255/4.0*gi,160,50,150)));
+// generate random walk data:
+        QVector<double> time(250), value(250);
+        for (int i=0; i<250; ++i) {
+            time[i] = now + 60*i;
+            value[i] = 7.00 + (rand()/(double)RAND_MAX-0.5);
+        }
+        ui->myCustomPlot->graph()->setData(time, value);
+    }
+    ui->myCustomPlot->graph(0)->setName("pH1");
+    ui->myCustomPlot->graph(1)->setName("pH2");
+// configure bottom axis to show date and time instead of number:
+    ui->myCustomPlot->xAxis->setTickLabelType(QCPAxis::ltDateTime);
+    ui->myCustomPlot->xAxis->setDateTimeFormat("hh:mm");
+// set a more compact font size for bottom and left axis tick labels:
+    ui->myCustomPlot->xAxis->setTickLabelFont(QFont(QFont().family(), 8));
+    ui->myCustomPlot->yAxis->setTickLabelFont(QFont(QFont().family(), 8));
+// set a fixed tick-step to one tick per month:
+    ui->myCustomPlot->xAxis->setAutoTickStep(false);
+    ui->myCustomPlot->xAxis->setTickStep(600); // one minute in seconds
+    ui->myCustomPlot->xAxis->setSubTickCount(2);
+// set axis labels:
+    ui->myCustomPlot->xAxis->setLabel("time");
+    ui->myCustomPlot->yAxis->setLabel("pH");
+// make top and right axes visible but without ticks and labels:
+    ui->myCustomPlot->xAxis2->setVisible(true);
+    ui->myCustomPlot->yAxis2->setVisible(true);
+    ui->myCustomPlot->xAxis2->setTicks(false);
+    ui->myCustomPlot->yAxis2->setTicks(false);
+    ui->myCustomPlot->xAxis2->setTickLabels(false);
+    ui->myCustomPlot->yAxis2->setTickLabels(false);
+// set axis ranges to show all data:
+    ui->myCustomPlot->xAxis->setRange(now, now+3600);
+    ui->myCustomPlot->yAxis->setRange(0, 14);
+// show legend:
+    ui->myCustomPlot->legend->setVisible(true);
 }
 
 void MainWindow::writeData(const QByteArray &data)

@@ -7,10 +7,29 @@
 QT       += core gui
 QT      += serialport
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = AtlasTerminal
 TEMPLATE = app
+
+# Tell the qcustomplot header that it will be used as library:
+#DEFINES += QCUSTOMPLOT_USE_LIBRARY
+
+# Link with debug version of qcustomplot if compiling in debug mode, else with release library:
+CONFIG(debug, release|debug) {
+  win32:QCPLIB = qcustomplotd1.dll
+  else: QCPLIB = qcustomplotd
+} else {
+  win32:QCPLIB = qcustomplot1.dll
+  else: QCPLIB = qcustomplot
+}
+
+#win32: LIBS += "../$$QCPLIB"
+#unix: LIBS += -L"../" -l$$QCPLIB
+#LIBS += -L"../" -l$$QCPLIB
+#LIBS += -L"$$_PRO_FILE_PWD_" -l$$QCPLIB
+
+INCLUDEPATH += "D:\Projects_LTD\Qt\qcustomplot"
 
 SOURCES += \
     main.cpp \
@@ -21,7 +40,8 @@ SOURCES += \
     qatlasusb.cpp \
     ledindicator.cpp \
     about.cpp \
-    ezoframe.cpp
+    ezoframe.cpp \
+    ../../../../Qt/qcustomplot/qcustomplot.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -31,7 +51,8 @@ HEADERS += \
     qatlasusb.h \
     ledindicator.h \
     about.h \
-    ezoframe.h
+    ezoframe.h \
+    ../../../../Qt/qcustomplot/qcustomplot.h
 
 FORMS += \
     mainwindow.ui \

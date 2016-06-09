@@ -48,6 +48,7 @@
 
 #include "ledindicator.h"
 #include "ezoframe.h"
+#include "qcustomplot.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -85,6 +86,8 @@ private slots:
     //void readRawI2CData();
 
     void on_contCB_clicked(bool checked);
+    void setupPlot();
+    void setupPlot2();
 
 private:
     Ui::MainWindow *ui;
@@ -101,6 +104,7 @@ private:
     QTimer* delayTimer;
 
     AtlasDialog* ad;
+    QCPPlotTitle* plotTitle;
 };
 
 #endif // MAINWINDOW_H
