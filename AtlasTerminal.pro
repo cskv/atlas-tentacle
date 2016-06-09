@@ -41,7 +41,8 @@ SOURCES += \
     ledindicator.cpp \
     about.cpp \
     ezoframe.cpp \
-    ../../../../Qt/qcustomplot/qcustomplot.cpp
+    ../../../../Qt/qcustomplot/qcustomplot.cpp \
+    plotframe.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -52,14 +53,16 @@ HEADERS += \
     ledindicator.h \
     about.h \
     ezoframe.h \
-    ../../../../Qt/qcustomplot/qcustomplot.h
+    ../../../../Qt/qcustomplot/qcustomplot.h \
+    plotframe.h
 
 FORMS += \
     mainwindow.ui \
     settingsdialog.ui \
     atlasdialog.ui \
     about.ui \
-    ezoframe.ui
+    ezoframe.ui \
+    plotframe.ui
 
 RESOURCES += \
     atlasterminal.qrc
