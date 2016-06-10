@@ -181,13 +181,13 @@ void PlotFrame::realtimeDataSlot()
     }
 }
 
-void PlotFrame::realtimeTentacleSlot(const double value0, double value1)
+void PlotFrame::realtimeTentacleSlot(double value0, double value1)
 {
 // calculate two new data points:
     double key = QDateTime::currentDateTime().toMSecsSinceEpoch()/1000.0;
 
-    //double value0 = 7.000; //pH1Frame->tm->getpHORP();
-    //double value1 = 6.95; //pH2Frame->tm->getpHORP();
+    value0 = value0 + (rand() % 100)/1000.0;
+    value1 = value1 + (rand() % 100)/1000.0;
 
 // add data to lines:
         ui->customPlot->graph(0)->addData(key, value0);
