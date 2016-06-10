@@ -360,7 +360,7 @@ void QATLAS::parseTentacleMini(QByteArray atlasdata)
     } else {
         t = atlasdata.mid(0,7);     // pH: 6 bytes ORP: 7 bytes max
         currentpH = t.toDouble();
-        emit measRead();
+        if ( currentpH > 0 && currentpH < 14 )emit measRead();
     }
 }
 

@@ -101,7 +101,7 @@ color: orange;
 </string>
       </property>
       <property name="text">
-       <string>-7.00</string>
+       <string/>
       </property>
       <property name="textFormat">
        <enum>Qt::PlainText</enum>
@@ -174,7 +174,7 @@ color: orange;
 </string>
       </property>
       <property name="text">
-       <string>-999.9 mV</string>
+       <string/>
       </property>
       <property name="textFormat">
        <enum>Qt::PlainText</enum>
@@ -244,6 +244,7 @@ color: orange;
     <property name="title">
      <string>Tools</string>
     </property>
+    <addaction name="actionScreenshot"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -333,6 +334,11 @@ color: orange;
    </property>
    <property name="text">
     <string>&amp;Help Tentacle</string>
+   </property>
+  </action>
+  <action name="actionScreenshot">
+   <property name="text">
+    <string>Screenshot</string>
    </property>
   </action>
  </widget>

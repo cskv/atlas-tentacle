@@ -3,6 +3,7 @@
 
 #include <QFrame>
 #include "qcustomplot.h"
+#include "ezoframe.h"
 
 namespace Ui {
 class PlotFrame;
@@ -16,11 +17,15 @@ public:
     explicit PlotFrame(QWidget *parent = 0);
     ~PlotFrame();
 
+public slots:
+    void realtimeTentacleSlot(double value0, double value1);
+
 private slots:
     void setupPlot();
     void setupPlot2();
     void setupPlot3();
     void realtimeDataSlot();
+
 
 private:
     Ui::PlotFrame *ui;

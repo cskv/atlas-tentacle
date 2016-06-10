@@ -718,7 +718,7 @@ color: orange;
 </string>
    </property>
    <property name="text">
-    <string>-7.00</string>
+    <string/>
    </property>
    <property name="textFormat">
     <enum>Qt::PlainText</enum>

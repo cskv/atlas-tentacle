@@ -25,12 +25,15 @@ public:
     QByteArray lastCmd;
     QATLAS* tm = new QATLAS();  // wel even aanmaken !
 
+public slots:
+        void on_btnReadMeas_clicked();
+
 signals:
     void cmdAvailable(QByteArray newCommand);
 
 private slots:
     void on_btnGetTemp_clicked();
-    void on_btnReadMeas_clicked();
+
     void on_btnSetTemp_clicked();
 
     void on_btnCal_clicked();

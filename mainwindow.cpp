@@ -71,15 +71,23 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionConfigure, SIGNAL(triggered()), settings, SLOT(show()));
 
 // make other connections (see Terminal example)
-    connect(serial, SIGNAL(error(QSerialPort::SerialPortError)), this,
-            SLOT(handleError(QSerialPort::SerialPortError)));
-
-    connect(mainTimer, SIGNAL(timeout()), pH2Frame, SLOT(on_btnReadMeas_clicked()));
-    connect(mainTimer, SIGNAL(timeout()), pH1Frame, SLOT(on_btnReadMeas_clicked()));
+    connect(serial, SIGNAL(error(QSerialPort::SerialPortError)),
+            this, SLOT(handleError(QSerialPort::SerialPortError)));
 
     connect(serial, SIGNAL(readyRead()),
             this, SLOT(readTentacleI2CData()));
 
+    connect(mainTimer, SIGNAL(timeout()),
+            this, SLOT(on_mainTimer()));
+
+    setupEZOFrames();
+
+    settings->setModal(true);
+    settings->show();
+}
+
+void MainWindow::setupEZOFrames()
+{
     connect( pH1Frame, SIGNAL(cmdAvailable(QByteArray)),
              this, SLOT(writeData(QByteArray)) );
     connect( pH2Frame, SIGNAL(cmdAvailable(QByteArray)),
@@ -89,15 +97,18 @@ MainWindow::MainWindow(QWidget *parent) :
              this, SLOT(displayAllMeas()) );
     connect( pH2Frame->tm, SIGNAL(measRead()),
              this, SLOT(displayAllMeas()) );
-
-    settings->setModal(true);
-    settings->show();
 }
 
 MainWindow::~MainWindow()
 {
     delete settings;
     delete ui;
+}
+
+void MainWindow::on_mainTimer()
+{
+    pH2Frame->on_btnReadMeas_clicked();
+    pH1Frame->on_btnReadMeas_clicked();
 }
 
 void MainWindow::openSerialPort()
@@ -136,21 +147,22 @@ void MainWindow::closeSerialPort()
 
 void MainWindow::writeData(const QByteArray &data)
 {
-    qDebug() << data;
+    //qDebug() << data;
     serial->write(data);
 }
 
 void MainWindow::displayAllMeas()
 {
-    double dval = -7.0;
-    dval = pH1Frame->tm->getCurrentpH();
-    if (dval > -1 && dval < 15) {
-        ui->pH1Label->setText(QString::number(dval, 'f', 2 ));
+    double dval[2] = {7.0, 7.0};
+    dval[0] = pH1Frame->tm->getCurrentpH();
+    if (dval[0] > -1 && dval[0] < 15) {
+        ui->pH1Label->setText(QString::number(dval[0], 'f', 2 ));
     }
-    dval = pH2Frame->tm->getCurrentpH();
-    if (dval > -1 && dval < 15) {
-        ui->pH2Label->setText(QString::number(dval, 'f', 2 ));
+    dval[1] = pH2Frame->tm->getCurrentpH();
+    if (dval[1] > -1 && dval[1] < 15) {
+        ui->pH2Label->setText(QString::number(dval[1], 'f', 2 ));
     }
+    pf->realtimeTentacleSlot(dval[0], dval[1]);
 }
 
 void MainWindow::readData()
@@ -191,7 +203,8 @@ void MainWindow::readTentacleI2CData()
                     }
                 }
             }
-            qDebug() << address << colonpos << reply << "(" << tentacledata << ")";
+            //qDebug() << address << colonpos << reply << "(" << tentacledata << ")";
+            qDebug() << tentacledata;
         }   // if not empty
     }       // while canReadLine
 }
@@ -260,3 +273,8 @@ void MainWindow::readAtlasUSBData()
     }
 }
 */
+
+void MainWindow::on_actionScreenshot_triggered()
+{
+    ui->centralWidget->grab().save("image.png");
+}

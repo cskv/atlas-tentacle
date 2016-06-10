@@ -89,6 +89,11 @@ private slots:
     void on_contCB_clicked(bool checked);
 
 
+    void on_actionScreenshot_triggered();
+    void setupEZOFrames();
+
+    void on_mainTimer();
+
 private:
     Ui::MainWindow *ui;
     LedIndicator* ledStateLed;

@@ -14,7 +14,7 @@ public:
 
 typedef struct {
     bool    ledState = true;
-    double  currentpH = -7.0;
+    double  currentpH = 7.0;
     double  currentORP = -999.9;
     double  currentTemp = -273.0;
     int     calState = -1;
@@ -83,7 +83,7 @@ private:
 
     AtlasProperties props;
     bool    ledState = true;
-    double  currentpH = -7.0;
+    double  currentpH = 7.0;
     double  currentORP = -999.9;
     double  currentTemp = -273.0;
     int     calState = -1;
