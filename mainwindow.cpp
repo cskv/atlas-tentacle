@@ -57,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     serial = new QSerialPort(this);
     settings = new SettingsDialog;
+    sd = new SerialDialog(this);
 
 
     mainTimer = new QTimer(this);
@@ -84,10 +85,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setupEZOFrames();
 
-    settings->setModal(true);
+    //settings->setModal(true);
     settings->show();
     connect( settings, SIGNAL(accepted()),
              this, SLOT(openSerialPort()) );
+    //sd->setModal(true);
+    sd->show();
 }
 
 void MainWindow::setupEZOFrames()

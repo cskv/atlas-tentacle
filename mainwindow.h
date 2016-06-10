@@ -51,6 +51,7 @@
 #include "plotframe.h"
 #include "qcustomplot.h"
 #include "about.h"
+#include "serialdialog.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -104,6 +105,7 @@ private:
     LedIndicator* ledStateLed;
 
     SettingsDialog *settings;
+    SerialDialog* sd;
     QSerialPort *serial;
     QByteArray lastCmd;
 

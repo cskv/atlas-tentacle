@@ -42,7 +42,8 @@ SOURCES += \
     about.cpp \
     ezoframe.cpp \
     ../../../../Qt/qcustomplot/qcustomplot.cpp \
-    plotframe.cpp
+    plotframe.cpp \
+    serialdialog.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -54,7 +55,8 @@ HEADERS += \
     about.h \
     ezoframe.h \
     ../../../../Qt/qcustomplot/qcustomplot.h \
-    plotframe.h
+    plotframe.h \
+    serialdialog.h
 
 FORMS += \
     mainwindow.ui \
@@ -62,7 +64,8 @@ FORMS += \
     atlasdialog.ui \
     about.ui \
     ezoframe.ui \
-    plotframe.ui
+    plotframe.ui \
+    serialdialog.ui
 
 RESOURCES += \
     atlasterminal.qrc
