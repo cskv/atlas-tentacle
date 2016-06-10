@@ -44,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ad = new AtlasDialog(this);
+    //aboutAtlas = new About(this);
 
     pH1Frame = new EZOFrame(ui->pH1Tab);
     pH2Frame = new EZOFrame(ui->pH2Tab);
@@ -56,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
     serial = new QSerialPort(this);
     settings = new SettingsDialog;
 
-    ad = new AtlasDialog(this);
+
     mainTimer = new QTimer(this);
     //mainTimer->start(1000);
 
@@ -277,4 +279,15 @@ void MainWindow::readAtlasUSBData()
 void MainWindow::on_actionScreenshot_triggered()
 {
     ui->centralWidget->grab().save("image.png");
+}
+
+void MainWindow::on_actionAbout_AtlasTerminal_triggered()
+{
+    About aboutAtlas;
+    aboutAtlas.exec();
+}
+
+void MainWindow::on_actionAbout_Qt_triggered()
+{
+    qApp->aboutQt();
 }

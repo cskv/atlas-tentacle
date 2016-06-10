@@ -12,3 +12,8 @@ About::~About()
 {
     delete ui;
 }
+
+void About::on_btnClose_clicked()
+{
+    this->close();
+}

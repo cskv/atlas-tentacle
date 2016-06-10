@@ -250,6 +250,10 @@ color: orange;
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionIndex"/>
+    <addaction name="separator"/>
+    <addaction name="actionAbout_AtlasTerminal"/>
+    <addaction name="actionAbout_Qt"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -339,6 +343,21 @@ color: orange;
   <action name="actionScreenshot">
    <property name="text">
     <string>Screenshot</string>
+   </property>
+  </action>
+  <action name="actionIndex">
+   <property name="text">
+    <string>Index</string>
+   </property>
+  </action>
+  <action name="actionAbout_AtlasTerminal">
+   <property name="text">
+    <string>About AtlasTerminal</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="text">
+    <string>About Qt</string>
    </property>
   </action>
  </widget>

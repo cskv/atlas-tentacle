@@ -50,6 +50,7 @@
 #include "ezoframe.h"
 #include "plotframe.h"
 #include "qcustomplot.h"
+#include "about.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -94,6 +95,10 @@ private slots:
 
     void on_mainTimer();
 
+    void on_actionAbout_AtlasTerminal_triggered();
+
+    void on_actionAbout_Qt_triggered();
+
 private:
     Ui::MainWindow *ui;
     LedIndicator* ledStateLed;
@@ -111,6 +116,8 @@ private:
     //QTimer* delayTimer;
 
     AtlasDialog* ad;
+    //About* aboutAtlas;
+
     QCPPlotTitle* plotTitle;
 };
 

@@ -15,6 +15,9 @@ public:
     explicit About(QWidget *parent = 0);
     ~About();
 
+private slots:
+    void on_btnClose_clicked();
+
 private:
     Ui::About *ui;
 };
