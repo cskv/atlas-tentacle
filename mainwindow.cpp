@@ -86,6 +86,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     settings->setModal(true);
     settings->show();
+    connect( settings, SIGNAL(accepted()),
+             this, SLOT(openSerialPort()) );
 }
 
 void MainWindow::setupEZOFrames()
@@ -109,8 +111,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_mainTimer()
 {
-    pH2Frame->on_btnReadMeas_clicked();
     pH1Frame->on_btnReadMeas_clicked();
+    pH2Frame->on_btnReadMeas_clicked();
 }
 
 void MainWindow::openSerialPort()
