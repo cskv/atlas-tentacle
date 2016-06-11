@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionQuit->setEnabled(true);
 
 // make all connections //initActionsConnections in Terminal example
-    connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(openSerialPort()));
+    connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(openSerialPort2()));
     connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(closeSerialPort()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     //connect(ui->actionConfigure, SIGNAL(triggered()), settings, SLOT(show()));
