@@ -39,21 +39,22 @@ public:
         bool localEchoEnabled;
     };
 
-    PortParameters pp();
+    PortParameters getCp() const;
 
 private slots:
     void showPortInfo(int idx);
-    void apply();
     void checkCustomBaudRatePolicy(int idx);
     void checkCustomDevicePathPolicy(int idx);
+
+    void apply();
 
 private:
     void fillPortsParameters();
     void fillPortsInfo();
-    void updateSettings();
+    void updateParameters();
 
     Ui::SerialDialog *ui;
-    PortParameters cp;
+    PortParameters cp;             //geen pointer?
     QIntValidator *intValidator;
 };
 

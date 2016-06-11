@@ -44,7 +44,7 @@
    <property name="title">
     <string>Select Serial Port</string>
    </property>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="cbSerialPortInfo">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -65,42 +65,42 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="labelDesc">
        <property name="text">
         <string>Description: N/A</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="labelManu">
        <property name="text">
         <string>Manufacturer: N/A</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_4">
+      <widget class="QLabel" name="labelSerNum">
        <property name="text">
         <string>Serial number: N/A</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="labelLocation">
        <property name="text">
         <string>Location: N/A</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_5">
+      <widget class="QLabel" name="labelVendor">
        <property name="text">
         <string>Vendor Identifier: N/A</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_6">
+      <widget class="QLabel" name="labelProd">
        <property name="text">
         <string>Product Identifier: N/A</string>
        </property>
@@ -191,153 +191,38 @@
       <number>8</number>
      </property>
      <item>
-      <widget class="QComboBox" name="comboBox_2">
+      <widget class="QComboBox" name="cbBaud">
        <property name="currentIndex">
-        <number>3</number>
+        <number>-1</number>
        </property>
-       <item>
-        <property name="text">
-         <string>1200</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>2400</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>4800</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>9600</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>19200</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>38400</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>57600</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>115200</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox_3">
+      <widget class="QComboBox" name="cbDataBits">
        <property name="currentIndex">
-        <number>3</number>
+        <number>-1</number>
        </property>
-       <item>
-        <property name="text">
-         <string>5</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>6</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>7</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>8</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox_4">
+      <widget class="QComboBox" name="cbParity">
        <property name="currentIndex">
-        <number>0</number>
+        <number>-1</number>
        </property>
-       <item>
-        <property name="text">
-         <string>None</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Even</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Odd</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Mark</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Space</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox_5">
+      <widget class="QComboBox" name="cbStopBits">
        <property name="maxVisibleItems">
         <number>8</number>
        </property>
-       <item>
-        <property name="text">
-         <string>1</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>1.5</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox_6">
+      <widget class="QComboBox" name="cbFlowControl">
        <property name="currentIndex">
-        <number>0</number>
+        <number>-1</number>
        </property>
-       <item>
-        <property name="text">
-         <string>None</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>RTS/CTS</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>XON/XOFF</string>
-        </property>
-       </item>
       </widget>
      </item>
     </layout>
@@ -355,7 +240,7 @@
    <property name="title">
     <string>Options</string>
    </property>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="localEchoCheckBox">
     <property name="geometry">
      <rect>
       <x>10</x>

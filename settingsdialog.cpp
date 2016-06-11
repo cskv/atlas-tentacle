@@ -55,6 +55,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     connect( ui->applyButton, SIGNAL(clicked()),
              this, SLOT(apply()) );
+
     connect( ui->serialPortInfoListBox, SIGNAL(currentIndexChanged(int)),
              this, SLOT(showPortInfo(int)) );
     connect( ui->baudRateBox, SIGNAL(currentIndexChanged(int)),
@@ -95,7 +96,6 @@ void SettingsDialog::showPortInfo(int idx)
 void SettingsDialog::apply()
 {
     updateSettings();
-    emit accepted();
     hide();
 }
 

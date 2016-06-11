@@ -73,6 +73,8 @@ public:
 
 private slots:
     void openSerialPort();
+    void openSerialPort2();
+
     void closeSerialPort();
     void handleError(QSerialPort::SerialPortError error);
 
