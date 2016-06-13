@@ -206,6 +206,11 @@ QByteArray QATLAS::readSlope()
     return cmd;
 }
 //--------------------------------------------------
+/**
+ * @brief Query the type and firmware version of the EZO stamp.
+ *
+ * @return
+ */
 QByteArray QATLAS::readInfo()
 //Atlas function: I
 //Response: ?I,pH,x.x
@@ -217,7 +222,13 @@ QByteArray QATLAS::readInfo()
     lastAtlasCmd = cmd;
     return cmd;
 }
+
 //--------------------------------------------------
+/**
+ * @brief Query the status of the ATLAS Scientific stamp.
+ *
+ * @retval QByteArray with command to send to Tentacle Mini
+ */
 QByteArray QATLAS::readStatus()
 //Atlas function: STATUS
 //Response: ?STATUS,x,y.yyy
@@ -230,7 +241,11 @@ QByteArray QATLAS::readStatus()
     return cmd;
 }
 //-------------------------------------------------
-QByteArray QATLAS::changeI2C(qint8 newAddr)
+/**
+/** * @brief QATLAS::changeI2C
+/** * @param newAddr
+/** * @return
+/** */QByteArray QATLAS::changeI2C(qint8 newAddr)
 //Atlas function: I2C,char
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
@@ -242,6 +257,10 @@ QByteArray QATLAS::changeI2C(qint8 newAddr)
     return cmd;
 }
 //--------------------------------------------------
+/*!
+ * \brief QATLAS::sleep
+ * \return
+ */
 QByteArray QATLAS::sleep()
 //Atlas function: SLEEP
 //Response: none
@@ -253,6 +272,11 @@ QByteArray QATLAS::sleep()
     return cmd;
 }
 //---------------------------------------
+/**
+ * @brief QATLAS::serial
+ * @param baudrate
+ * @return
+*/
 QByteArray QATLAS::serial(int baudrate) // switch to UART mode
 //Atlas function: SERIAL, baudrate
 //Response: none
@@ -264,6 +288,10 @@ QByteArray QATLAS::serial(int baudrate) // switch to UART mode
     return cmd;
 }
 //---------------------------------------
+/**
+ * @brief QATLAS::factoryReset
+ * @return
+ */
 QByteArray QATLAS::factoryReset()
 //Atlas function: Factory
 //Response: issue STATUS query after this command and see if "S" is in the reply
@@ -275,6 +303,12 @@ QByteArray QATLAS::factoryReset()
     return cmd;
 }
 //----------------------------------------------------------------
+/**
+ * @brief Parse the response of the EZO stamp
+ *
+ * @param atlasdata
+ * @retval void
+ */
 void QATLAS::parseAtlasI2C(QByteArray atlasdata)
 {
     QByteArray t;
@@ -315,6 +349,11 @@ void QATLAS::parseAtlasI2C(QByteArray atlasdata)
     }
 }
 
+/**
+ * @brief Parse the response of the EZO stamp connected via a Tentacle Mini interface board.
+ *
+ * @param atlasdata
+ */
 void QATLAS::parseTentacleMini(QByteArray atlasdata)
 {
     QByteArray t;

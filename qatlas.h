@@ -1,3 +1,13 @@
+/** @file qatlas.h
+ * @brief Member and fuction declarations for control of EZO stamps.
+ *
+ * This header contains the prototypes
+ * for control of Atlas Scientific EZO stamps
+ * measuring pH, ORP, EC and DO
+ *
+ * @author Paul JM van Kan (cskv)
+ */
+
 #ifndef QATLAS_H
 #define QATLAS_H
 
@@ -12,19 +22,23 @@ public:
     QATLAS();
     ~QATLAS();
 
+/** @brief struct containing all parameters and measurement values of EZO stamp.
+ *
+ */
+
 typedef struct {
-    bool    ledState = true;
-    double  currentpH = 7.0;
-    double  currentORP = -999.9;
-    double  currentTemp = -273.0;
-    int     calState = -1;
-    double  acidSlope = 0.0;
-    double  basicSlope = 0.0;
-    QString probeType = "";
-    QString version = "";
-    QString rstCode = "";
-    double  voltage = 0;
-    qint8   i2cAddress = -1;
+    bool    ledState = true;      /**< LED on EZO stamp enabled (true)/disabled (false) */
+    double  currentpH = 7.0;      /**< pH measurement */
+    double  currentORP = -999.9;  /**< ORP measurement */
+    double  currentTemp = -273.0; /**< Temperature */
+    int     calState = -1;        /**< Calibration state: 0,1,2,3 (uncal, mid, low, high) */
+    double  acidSlope = 0.0;      /**< Calibration slope pH < 7 */
+    double  basicSlope = 0.0;     /**< Calibration slope pH > 7  */
+    QString probeType = "";       /**< pH, ORP, EC or D.O. */
+    QString version = "";         /**< firmware version */
+    QString rstCode = "";         /**< Reset code */
+    double  voltage = 0;          /**< supply voltage EZO stamp */
+    qint8   i2cAddress = -1;      /**< 7-bits I2C address (1..127)  */
     } AtlasProperties;
 
 // Atlas Scientific commands
