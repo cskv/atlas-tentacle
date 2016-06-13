@@ -25,7 +25,6 @@ public:
 /** @brief struct containing all parameters and measurement values of EZO stamp.
  *
  */
-
 typedef struct {
     bool    ledState = true;      /**< LED on EZO stamp enabled (true)/disabled (false) */
     double  currentpH = 7.0;      /**< pH measurement */
