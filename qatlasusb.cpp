@@ -1,10 +1,12 @@
 #include "qatlasusb.h"
 #include <QtDebug>
 
-QATLASUSB::QATLASUSB(){
+QATLASUSB::QATLASUSB()
+{
 }
 
-QATLASUSB::~QATLASUSB(){
+QATLASUSB::~QATLASUSB()
+{
 }
 
 /*
@@ -23,21 +25,24 @@ I2C         I2C address change (pg.58)
 Sleep       Enter low power sleep mode (pg.59)
 Serial      Switch back to UART mode (pg.60)
 
-
-
 */
 
 // ATLAS commands
 //---------------------------------------------------
-
+/*!
+ * \brief Get the state of the LED on the Atlas Scientific EZO stamp.
+ *
+ * \return cmd for EZO function L?
+ * \code command = readLED(); \endcode
+ * EZO response: 1?L,x with x is 0 (LED off) or 1 (LED on)
+ */
 QByteArray QATLASUSB::readLED()
 //Atlas function: L?
 //Response: 1?L,x with x is 0 (led off) or 1 (led on)
 {
     QByteArray cmd;
     cmd = "L,?\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 
@@ -47,8 +52,7 @@ QByteArray QATLASUSB::writeLED(bool state)
 {
     QByteArray cmd;
     state ? cmd = "L,1\r" : cmd = "L,0\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 //---------------------------------------------------
@@ -59,8 +63,7 @@ QByteArray QATLASUSB::readCont()
 {
     QByteArray cmd;
     cmd = "C,?\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 
@@ -71,7 +74,7 @@ QByteArray QATLASUSB::writeCont(bool state)
     QByteArray cmd;
     state ? cmd = "C,1\r" : cmd = "C,0\r";
     qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 //--------------------------------------------------------
@@ -82,7 +85,7 @@ QByteArray QATLASUSB::readpH()
     QByteArray cmd;
     cmd = "R\r";
     qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 //---------------------------------------------------------
@@ -92,8 +95,7 @@ QByteArray QATLASUSB::readTemp()
 {
     QByteArray cmd;
     cmd = "T,?\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 
@@ -103,8 +105,7 @@ QByteArray QATLASUSB::writeTemp()
 {
     QByteArray cmd;
     cmd = "T,20.0\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 //----------------------------------------------
@@ -114,8 +115,7 @@ QByteArray QATLASUSB::readCal()
 {
     QByteArray cmd;
     cmd = "CAL,?\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 
@@ -131,8 +131,7 @@ QByteArray QATLASUSB::doCal(int taskid)
             case 2 : cmd += "low,4.00\r";
             case 3 : cmd += "high,10.00\r";
     }
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 //---------------------------------------------------
@@ -143,11 +142,10 @@ QByteArray QATLASUSB::readSlope()
 {
     QByteArray cmd;
     cmd = "SLOPE,?\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
-//--------------------------------------------------
+//----------------------------------------------------
 
 QByteArray QATLASUSB::readName()
 //Atlas function: NAME
@@ -156,8 +154,7 @@ QByteArray QATLASUSB::readName()
 {
     QByteArray cmd;
     cmd = "NAME,?\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 
@@ -167,8 +164,7 @@ QByteArray QATLASUSB::writeName()
 {
     QByteArray cmd;
     cmd = "NAME,Dev_1\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 
@@ -181,8 +177,7 @@ QByteArray QATLASUSB::readInfo()
 {
     QByteArray cmd;
     cmd = "99:I\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 //---------------------------------------------------
@@ -194,8 +189,7 @@ QByteArray QATLASUSB::readResponse()
 {
     QByteArray cmd;
     cmd = "RESPONSE,?\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 
@@ -205,8 +199,7 @@ QByteArray QATLASUSB::writeResponse(bool state)
 {
     QByteArray cmd;
     state ? cmd = "RESPONSE,1\r" : cmd = "RESPONSE,0\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 //--------------------------------------------------
@@ -217,8 +210,7 @@ QByteArray QATLASUSB::readStatus()
 {
     QByteArray cmd;
     cmd = "STATUS\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 //-------------------------------------------------
@@ -229,20 +221,22 @@ QByteArray QATLASUSB::sleep()
 {
     QByteArray cmd;
     cmd = "SLEEP\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 
 //---------------------------------------
-QByteArray QATLASUSB::serial(int baudrate) // switch to UART mode
+QByteArray QATLASUSB::changeSerial(int baudrate) // change baudrate in UART mode
 //Atlas function: SERIAL, baudrate
 //Response: none
+// 1. 300 bps 2. 1200 bps 3. 2400 bps 4. 9600 bps 5. 19200 bps
+// 6. 38400 bps 7. 57600 bps 8. 115200 bps
 {
     QByteArray cmd;
-    cmd = "SERIAL,baudrate\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    cmd = "SERIAL,";
+    cmd.append(QByteArray::number(baudrate));
+    cmd.append("\r");
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 //---------------------------------------
@@ -252,20 +246,19 @@ QByteArray QATLASUSB::factoryReset()
 {
     QByteArray cmd;
     cmd = "Factory\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 //--------------------------------------------------
 
-QByteArray QATLASUSB::changeI2C(char addr)
+QByteArray QATLASUSB::changeI2C(quint8 newAddr)
 //Atlas function: I2C,char
 //Response: 1 (Success)
 {
-    QByteArray cmd;
-    cmd = "99:I2C,addr\r";
-    qDebug() << cmd;
-    lastAtlasCmd = cmd;
+    QByteArray cmd = "I2C,";
+    cmd.append(QByteArray::number(newAddr));
+    cmd.append("\r");
+    lastAtlasUSBCmd = cmd;
     return cmd;
 }
 
@@ -277,27 +270,32 @@ void QATLASUSB::parseAtlasUSB(QByteArray atlasdata)
 
     if ( atlasdata.contains("?L,") ) {
         t = atlasdata.mid(4,1);
-        //ledState = t.toInt;
+        //usbProps.ledState = t.toInt;
     }
     if ( atlasdata.contains("?T,") ) {
         t = atlasdata.mid(4,4);
-        currentTemp = t.toDouble();
+        usbProps.currentTemp = t.toDouble();
     }
     if ( atlasdata.contains("?CAL,") ) {
         t = atlasdata.mid(6,1);
-        calState = t.toInt();
+        usbProps.calState = t.toInt();
     }
     if ( atlasdata.contains("?SLOPE,") ) {
         t = atlasdata.mid(8,4);
-        acidSlope = t.toDouble();
+        usbProps.acidSlope = t.toDouble();
         t = atlasdata.mid(13,5);
-        basicSlope = t.toDouble();
+        usbProps.basicSlope = t.toDouble();
     }
     if ( atlasdata.contains("?STATUS,") ) {
         t = atlasdata.mid(8,1);
-        rstCode = t;
+        usbProps.rstCode = t;
         t = atlasdata.mid(10,5);
-        voltage = t.toDouble();
+        usbProps.voltage = t.toDouble();
     }
+}
+
+QATLASUSB::AtlasUSBProperties QATLASUSB::getUsbProps() const
+{
+    return usbProps;
 }
 

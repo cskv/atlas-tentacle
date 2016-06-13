@@ -51,7 +51,6 @@ QByteArray QATLAS::readLED()         // pH, ORP
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":L,?\r");
-    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -71,7 +70,6 @@ QByteArray QATLAS::writeLED(bool state)        // pH, ORP
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     state ? cmd.append(":L,1\r") : cmd.append(":L,0\r");
-    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -88,7 +86,6 @@ QByteArray QATLAS::readpHORP()
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":R\r");         // Capital R to comply with manual ( changed in .ino)
-    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -105,7 +102,6 @@ QByteArray QATLAS::readTemp()
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":T,?\r");
-    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -123,7 +119,6 @@ QByteArray QATLAS::writeTemp(double temperature)
     cmd.append(":T,");
     cmd.append(QByteArray::number(temperature, 'f', 2));
     cmd.append("\r");
-    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -142,7 +137,6 @@ QByteArray QATLAS::readCal()
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":Cal,?\r");
-    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -165,7 +159,6 @@ QByteArray QATLAS::dopHCal(int taskid)
             case 2 : cmd += "low,4.00\r"; break;
             case 3 : cmd += "high,10.00\r"; break;
     }
-    qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -183,7 +176,6 @@ QByteArray QATLAS::doORPCal(double orpRef)
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":Cal,");
     cmd.append(QByteArray::number(orpRef,'f',1));
-    qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -201,7 +193,6 @@ QByteArray QATLAS::readSlope()
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":SLOPE,?\r");
-    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -218,7 +209,6 @@ QByteArray QATLAS::readInfo()
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":I\r");
-    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -236,7 +226,6 @@ QByteArray QATLAS::readStatus()
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":STATUS\r");
-    //qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -252,7 +241,6 @@ QByteArray QATLAS::readStatus()
     cmd.append(":I2C,");
     cmd.append(QByteArray::number(newAddr));
     cmd.append("\r");
-    qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -267,7 +255,6 @@ QByteArray QATLAS::sleep()
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":SLEEP\r");
-    qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -283,7 +270,6 @@ QByteArray QATLAS::serial(int baudrate) // switch to UART mode
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":SERIAL\r");
-    qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
@@ -298,7 +284,6 @@ QByteArray QATLAS::factoryReset()
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
     cmd.append(":STATUS\r");
-    qDebug() << cmd;
     lastAtlasCmd = cmd;
     return cmd;
 }
