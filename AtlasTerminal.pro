@@ -42,7 +42,8 @@ SOURCES += \
     ezoframe.cpp \
     ../../../../Qt/qcustomplot/qcustomplot.cpp \
     plotframe.cpp \
-    serialdialog.cpp
+    serialdialog.cpp \
+    qtentacle.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -54,7 +55,8 @@ HEADERS += \
     ezoframe.h \
     ../../../../Qt/qcustomplot/qcustomplot.h \
     plotframe.h \
-    serialdialog.h
+    serialdialog.h \
+    qtentacle.h
 
 FORMS += \
     mainwindow.ui \
