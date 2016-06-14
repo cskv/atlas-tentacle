@@ -56,9 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
     pf->move(560,20);
 
     serial = new QSerialPort(this);
-    //settings = new SettingsDialog;
     sd = new SerialDialog(this);
-
 
     mainTimer = new QTimer(this);
     //mainTimer->start(1000);
@@ -71,7 +69,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(openSerialPort2()));
     connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(closeSerialPort()));
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
-    //connect(ui->actionConfigure, SIGNAL(triggered()), settings, SLOT(show()));
     connect(ui->actionConfigure, SIGNAL(triggered()), sd, SLOT(show()));
 
 // make other connections (see Terminal example)
@@ -85,11 +82,6 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(on_mainTimer()));
 
     setupEZOFrames();
-
-    //settings->setModal(true);
-    //settings->show();
-    //connect( settings, SIGNAL(accepted()),
-             //this, SLOT(openSerialPort()) );
 
     sd->setModal(true);
     sd->show();
@@ -113,7 +105,7 @@ void MainWindow::setupEZOFrames()
 
 MainWindow::~MainWindow()
 {
-    //delete settings;
+    //delete sd;
     delete ui;
 }
 
@@ -121,29 +113,6 @@ void MainWindow::on_mainTimer()
 {
     pH1Frame->on_btnReadMeas_clicked();
     pH2Frame->on_btnReadMeas_clicked();
-}
-
-void MainWindow::openSerialPort()
-{
-    SettingsDialog::Settings p = settings->settings();
-    serial->setPortName(p.name);
-    serial->setBaudRate(p.baudRate);
-    serial->setDataBits(p.dataBits);
-    serial->setParity(p.parity);
-    serial->setStopBits(p.stopBits);
-    serial->setFlowControl(p.flowControl);
-    if (serial->open(QIODevice::ReadWrite)) {
-            ui->actionConnect->setEnabled(false);
-            ui->actionDisconnect->setEnabled(true);
-            ui->actionConfigure->setEnabled(false);
-            ui->statusBar->showMessage(tr("Connected to %1 : %2, %3, %4, %5, %6")
-                                       .arg(p.name).arg(p.stringBaudRate).arg(p.stringDataBits)
-                                       .arg(p.stringParity).arg(p.stringStopBits).arg(p.stringFlowControl));
-    } else {
-        QMessageBox::critical(this, tr("Error"), serial->errorString());
-
-        ui->statusBar->showMessage(tr("Open error"));
-    }
 }
 
 void MainWindow::openSerialPort2()

@@ -34,7 +34,6 @@ INCLUDEPATH += "D:\Projects_LTD\Qt\qcustomplot"
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    settingsdialog.cpp \
     atlasdialog.cpp \
     qatlas.cpp \
     qatlasusb.cpp \
@@ -47,7 +46,6 @@ SOURCES += \
 
 HEADERS += \
     mainwindow.h \
-    settingsdialog.h \
     atlasdialog.h \
     qatlas.h \
     qatlasusb.h \
@@ -60,7 +58,6 @@ HEADERS += \
 
 FORMS += \
     mainwindow.ui \
-    settingsdialog.ui \
     atlasdialog.ui \
     about.ui \
     ezoframe.ui \

@@ -72,7 +72,6 @@ public:
     ~MainWindow();
 
 private slots:
-    void openSerialPort();
     void openSerialPort2();
 
     void closeSerialPort();
@@ -106,7 +105,7 @@ private:
     Ui::MainWindow *ui;
     LedIndicator* ledStateLed;
 
-    SettingsDialog *settings;
+    //SettingsDialog *settings;
     SerialDialog* sd;
     QSerialPort *serial;
     QByteArray lastCmd;
