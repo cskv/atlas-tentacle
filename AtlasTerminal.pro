@@ -29,7 +29,8 @@ CONFIG(debug, release|debug) {
 #LIBS += -L"../" -l$$QCPLIB
 #LIBS += -L"$$_PRO_FILE_PWD_" -l$$QCPLIB
 
-INCLUDEPATH += "D:\Projects_LTD\Qt\qcustomplot"
+win32: INCLUDEPATH += "D:\Projects_LTD\Qt\qcustomplot"
+unix: INCLUDEPATH += "/home/pvk/Projects/Qt/qcustomplot"
 
 SOURCES += \
     main.cpp \
@@ -76,4 +77,5 @@ QMAKE_CXXFLAGS += -Wextra
 
 INCLUDEPATH += ..
 
-include ( C:\qwt-6.1.2\features\qwt.prf )
+win32: include ( C:\qwt-6.1.2\features\qwt.prf )
+unix: include ( /usr/lib/qt/mkspecs/features/qwt.prf )
