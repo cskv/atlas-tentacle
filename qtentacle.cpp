@@ -354,7 +354,7 @@ void QTentacle::parseTentacleMini(QByteArray atlasdata)
     } else {
         t = atlasdata.mid(0,7);     // pH: 6 bytes ORP: 7 bytes max
         EZOProps.currentpH = t.toDouble();
-        if ( EZOProps.currentpH > 0 && EZOProps.currentpH < 14 )emit measRead();
+        if ( EZOProps.currentpH > 0 && EZOProps.currentpH < 14 ) emit measRead();
     }
 }
 
