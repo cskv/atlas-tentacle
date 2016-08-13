@@ -1,36 +1,30 @@
-/****************************************************************************
+/***************************************************************************
 **
-** Copyright (C) 2012 Denis Shienkov <denis.shienkov@gmail.com>
-** Copyright (C) 2012 Laszlo Papp <lpapp@kde.org>
-** Contact: http://www.qt.io/licensing/
+**  This file is part of AtlasTerminal, a host computer GUI for
+**  Atlas Scientific(TM) stamps
+**  connected to an Arduino(TM)
+**  with Tentacle (TM) interface shield.
+**  Copyright (C) 2016 Paul JM van Kan
 **
-** This file is part of the QtSerialPort module of the Qt Toolkit.
-**
-** $QT_BEGIN_LICENSE:LGPL21$
-** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
-** accordance with the commercial license agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see http://www.qt.io/terms-conditions. For further
-** information use the contact form at http://www.qt.io/contact-us.
-**
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 or version 3 as published by the Free
-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
-** following information to ensure the GNU Lesser General Public License
-** requirements will be met: https://www.gnu.org/licenses/lgpl.htm1l and
-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.htm1l.
-**
-** As a special exception, The Qt Company gives you certain additional
-** rights. These rights are described in The Qt Company LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
-**
-** $QT_END_LICENSE$
-**
-****************************************************************************/
+**  AtlasTerminal is free software: you can redistribute it and/or modify
+**  it under the terms of the GNU General Public License as published by
+**  the Free Software Foundation, either version 3 of the License, or
+**  (at your option) any later version.
+
+**  AtlasTerminal is distributed in the hope that it will be useful,
+**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+**  GNU General Public License for more details.
+
+**  You should have received a copy of the GNU General Public License
+**  along with AtlasTerminal.  If not, see <http://www.gnu.org/licenses/>.
+
+***************************************************************************
+**           Author: Paul JM van Kan                                     **
+**  Website/Contact:                                                     **
+**             Date:                                                     **
+**          Version:                                                     **
+***************************************************************************/
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
