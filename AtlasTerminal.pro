@@ -77,5 +77,6 @@ QMAKE_CXXFLAGS += -Wextra
 
 INCLUDEPATH += ..
 
-win32: include ( C:\qwt-6.1.2\features\qwt.prf )
-unix: include ( /usr/lib/qt/mkspecs/features/qwt.prf )
+#qwt is not necessary any more
+#win32: include ( C:\qwt-6.1.2\features\qwt.prf )
+#unix: include ( /usr/lib/qt/mkspecs/features/qwt.prf )

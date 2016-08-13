@@ -283,7 +283,10 @@ QByteArray QTentacle::serial(int baudrate) // switch to UART mode
 //Atlas function: SERIAL, baudrate
 //Response: none
 {
-    QByteArray cmd = "SERIAL\r";
+    QByteArray cmd = "SERIAL,";
+    //cmd.append(QByteArray::number(baudrate));
+    cmd.append(QByteArray::number(9600));
+    cmd.append("\r");
     prependI2CAddr(cmd);
     lastEZOCmd = cmd;
     return cmd;

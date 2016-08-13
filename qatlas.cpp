@@ -270,7 +270,10 @@ QByteArray QATLAS::serial(int baudrate) // switch to UART mode
 //Response: none
 {
     QByteArray cmd = QByteArray::number(i2cAddress);
-    cmd.append(":SERIAL\r");
+    cmd.append(":SERIAL,");
+    //cmd.append(QByteArray::number(baudrate));
+    cmd.append(QByteArray::number(9600));
+    cmd.append("\r");
     lastAtlasCmd = cmd;
     return cmd;
 }
