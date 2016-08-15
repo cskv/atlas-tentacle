@@ -1,4 +1,4 @@
-/** @file qatlas.h
+/** @file qtentacle.h
  * @brief Member and fuction declarations for control of EZO stamps.
  *
  * This header contains the prototypes
