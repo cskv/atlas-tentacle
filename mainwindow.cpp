@@ -41,11 +41,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ad = new AtlasDialog(this);
     //aboutAtlas = new About(this);
 
-    pH1Frame = new EZOFrame(ui->pH1Tab);
-    pH2Frame = new EZOFrame(ui->pH2Tab);
-    pH1Frame->tm->setI2cAddress(99);
-    pH2Frame->tm->setI2cAddress(98);
-
     pf = new PlotFrame(ui->centralWidget);
     pf->move(560,20);
 
@@ -54,7 +49,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     mainTimer = new QTimer(this);
     //mainTimer->start(1000);
-
     //delayTimer->setSingleShot(true);
 
     ui->actionQuit->setEnabled(true);
@@ -74,6 +68,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(mainTimer, SIGNAL(timeout()),
             this, SLOT(on_mainTimer()));
+
+    pH1Frame = new EZOFrame(ui->pH1Tab);
+    pH2Frame = new EZOFrame(ui->pH2Tab);
+    pH1Frame->tm->setI2cAddress(99);
+    pH2Frame->tm->setI2cAddress(98);
 
     setupEZOFrames();
 

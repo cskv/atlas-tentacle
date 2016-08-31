@@ -67,7 +67,7 @@ public slots:
     QByteArray writeLED(bool state);
 
     QByteArray readTemp();
-    QByteArray writeTemp();
+    QByteArray writeTemp(double temperature);
 
     QByteArray readpH();
     QByteArray readCont();
@@ -80,7 +80,6 @@ public slots:
     QByteArray readInfo();
     QByteArray readStatus();
 
-    QByteArray changeI2C(quint8 newAddr);
     QByteArray sleep();
     QByteArray changeSerial(int baudrate); // change baudrate in UART mode
     QByteArray factoryReset();

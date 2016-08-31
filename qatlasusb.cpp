@@ -42,16 +42,16 @@ Command     Function
 L           Enable / Disable or Query the LEDs (pg.23)
 C           Continuous mode (pg.24)
 R           Returns a single reading (pg.25)
-T           Set or Query the temperature compensation (pg.48)
-Cal         Performs calibration (pg.49)
-Slope       Queries slope (p.55)
+T           Set or Query the temperature compensation (pg.26)
+Cal         Performs calibration (pg.27-31)
+SLOPE       Queries slope (p.32)
 NAME        Device name (p.33)
 I           Device information (pg.33)
 RESPONSE    Response code (p.34)
-Status      Retrieve status information (pg.57)
-I2C         I2C address change (pg.58)
-Sleep       Enter low power sleep mode (pg.59)
-Serial      Switch back to UART mode (pg.60)
+STATUS      Retrieve status information (pg.35)
+SLEEP       Enter low power sleep mode (pg.36)
+SERIAL      Change baud rate in UART mode (pg.37)
+Factory     Reset to factory settings (p.38)
 
 */
 
@@ -62,11 +62,11 @@ Serial      Switch back to UART mode (pg.60)
  *
  * \return cmd for EZO function L?
  * \code command = readLED(); \endcode
- * EZO response: 1?L,x with x is 0 (LED off) or 1 (LED on)
+ * EZO response: 1?L,x<CR> with x is 0 (LED off) or 1 (LED on)
  */
 QByteArray QATLASUSB::readLED()
 //Atlas function: L?
-//Response: 1?L,x with x is 0 (led off) or 1 (led on)
+//Response: 1?L,x\r with x is 0 (led off) or 1 (led on)
 {
     QByteArray cmd;
     cmd = "L,?\r";
@@ -76,7 +76,7 @@ QByteArray QATLASUSB::readLED()
 
 QByteArray QATLASUSB::writeLED(bool state)
 //Atlas function: L,state
-//Response: 1 (Success)
+//Response: OK\r (Success)
 {
     QByteArray cmd;
     state ? cmd = "L,1\r" : cmd = "L,0\r";
@@ -87,7 +87,7 @@ QByteArray QATLASUSB::writeLED(bool state)
 
 QByteArray QATLASUSB::readCont()
 //Atlas function: C?
-//Response: 1?C,x with x is 0 (cont off) or 1 (cont on)
+//Response: 1?C,x\r with x is 0 (cont off) or 1 (cont on)
 {
     QByteArray cmd;
     cmd = "C,?\r";
@@ -97,7 +97,7 @@ QByteArray QATLASUSB::readCont()
 
 QByteArray QATLASUSB::writeCont(bool state)
 //Atlas function: C,state
-//Response: 1 (Success)
+//Response: OK\r (Success)
 {
     QByteArray cmd;
     state ? cmd = "C,1\r" : cmd = "C,0\r";
@@ -108,7 +108,8 @@ QByteArray QATLASUSB::writeCont(bool state)
 //--------------------------------------------------------
 QByteArray QATLASUSB::readpH()
 //Atlas function: R
-//Response: 1,x.xxx with x.xxx is the pH value e.g. 7.012
+//Response: OK\r
+//Response: x.xxx\r with x.xxx is the pH value e.g. 7.012
 {
     QByteArray cmd;
     cmd = "R\r";
@@ -119,7 +120,7 @@ QByteArray QATLASUSB::readpH()
 //---------------------------------------------------------
 QByteArray QATLASUSB::readTemp()
 //Atlas function: T?
-//Response: 1?T,xx.x with xx.x is the temperature e.g. 19.5
+//Response: ?T,xx.x\r with xx.x is the temperature e.g. 19.5
 {
     QByteArray cmd;
     cmd = "T,?\r";
@@ -127,22 +128,23 @@ QByteArray QATLASUSB::readTemp()
     return cmd;
 }
 
-QByteArray QATLASUSB::writeTemp()
+QByteArray QATLASUSB::writeTemp(double temperature)
 //Atlas function: T,xx.x
-//Response: 1 (Success)
+//Response: OK\r (Success)
 {
-    QByteArray cmd;
-    cmd = "T,20.0\r";
+    QByteArray cmd = "T,";
+    cmd.append(QByteArray::number(temperature, 'f', 2));
+    cmd.append("\r");
     lastAtlasUSBCmd = cmd;
     return cmd;
 }
 //----------------------------------------------
 QByteArray QATLASUSB::readCal()
 //Atlas function: CAL?
-//Response: ?CAL,x with x is 0, 1, 2, 3
+//Response: ?CAL,x\r with x is 0, 1, 2, 3
 {
     QByteArray cmd;
-    cmd = "CAL,?\r";
+    cmd = "Cal,?\r";
     lastAtlasUSBCmd = cmd;
     return cmd;
 }
@@ -152,7 +154,7 @@ QByteArray QATLASUSB::doCal(int taskid)
 //Response: 1 (Success)
 {
     QByteArray cmd;
-    cmd = "CAL,";
+    cmd = "Cal,";
     switch (taskid) {
             case 0 : cmd += "clear\r";
             case 1 : cmd += "mid,7.00\r";
@@ -165,7 +167,8 @@ QByteArray QATLASUSB::doCal(int taskid)
 //---------------------------------------------------
 QByteArray QATLASUSB::readSlope()
 //Atlas function: SLOPE,?
-//Response: 1?SLOPE,xx.x,yyy.y
+//Response: OK\r
+//Response: ?SLOPE,xx.x,yyy.y\r
 //with xx.x is acid slope e.g 99.7, yyy.y is basic slope e.g. 100.3
 {
     QByteArray cmd;
@@ -177,7 +180,7 @@ QByteArray QATLASUSB::readSlope()
 
 QByteArray QATLASUSB::readName()
 //Atlas function: NAME
-//Response: 1?I,pH,x.x
+//Response: ?I,pH,x.x\r
 //with x.x is firmware version number e.g 1.0
 {
     QByteArray cmd;
@@ -188,7 +191,7 @@ QByteArray QATLASUSB::readName()
 
 QByteArray QATLASUSB::writeName()
 //Atlas function: NAME,xxx
-//Response: 1 (Success)
+//Response: OK (Success)
 {
     QByteArray cmd;
     cmd = "NAME,Dev_1\r";
@@ -200,11 +203,11 @@ QByteArray QATLASUSB::writeName()
 
 QByteArray QATLASUSB::readInfo()
 //Atlas function: I
-//Response: 1?I,pH,x.x
+//Response: 1?I,pH,x.x\r
 //with x.x is firmware version number e.g 1.0
 {
     QByteArray cmd;
-    cmd = "99:I\r";
+    cmd = "I\r";
     lastAtlasUSBCmd = cmd;
     return cmd;
 }
@@ -212,8 +215,8 @@ QByteArray QATLASUSB::readInfo()
 
 QByteArray QATLASUSB::readResponse()
 //Atlas function: RESPONSE
-//Response: 1?I,pH,x.x
-//with x.x is firmware version number e.g 1.0
+//Response: ?RESPONSE,x\r
+//with x is 0 or 1
 {
     QByteArray cmd;
     cmd = "RESPONSE,?\r";
@@ -223,7 +226,7 @@ QByteArray QATLASUSB::readResponse()
 
 QByteArray QATLASUSB::writeResponse(bool state)
 //Atlas function: RESPONSE,state
-//Response: 1 (Success)
+//Response: OK (Success)
 {
     QByteArray cmd;
     state ? cmd = "RESPONSE,1\r" : cmd = "RESPONSE,0\r";
@@ -277,19 +280,6 @@ QByteArray QATLASUSB::factoryReset()
     lastAtlasUSBCmd = cmd;
     return cmd;
 }
-//--------------------------------------------------
-
-QByteArray QATLASUSB::changeI2C(quint8 newAddr)
-//Atlas function: I2C,char
-//Response: 1 (Success)
-{
-    QByteArray cmd = "I2C,";
-    cmd.append(QByteArray::number(newAddr));
-    cmd.append("\r");
-    lastAtlasUSBCmd = cmd;
-    return cmd;
-}
-
 //----------------------------------------------------------------
 void QATLASUSB::parseAtlasUSB(QByteArray atlasdata)
 {

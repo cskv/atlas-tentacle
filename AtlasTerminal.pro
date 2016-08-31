@@ -13,7 +13,7 @@ TARGET = AtlasTerminal
 TEMPLATE = app
 
 # Tell the qcustomplot header that it will be used as library:
-#DEFINES += QCUSTOMPLOT_USE_LIBRARY
+# DEFINES += QCUSTOMPLOT_USE_LIBRARY
 
 # Link with debug version of qcustomplot if compiling in debug mode, else with release library:
 CONFIG(debug, release|debug) {
@@ -24,13 +24,12 @@ CONFIG(debug, release|debug) {
   else: QCPLIB = qcustomplot
 }
 
-#win32: LIBS += "../$$QCPLIB"
-#unix: LIBS += -L"../" -l$$QCPLIB
-#LIBS += -L"../" -l$$QCPLIB
+win32: LIBS += "../$$QCPLIB"
+unix:  LIBS += -L"../" -l$$QCPLIB
 #LIBS += -L"$$_PRO_FILE_PWD_" -l$$QCPLIB
 
-win32: INCLUDEPATH += "D:\Projects_LTD\Qt\qcustomplot"
-unix: INCLUDEPATH += "/home/pvk/Projects/Qt/qcustomplot"
+#win32: INCLUDEPATH += "D:\Projects_LTD\Qt\qcustomplot"
+#unix:  INCLUDEPATH += "/home/pvk/Projects/Qt/qcustomplot"
 
 SOURCES += \
     main.cpp \
@@ -41,10 +40,10 @@ SOURCES += \
     ledindicator.cpp \
     about.cpp \
     ezoframe.cpp \
-    ../../../../Qt/qcustomplot/qcustomplot.cpp \
     plotframe.cpp \
     serialdialog.cpp \
-    qtentacle.cpp
+    qtentacle.cpp \
+    qcustomplot.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -54,10 +53,10 @@ HEADERS += \
     ledindicator.h \
     about.h \
     ezoframe.h \
-    ../../../../Qt/qcustomplot/qcustomplot.h \
     plotframe.h \
     serialdialog.h \
-    qtentacle.h
+    qtentacle.h \
+    qcustomplot.h
 
 FORMS += \
     mainwindow.ui \
