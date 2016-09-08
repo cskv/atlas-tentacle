@@ -81,7 +81,7 @@
      <widget class="QLabel" name="pH1Label">
       <property name="geometry">
        <rect>
-        <x>160</x>
+        <x>156</x>
         <y>110</y>
         <width>311</width>
         <height>71</height>
@@ -154,8 +154,8 @@ color: orange;
      <widget class="QLabel" name="pH2Label">
       <property name="geometry">
        <rect>
-        <x>160</x>
-        <y>220</y>
+        <x>156</x>
+        <y>226</y>
         <width>311</width>
         <height>71</height>
        </rect>
