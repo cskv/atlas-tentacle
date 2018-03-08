@@ -21,3 +21,7 @@ Python
 *.zip
 *.odp
 dox
+*.pro.user
+for Whiteboxes Tentacle and Mini.txt
+*.dll
+Tentacle.pptx
