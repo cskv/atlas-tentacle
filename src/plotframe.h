@@ -30,7 +30,7 @@
 #define PLOTFRAME_H
 
 #include <QFrame>
-#include "qcustomplot.h"
+#include "thirdparty/qcustomplot.h"
 #include "ezoframe.h"
 
 namespace Ui {

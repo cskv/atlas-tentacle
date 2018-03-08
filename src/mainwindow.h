@@ -43,7 +43,7 @@
 #include "ledindicator.h"
 #include "ezoframe.h"
 #include "plotframe.h"
-#include "qcustomplot.h"
+#include "thirdparty/qcustomplot.h"
 #include "about.h"
 #include "serialdialog.h"
 
