@@ -55,7 +55,7 @@ class MainWindow;
 
 QT_END_NAMESPACE
 
-class SettingsDialog;
+//class SettingsDialog;
 
 class MainWindow : public QMainWindow
 {
