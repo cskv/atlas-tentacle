@@ -120,6 +120,7 @@ void SerialDialog::fillPortsParameters()
     ui->cbBaud->addItem(QStringLiteral("9600"), QSerialPort::Baud9600);
     ui->cbBaud->addItem(QStringLiteral("19200"), QSerialPort::Baud19200);
     ui->cbBaud->addItem(QStringLiteral("38400"), QSerialPort::Baud38400);
+    ui->cbBaud->addItem(QStringLiteral("57600"), QSerialPort::Baud57600);
     ui->cbBaud->addItem(QStringLiteral("115200"), QSerialPort::Baud115200);
     ui->cbBaud->addItem(tr("Custom"));
 
@@ -175,7 +176,7 @@ void SerialDialog::updateParameters()
 {
     cp.name = ui->cbSerialPortInfo->currentText();
 
-    if (ui->cbBaud->currentIndex() == 4) {
+    if (ui->cbBaud->currentIndex() == 5) {
         cp.baudRate = ui->cbBaud->currentText().toInt();
     } else {
         cp.baudRate = static_cast<QSerialPort::BaudRate>(
