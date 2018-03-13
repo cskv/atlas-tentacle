@@ -39,16 +39,17 @@
 #ifndef QATLAS_H
 #define QATLAS_H
 
-#include <QtCore>
+//#include <QtCore>
+#include <QObject>
 
-class QATLAS :public QObject
+class QAtlas :public QObject
 {
     Q_OBJECT
 
 public:
 // Constructors and Destructors
-    QATLAS();
-    ~QATLAS();
+    explicit QAtlas(QObject *parent = 0);
+    ~QAtlas();
 
 /** @brief struct containing all parameters and measurement values of EZO stamp.
  *
@@ -66,9 +67,18 @@ typedef struct {
     QString rstCode = "";         /**< Reset code */
     double  voltage = 0;          /**< supply voltage EZO stamp */
     qint8   i2cAddress = -1;      /**< 7-bits I2C address (1..127)  */
-    } AtlasProperties;
+    } EZOProperties;
 
-// Atlas Scientific commands
+// getters
+    EZOProperties getEZOProps() const;
+    qint8         getI2cAddress() const;
+
+// setters
+    void setEZOProps(const EZOProperties &value);
+    void setI2cAddress(const qint8 &value);
+
+public slots:
+    // Atlas Scientific commands
     QByteArray readLED();
     QByteArray writeLED(bool state);
 
@@ -91,29 +101,9 @@ typedef struct {
     QByteArray factoryReset();
 
 // Parsing of Atlas Scientific stamp response bytes
-    void parseAtlas(QByteArray atlasdata);
+    //void parseAtlas(QByteArray atlasdata);
     void parseTentacleMini(QByteArray atlasdata);
     void parseAtlasI2C(QByteArray atlasdata);
-
-// getters
-    bool    getLedState() const;
-    double  getCurrentpH() const;
-    double  getCurrentORP() const;
-    double  getCurrentTemp() const;
-    int     getCalState() const;
-    double  getAcidSlope() const;
-    double  getBasicSlope() const;
-    QString getProbeType() const;
-    QString getVersion() const;  
-    QString getRstCode() const;
-    double  getVoltage() const;
-    qint8   getI2cAddress() const;
-
-    AtlasProperties getProps() const;
-
-// setters
-    void setI2cAddress(const qint8 &value);
-    void setProps(const AtlasProperties &value);
 
 signals:
     void ledRead(bool state); //class QATLAS moet hiervoor een QOBJECT zijn
@@ -121,22 +111,10 @@ signals:
     void measRead();
 
 private:
+    EZOProperties props;
+    QByteArray lastEZOCmd;
 
-    AtlasProperties props;
-    bool    ledState = true;
-    double  currentpH = 7.0;
-    double  currentORP = -999.9;
-    double  currentTemp = -273.0;
-    int     calState = -1;
-    double  acidSlope = 0.0;
-    double  basicSlope = 0.0;
-    QString probeType = "";
-    QString version = "";
-    QString rstCode = "";
-    double  voltage = 0;
-    qint8   i2cAddress = -1;
-
-    QByteArray lastAtlasCmd;
+    void prependI2CAddr(QByteArray &anyCmd);
 };
 
 #endif // QATLAS_H

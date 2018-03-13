@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1042</width>
-    <height>504</height>
+    <height>560</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,12 +20,12 @@
       <x>10</x>
       <y>10</y>
       <width>550</width>
-      <height>424</height>
+      <height>471</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>8</pointsize>
+      <pointsize>10</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -38,6 +38,12 @@
     </property>
     <property name="currentIndex">
      <number>0</number>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>32</width>
+      <height>32</height>
+     </size>
     </property>
     <property name="elideMode">
      <enum>Qt::ElideNone</enum>
@@ -52,7 +58,7 @@
      <attribute name="title">
       <string>Main</string>
      </attribute>
-     <widget class="QLabel" name="label_1">
+     <widget class="QLabel" name="lblEZO1">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -78,7 +84,7 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="pH1Label">
+     <widget class="QLabel" name="lblValue1">
       <property name="geometry">
        <rect>
         <x>156</x>
@@ -118,7 +124,7 @@ color: orange;
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>121</width>
+        <width>131</width>
         <height>71</height>
        </rect>
       </property>
@@ -142,7 +148,7 @@ color: orange;
         <rect>
          <x>10</x>
          <y>30</y>
-         <width>83</width>
+         <width>101</width>
          <height>17</height>
         </rect>
        </property>
@@ -151,7 +157,7 @@ color: orange;
        </property>
       </widget>
      </widget>
-     <widget class="QLabel" name="pH2Label">
+     <widget class="QLabel" name="lblValue2">
       <property name="geometry">
        <rect>
         <x>156</x>
@@ -186,7 +192,7 @@ color: orange;
        <number>4</number>
       </property>
      </widget>
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="lblEZO2">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -203,22 +209,30 @@ color: orange;
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">color: blue;</string>
+       <string notr="true">color: red;</string>
       </property>
       <property name="text">
-       <string>ORP</string>
+       <string>pH</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="pH1Tab">
+    <widget class="QWidget" name="EZOTab1">
+     <attribute name="icon">
+      <iconset resource="../atlasterminal.qrc">
+       <normaloff>:/new/images/images/ph-circuit-large.jpg</normaloff>:/new/images/images/ph-circuit-large.jpg</iconset>
+     </attribute>
      <attribute name="title">
       <string>pH1</string>
      </attribute>
     </widget>
-    <widget class="QWidget" name="pH2Tab">
+    <widget class="QWidget" name="EZOTab2">
+     <attribute name="icon">
+      <iconset resource="../atlasterminal.qrc">
+       <normaloff>:/new/images/images/ph-circuit-large.jpg</normaloff>:/new/images/images/ph-circuit-large.jpg</iconset>
+     </attribute>
      <attribute name="title">
       <string>pH2</string>
      </attribute>
@@ -285,7 +299,7 @@ color: orange;
   </widget>
   <action name="actionQuit">
    <property name="icon">
-    <iconset resource="atlasterminal.qrc">
+    <iconset resource="../atlasterminal.qrc">
      <normaloff>:/new/images/images/application-exit.png</normaloff>:/new/images/images/application-exit.png</iconset>
    </property>
    <property name="text">
@@ -297,7 +311,7 @@ color: orange;
   </action>
   <action name="actionConnect">
    <property name="icon">
-    <iconset resource="atlasterminal.qrc">
+    <iconset resource="../atlasterminal.qrc">
      <normaloff>:/new/images/images/connect.png</normaloff>:/new/images/images/connect.png</iconset>
    </property>
    <property name="text">
@@ -309,7 +323,7 @@ color: orange;
   </action>
   <action name="actionDisconnect">
    <property name="icon">
-    <iconset resource="atlasterminal.qrc">
+    <iconset resource="../atlasterminal.qrc">
      <normaloff>:/new/images/images/disconnect.png</normaloff>:/new/images/images/disconnect.png</iconset>
    </property>
    <property name="text">
@@ -321,7 +335,7 @@ color: orange;
   </action>
   <action name="actionConfigure">
    <property name="icon">
-    <iconset resource="atlasterminal.qrc">
+    <iconset resource="../atlasterminal.qrc">
      <normaloff>:/new/images/images/settings.png</normaloff>:/new/images/images/settings.png</iconset>
    </property>
    <property name="text">
@@ -333,7 +347,7 @@ color: orange;
   </action>
   <action name="action_Help_Tentacle">
    <property name="icon">
-    <iconset resource="atlasterminal.qrc">
+    <iconset resource="../atlasterminal.qrc">
      <normaloff>:/new/images/images/AtlasHelp1.png</normaloff>:/new/images/images/AtlasHelp1.png</iconset>
    </property>
    <property name="text">
@@ -363,7 +377,7 @@ color: orange;
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="atlasterminal.qrc"/>
+  <include location="../atlasterminal.qrc"/>
  </resources>
  <connections/>
 </ui>

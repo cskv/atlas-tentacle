@@ -35,7 +35,7 @@
 
 #include "atlasdialog.h"
 #include "qatlas.h"
-#include "qatlasusb.h"
+//#include "qatlasusb.h"
 #include "ledindicator.h"
 
 namespace Ui {
@@ -51,7 +51,7 @@ public:
     ~EZOFrame();
 
     QByteArray lastCmd;
-    QATLAS* tm = new QATLAS();  // wel even aanmaken !
+    QAtlas* tm = new QAtlas();  // wel even aanmaken !
 
 public slots:
         void on_btnReadMeas_clicked();

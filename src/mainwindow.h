@@ -38,7 +38,7 @@
 
 #include "atlasdialog.h"
 //#include "qatlas.h"
-#include "qatlasusb.h"
+//#include "qatlasusb.h"
 
 #include "ledindicator.h"
 #include "ezoframe.h"

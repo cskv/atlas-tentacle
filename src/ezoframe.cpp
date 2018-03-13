@@ -67,26 +67,29 @@ void EZOFrame::updateInfo()
 
 void EZOFrame::displayLedState()
 {
-    ui->stateLed->setState( tm->getLedState() );
+    ui->stateLed->setState( tm->getEZOProps().ledState );
 }
 
 void EZOFrame::displayInfo()
 {
-    double dval = tm->getAcidSlope();
+    QAtlas::EZOProperties pr = tm->getEZOProps();
+
+    double dval = pr.acidSlope;
     if (dval > 0) ui->acidSlopeLabel->setText(QString::number(dval));
-    dval = tm->getBasicSlope();
+    dval = pr.basicSlope;
     if (dval > 0) ui->basicSlopeLabel->setText(QString::number(dval));
 
-    ui->probeLabel->setText(tm->getProbeType());
-    ui->versionLabel->setText(tm->getVersion());
 
-    ui->rstLabel->setText(tm->getRstCode());
-    dval = tm->getVoltage();
+    ui->probeLabel->setText(pr.probeType);
+    ui->versionLabel->setText(pr.version);
+
+    ui->rstLabel->setText(pr.rstCode);
+    dval = pr.voltage;
     if (dval > 0) ui->voltLabel->setText(QString::number(dval));
 
-    dval = tm->getCurrentTemp();
+    dval = pr.currentTemp;
     if (dval > 0) ui->leTemp->setText(QString::number(dval , 'f', 1 ));
-    int ival = tm->getCalState();
+    int ival = pr.calState;
     if (ival > -1) ui->calLabel->setText(QString::number(ival));
 
     ui->leI2CAddress->setText(QString::number(tm->getI2cAddress()));
@@ -94,9 +97,28 @@ void EZOFrame::displayInfo()
 
 void EZOFrame::displayMeas()
 {
-    double dval = tm->getCurrentpH();
-    if (dval > -1 && dval < 15) ui->pHLabel->setText(QString::number(dval, 'f', 2 ));
+    QAtlas::EZOProperties pr = tm->getEZOProps();
+    double dval = 0;
+    QString pt = pr.probeType;
+
+    if ( !ui->EZOLabel->text().startsWith(pt) ) {
+        ui->EZOLabel->setText(pt);
+        if (pt == "pH"){
+            ui->EZOLabel->setStyleSheet("QLabel {color : red;}");
+        } else if (pt == "ORP"){
+            ui->EZOLabel->setStyleSheet("QLabel {color : blue;}");
+        }
+    }
+
+    if (pt == "pH") {
+        dval = pr.currentpH;
+        if (dval > 0 && dval < 14) ui->valueLabel->setText(QString::number(dval, 'f', 2 ));
+    } else if (pt == "ORP") {
+        dval = pr.currentORP;
+        if (dval > -1021 && dval < 1021) ui->valueLabel->setText(QString::number(dval, 'f', 1 ) + " mV");
+    }
 }
+    //if (dval > -1 && dval < 15) ui->pHLabel->setText(QString::number(dval, 'f', 2 ));
 
 void EZOFrame::on_btnGetTemp_clicked()
 {
@@ -136,8 +158,9 @@ void EZOFrame::on_btnCal_clicked()
 
 void EZOFrame::on_btnCalClear_clicked()
 {
-    if (tm->getProbeType() == "pH") lastCmd = tm->dopHCal(0);
-    else if (tm->getProbeType() == "ORP") lastCmd = tm->doORPCal(200.0);
+    QAtlas::EZOProperties pr = tm->getEZOProps();
+    if (pr.probeType == "pH") lastCmd = tm->dopHCal(0);
+    else if (pr.probeType == "ORP") lastCmd = tm->doORPCal(200.0);
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));

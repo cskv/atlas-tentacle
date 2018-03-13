@@ -36,26 +36,22 @@ SOURCES += \
     src/mainwindow.cpp \
     src/atlasdialog.cpp \
     src/qatlas.cpp \
-    src/qatlasusb.cpp \
-    src/ledindicator.cpp \
+    thirdparty/ledindicator.cpp \
     src/about.cpp \
     src/ezoframe.cpp \
     src/plotframe.cpp \
     src/serialdialog.cpp \
-    src/qtentacle.cpp \
     thirdparty/qcustomplot.cpp
 
 HEADERS += \
     src/mainwindow.h \
     src/atlasdialog.h \
     src/qatlas.h \
-    src/qatlasusb.h \
-    src/ledindicator.h \
+    thirdparty/ledindicator.h \
     src/about.h \
     src/ezoframe.h \
     src/plotframe.h \
     src/serialdialog.h \
-    src/qtentacle.h \
     thirdparty/qcustomplot.h
 
 FORMS += \
@@ -67,7 +63,9 @@ FORMS += \
     src/serialdialog.ui
 
 RESOURCES += \
-    atlasterminal.qrc
+    atlasterminal.qrc \
+    src/atlasterminal.qrc \
+    src/atlasterminal.qrc
 
 CONFIG += c++11
 CONFIG += warn_on

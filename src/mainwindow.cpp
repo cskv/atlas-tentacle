@@ -69,10 +69,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mainTimer, SIGNAL(timeout()),
             this, SLOT(on_mainTimer()));
 
-    pH1Frame = new EZOFrame(ui->pH1Tab);
-    pH2Frame = new EZOFrame(ui->pH2Tab);
-    pH1Frame->tm->setI2cAddress(99);
-    pH2Frame->tm->setI2cAddress(98);
+    pH1Frame = new EZOFrame(ui->EZOTab1);
+    pH2Frame = new EZOFrame(ui->EZOTab2);
+    pH1Frame->tm->setI2cAddress(16);
+    pH2Frame->tm->setI2cAddress(17);
 
     setupEZOFrames();
 
@@ -150,14 +150,39 @@ void MainWindow::writeData(const QByteArray &data)
 
 void MainWindow::displayAllMeas()
 {
+    QAtlas::EZOProperties pr = pH1Frame->tm->getEZOProps();
     double dval[2] = {7.0, 7.0};
-    dval[0] = pH1Frame->tm->getCurrentpH();
-    if (dval[0] > -1 && dval[0] < 15) {
-        ui->pH1Label->setText(QString::number(dval[0], 'f', 2 ));
+    QString pt = pr.probeType;
+
+    if ( !ui->lblEZO1->text().startsWith(pt) ) {
+        ui->lblEZO1->setText(pt);
+        if (pt == "pH"){
+            //ui->EZOLabel->setStyleSheet("QLabel {color : red;}");
+            //ui->tabWidget->setTabIcon(1, *(new QIcon(":/new/images/images/ph-circuit-large.jpg")));
+        } else if (pt == "ORP"){
+            ui->lblEZO1->setStyleSheet("QLabel {color : blue;}");
+            ui->tabWidget->setTabIcon(1, *(new QIcon(":/new/images/images/orp-circuit-large.jpg")));
+        } else if (pt == "EC"){
+            ui->lblEZO1->setStyleSheet("QLabel {color : green;}");
+            ui->tabWidget->setTabIcon(1, *(new QIcon(":/new/images/images/ec-circuit-large.jpg")));
+        }
     }
-    dval[1] = pH2Frame->tm->getCurrentpH();
-    if (dval[1] > -1 && dval[1] < 15) {
-        ui->pH2Label->setText(QString::number(dval[1], 'f', 2 ));
+/*
+    if (pt == "pH") {
+        dval = pr.currentpH;
+        if (dval > 0 && dval < 14) ui->lblValue1->setText(QString::number(dval[0], 'f', 2 ));
+    } else if (pt == "ORP") {
+        dval = pr.currentORP;
+        if (dval > -1021 && dval < 1021) ui->lblValue1->setText(QString::number(dval[0], 'f', 1 ) + " mV");
+    }
+*/
+    dval[0] = pr.currentpH;
+    if (dval[0] > 0 && dval[0] < 14) {
+        ui->lblValue1->setText(QString::number(dval[0], 'f', 2 ));
+    }
+    dval[1] = pr.currentpH;
+    if (dval[1] > 0 && dval[1] < 14) {
+        ui->lblValue2->setText(QString::number(dval[1], 'f', 2 ));
     }
     pf->realtimeTentacleSlot(dval[0], dval[1]);
 }

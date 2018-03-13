@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>532</width>
-    <height>400</height>
+    <height>424</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,10 +22,10 @@
   <widget class="QGroupBox" name="gbCalibration">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>10</y>
+     <x>286</x>
+     <y>8</y>
      <width>101</width>
-     <height>261</height>
+     <height>281</height>
     </rect>
    </property>
    <property name="font">
@@ -95,7 +95,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="atlasterminal.qrc">:/new/arrows/images/1446825729_icon-arrow-down-b.ico</pixmap>
+     <pixmap resource="../atlasterminal.qrc">:/new/arrows/images/1446825729_icon-arrow-down-b.ico</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -117,7 +117,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="atlasterminal.qrc">:/new/arrows/images/1446825729_icon-arrow-down-b.ico</pixmap>
+     <pixmap resource="../atlasterminal.qrc">:/new/arrows/images/1446825729_icon-arrow-down-b.ico</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -130,10 +130,10 @@
   <widget class="QGroupBox" name="gbSys">
    <property name="geometry">
     <rect>
-     <x>420</x>
-     <y>60</y>
-     <width>101</width>
-     <height>101</height>
+     <x>400</x>
+     <y>8</y>
+     <width>111</width>
+     <height>161</height>
     </rect>
    </property>
    <property name="font">
@@ -174,14 +174,30 @@
      <string>RESET</string>
     </property>
    </widget>
+   <widget class="QCheckBox" name="respCB">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>91</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>RESPONSE</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="infoGroupBox">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
-     <width>271</width>
-     <height>261</height>
+     <y>8</y>
+     <width>261</width>
+     <height>301</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -203,7 +219,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>50</y>
+      <y>80</y>
       <width>70</width>
       <height>23</height>
      </rect>
@@ -216,7 +232,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
+      <y>110</y>
       <width>70</width>
       <height>23</height>
      </rect>
@@ -229,7 +245,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>110</y>
+      <y>140</y>
       <width>70</width>
       <height>23</height>
      </rect>
@@ -248,7 +264,7 @@
     <property name="geometry">
      <rect>
       <x>96</x>
-      <y>50</y>
+      <y>80</y>
       <width>72</width>
       <height>21</height>
      </rect>
@@ -256,7 +272,7 @@
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -283,7 +299,7 @@ color: yellow;
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>50</y>
+      <y>80</y>
       <width>72</width>
       <height>21</height>
      </rect>
@@ -291,7 +307,7 @@ color: yellow;
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -318,7 +334,7 @@ color: yellow;
     <property name="geometry">
      <rect>
       <x>96</x>
-      <y>80</y>
+      <y>110</y>
       <width>72</width>
       <height>21</height>
      </rect>
@@ -326,7 +342,7 @@ color: yellow;
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -353,7 +369,7 @@ color: yellow;
     <property name="geometry">
      <rect>
       <x>96</x>
-      <y>110</y>
+      <y>140</y>
       <width>72</width>
       <height>21</height>
      </rect>
@@ -361,7 +377,7 @@ color: yellow;
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -388,7 +404,7 @@ color: yellow;
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>80</y>
+      <y>110</y>
       <width>72</width>
       <height>21</height>
      </rect>
@@ -396,7 +412,7 @@ color: yellow;
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -423,7 +439,7 @@ color: yellow;
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>110</y>
+      <y>140</y>
       <width>72</width>
       <height>21</height>
      </rect>
@@ -431,7 +447,7 @@ color: yellow;
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -458,7 +474,7 @@ color: yellow;
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
+      <y>50</y>
       <width>70</width>
       <height>23</height>
      </rect>
@@ -471,7 +487,7 @@ color: yellow;
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>140</y>
+      <y>170</y>
       <width>70</width>
       <height>23</height>
      </rect>
@@ -484,7 +500,7 @@ color: yellow;
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>170</y>
+      <y>200</y>
       <width>70</width>
       <height>23</height>
      </rect>
@@ -497,7 +513,7 @@ color: yellow;
     <property name="geometry">
      <rect>
       <x>96</x>
-      <y>170</y>
+      <y>200</y>
       <width>72</width>
       <height>21</height>
      </rect>
@@ -505,7 +521,7 @@ color: yellow;
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>12</pointsize>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -528,27 +544,11 @@ color: yellow;
      <number>4</number>
     </property>
    </widget>
-   <widget class="QCheckBox" name="contCB">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>230</y>
-      <width>83</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Continuous</string>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="leTemp">
     <property name="geometry">
      <rect>
       <x>96</x>
-      <y>140</y>
+      <y>170</y>
       <width>72</width>
       <height>23</height>
      </rect>
@@ -556,7 +556,7 @@ color: yellow;
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>14</pointsize>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -586,7 +586,7 @@ color: lime;
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>140</y>
+      <y>170</y>
       <width>72</width>
       <height>23</height>
      </rect>
@@ -599,7 +599,7 @@ color: lime;
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>20</y>
+      <y>50</y>
       <width>61</width>
       <height>17</height>
      </rect>
@@ -616,33 +616,36 @@ color: lime;
    </widget>
    <widget class="QPushButton" name="btnI2CAddr">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>200</y>
+      <y>236</y>
       <width>72</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>I2C</string>
+     <string>I2C Addr</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="leI2CAddress">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>96</x>
-      <y>200</y>
-      <width>72</width>
+      <x>67</x>
+      <y>236</y>
+      <width>101</width>
       <height>23</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Arial</family>
-      <pointsize>14</pointsize>
+      <pointsize>11</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -685,7 +688,7 @@ color: lime;
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>170</y>
+      <y>200</y>
       <width>72</width>
       <height>23</height>
      </rect>
@@ -694,13 +697,157 @@ color: lime;
      <string>Clear</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="btnBaud">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>266</y>
+      <width>72</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Baudrate</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="leBaud">
+    <property name="geometry">
+     <rect>
+      <x>67</x>
+      <y>266</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: black;
+color: lime;
+</string>
+    </property>
+    <property name="text">
+     <string>115200</string>
+    </property>
+    <property name="frame">
+     <bool>false</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>240</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>I2C</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>270</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Serial</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnGetName">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>70</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Name?</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnSetName">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>20</y>
+      <width>72</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="leName">
+    <property name="geometry">
+     <rect>
+      <x>88</x>
+      <y>20</y>
+      <width>84</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: black;
+color: lime;
+</string>
+    </property>
+    <property name="text">
+     <string>bla</string>
+    </property>
+    <property name="frame">
+     <bool>false</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
-  <widget class="QLabel" name="pHLabel">
+  <widget class="QLabel" name="valueLabel">
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>290</y>
-     <width>331</width>
+     <y>320</y>
+     <width>351</width>
      <height>71</height>
     </rect>
    </property>
@@ -733,10 +880,10 @@ color: orange;
   <widget class="QGroupBox" name="gbRead">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>403</x>
      <y>180</y>
-     <width>101</width>
-     <height>91</height>
+     <width>111</width>
+     <height>111</height>
     </rect>
    </property>
    <property name="font">
@@ -753,7 +900,7 @@ color: orange;
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>61</width>
+      <width>71</width>
       <height>23</height>
      </rect>
     </property>
@@ -766,7 +913,7 @@ color: orange;
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>81</width>
+      <width>91</width>
       <height>17</height>
      </rect>
     </property>
@@ -774,13 +921,29 @@ color: orange;
      <string>AutoRead</string>
     </property>
    </widget>
+   <widget class="QCheckBox" name="contCB">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>101</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Continuous</string>
+    </property>
+   </widget>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="EZOLabel">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>290</y>
-     <width>91</width>
+     <x>10</x>
+     <y>320</y>
+     <width>131</width>
      <height>61</height>
     </rect>
    </property>
@@ -804,8 +967,8 @@ color: orange;
   <widget class="QLabel" name="statusLabel">
    <property name="geometry">
     <rect>
-     <x>8</x>
-     <y>378</y>
+     <x>10</x>
+     <y>400</y>
      <width>527</width>
      <height>20</height>
     </rect>
@@ -830,7 +993,7 @@ color: orange;
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="atlasterminal.qrc"/>
+  <include location="../atlasterminal.qrc"/>
  </resources>
  <connections/>
 </ui>
