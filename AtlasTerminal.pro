@@ -63,9 +63,7 @@ FORMS += \
     src/serialdialog.ui
 
 RESOURCES += \
-    atlasterminal.qrc \
-    src/atlasterminal.qrc \
-    src/atlasterminal.qrc
+    atlasterminal.qrc
 
 CONFIG += c++11
 CONFIG += warn_on

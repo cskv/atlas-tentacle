@@ -104,8 +104,9 @@ private:
     QSerialPort *serial;
     QByteArray lastCmd;
 
-    EZOFrame* pH1Frame;
-    EZOFrame* pH2Frame;
+    //EZOFrame* pH1Frame;
+    //EZOFrame* pH2Frame;
+    EZOFrame* pHFrame[2];
 
     PlotFrame* pf;
 

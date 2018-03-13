@@ -69,10 +69,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mainTimer, SIGNAL(timeout()),
             this, SLOT(on_mainTimer()));
 
-    pH1Frame = new EZOFrame(ui->EZOTab1);
-    pH2Frame = new EZOFrame(ui->EZOTab2);
-    pH1Frame->tm->setI2cAddress(16);
-    pH2Frame->tm->setI2cAddress(17);
+    pHFrame[0] = new EZOFrame(ui->EZOTab1);
+    pHFrame[1] = new EZOFrame(ui->EZOTab2);
+    pHFrame[0]->stamp->setI2cAddress(16);
+    pHFrame[1]->stamp->setI2cAddress(17);
 
     setupEZOFrames();
 
@@ -85,14 +85,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::setupEZOFrames()
 {
-    connect( pH1Frame, SIGNAL(cmdAvailable(QByteArray)),
+    connect( pHFrame[0], SIGNAL(cmdAvailable(QByteArray)),
              this, SLOT(writeData(QByteArray)) );
-    connect( pH2Frame, SIGNAL(cmdAvailable(QByteArray)),
+    connect( pHFrame[1], SIGNAL(cmdAvailable(QByteArray)),
              this, SLOT(writeData(QByteArray)) );
 
-    connect( pH1Frame->tm, SIGNAL(measRead()),
+    connect( pHFrame[0]->stamp, SIGNAL(measRead()),
              this, SLOT(displayAllMeas()) );
-    connect( pH2Frame->tm, SIGNAL(measRead()),
+    connect( pHFrame[1]->stamp, SIGNAL(measRead()),
              this, SLOT(displayAllMeas()) );
 }
 
@@ -104,8 +104,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_mainTimer()
 {
-    pH1Frame->on_btnReadMeas_clicked();
-    pH2Frame->on_btnReadMeas_clicked();
+    pHFrame[0]->on_btnReadMeas_clicked();
+    pHFrame[1]->on_btnReadMeas_clicked();
 }
 
 void MainWindow::openSerialPort2()
@@ -150,19 +150,24 @@ void MainWindow::writeData(const QByteArray &data)
 
 void MainWindow::displayAllMeas()
 {
-    QAtlas::EZOProperties pr = pH1Frame->tm->getEZOProps();
+    QAtlas::EZOProperties pr[2];
     double dval[2] = {7.0, 7.0};
-    QString pt = pr.probeType;
+    QString pt[2] = {"pH", "pH"};
 
-    if ( !ui->lblEZO1->text().startsWith(pt) ) {
-        ui->lblEZO1->setText(pt);
-        if (pt == "pH"){
-            //ui->EZOLabel->setStyleSheet("QLabel {color : red;}");
-            //ui->tabWidget->setTabIcon(1, *(new QIcon(":/new/images/images/ph-circuit-large.jpg")));
-        } else if (pt == "ORP"){
+    pr[0] = pHFrame[0]->stamp->getEZOProps();
+    pr[1] = pHFrame[1]->stamp->getEZOProps();
+    pt[0] = pr[0].probeType;
+    pt[1] = pr[1].probeType;
+
+    if ( !ui->lblEZO1->text().startsWith(pt[0]) ) {
+        ui->lblEZO1->setText(pt[0]);
+        if (pt[0] == "pH"){
+            ui->lblEZO1->setStyleSheet("QLabel {color : red;}");
+            ui->tabWidget->setTabIcon(1, *(new QIcon(":/new/images/images/ph-circuit-large.jpg")));
+        } else if (pt[0] == "ORP"){
             ui->lblEZO1->setStyleSheet("QLabel {color : blue;}");
             ui->tabWidget->setTabIcon(1, *(new QIcon(":/new/images/images/orp-circuit-large.jpg")));
-        } else if (pt == "EC"){
+        } else if (pt[0] == "EC"){
             ui->lblEZO1->setStyleSheet("QLabel {color : green;}");
             ui->tabWidget->setTabIcon(1, *(new QIcon(":/new/images/images/ec-circuit-large.jpg")));
         }
@@ -176,11 +181,11 @@ void MainWindow::displayAllMeas()
         if (dval > -1021 && dval < 1021) ui->lblValue1->setText(QString::number(dval[0], 'f', 1 ) + " mV");
     }
 */
-    dval[0] = pr.currentpH;
+    dval[0] = pr[0].currentpH;
     if (dval[0] > 0 && dval[0] < 14) {
         ui->lblValue1->setText(QString::number(dval[0], 'f', 2 ));
     }
-    dval[1] = pr.currentpH;
+    dval[1] = pr[1].currentpH;
     if (dval[1] > 0 && dval[1] < 14) {
         ui->lblValue2->setText(QString::number(dval[1], 'f', 2 ));
     }
@@ -218,15 +223,15 @@ void MainWindow::readTentacleI2CData()
                     //adr = strtok(reply.data(), ":");
                     reply = reply.mid(colonpos+1, -1);
                     if ( !reply.isEmpty() ) {
-                        if (address == pH1Frame->tm->getI2cAddress())
-                          pH1Frame->tm->parseTentacleMini(reply);
-                        if (address == pH2Frame->tm->getI2cAddress())
-                          pH2Frame->tm->parseTentacleMini(reply);
+                        if (address == pHFrame[0]->stamp->getI2cAddress())
+                          pHFrame[0]->stamp->parseTentacleMini(reply);
+                        if (address == pHFrame[1]->stamp->getI2cAddress())
+                          pHFrame[1]->stamp->parseTentacleMini(reply);
                     }
                 }
             }
             //qDebug() << address << colonpos << reply << "(" << tentacledata << ")";
-            qDebug() << tentacledata;
+            qDebug() << "Read: " << tentacledata;
         }   // if not empty
     }       // while canReadLine
 }

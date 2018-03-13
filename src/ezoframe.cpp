@@ -43,11 +43,11 @@ EZOFrame::EZOFrame(QWidget *parent) :
 
     connect(stampTimer, SIGNAL(timeout()), this, SLOT(on_btnReadMeas_clicked()));
 
-    connect( tm, SIGNAL(ledRead(bool)),
+    connect( stamp, SIGNAL(ledRead(bool)),
              this, SLOT(displayLedState()) );
-    connect( tm, SIGNAL(infoRead()),
+    connect( stamp, SIGNAL(infoRead()),
              this, SLOT(displayInfo()) );
-    connect( tm, SIGNAL(measRead()),
+    connect( stamp, SIGNAL(measRead()),
              this, SLOT(displayMeas()) );
 }
 
@@ -67,12 +67,12 @@ void EZOFrame::updateInfo()
 
 void EZOFrame::displayLedState()
 {
-    ui->stateLed->setState( tm->getEZOProps().ledState );
+    ui->stateLed->setState( stamp->getEZOProps().ledState );
 }
 
 void EZOFrame::displayInfo()
 {
-    QAtlas::EZOProperties pr = tm->getEZOProps();
+    QAtlas::EZOProperties pr = stamp->getEZOProps();
 
     double dval = pr.acidSlope;
     if (dval > 0) ui->acidSlopeLabel->setText(QString::number(dval));
@@ -92,12 +92,12 @@ void EZOFrame::displayInfo()
     int ival = pr.calState;
     if (ival > -1) ui->calLabel->setText(QString::number(ival));
 
-    ui->leI2CAddress->setText(QString::number(tm->getI2cAddress()));
+    ui->leI2CAddress->setText(QString::number(stamp->getI2cAddress()));
 }
 
 void EZOFrame::displayMeas()
 {
-    QAtlas::EZOProperties pr = tm->getEZOProps();
+    QAtlas::EZOProperties pr = stamp->getEZOProps();
     double dval = 0;
     QString pt = pr.probeType;
 
@@ -122,28 +122,28 @@ void EZOFrame::displayMeas()
 
 void EZOFrame::on_btnGetTemp_clicked()
 {
-    lastCmd = tm->readTemp();
+    lastCmd = stamp->readTemp();
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
 
 void EZOFrame::on_btnReadMeas_clicked()
 {
-    lastCmd = tm->readpHORP();
+    lastCmd = stamp->readpHORP();
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
 
 void EZOFrame::on_btnLED_clicked()
 {
-    lastCmd = tm->readLED();
+    lastCmd = stamp->readLED();
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
 
 void EZOFrame::on_btnSetTemp_clicked()
 {
-    lastCmd = tm->writeTemp(ui->leTemp->text().toDouble());
+    lastCmd = stamp->writeTemp(ui->leTemp->text().toDouble());
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
     QTimer::singleShot(400, this, SLOT(on_btnGetTemp_clicked()));
@@ -151,16 +151,16 @@ void EZOFrame::on_btnSetTemp_clicked()
 
 void EZOFrame::on_btnCal_clicked()
 {
-    lastCmd = tm->readCal();
+    lastCmd = stamp->readCal();
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
 
 void EZOFrame::on_btnCalClear_clicked()
 {
-    QAtlas::EZOProperties pr = tm->getEZOProps();
-    if (pr.probeType == "pH") lastCmd = tm->dopHCal(0);
-    else if (pr.probeType == "ORP") lastCmd = tm->doORPCal(200.0);
+    QAtlas::EZOProperties pr = stamp->getEZOProps();
+    if (pr.probeType == "pH") lastCmd = stamp->dopHCal(0);
+    else if (pr.probeType == "ORP") lastCmd = stamp->doORPCal(200.0);
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
@@ -170,7 +170,7 @@ void EZOFrame::on_btnCalClear_clicked()
 
 void EZOFrame::on_btnCalMid_clicked()
 {
-    lastCmd = tm->dopHCal(1);
+    lastCmd = stamp->dopHCal(1);
     //serial->write(lastCmd);
     emit cmdAvailable(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
@@ -180,7 +180,7 @@ void EZOFrame::on_btnCalMid_clicked()
 
 void EZOFrame::on_btnCalLow_clicked()
 {
-    lastCmd = tm->dopHCal(2);
+    lastCmd = stamp->dopHCal(2);
     //serial->write(lastCmd);
     emit cmdAvailable(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
@@ -188,7 +188,7 @@ void EZOFrame::on_btnCalLow_clicked()
 
 void EZOFrame::on_btnCalHigh_clicked()
 {
-    lastCmd = tm->dopHCal(3);
+    lastCmd = stamp->dopHCal(3);
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
     QTimer::singleShot(2000, this, SLOT(on_btnCal_clicked()));
@@ -196,28 +196,28 @@ void EZOFrame::on_btnCalHigh_clicked()
 
 void EZOFrame::on_btnSlope_clicked()
 {
-    lastCmd = tm->readSlope();
+    lastCmd = stamp->readSlope();
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
 
 void EZOFrame::on_btnInfo_clicked()
 {
-    lastCmd = tm->readInfo();
+    lastCmd = stamp->readInfo();
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
 
 void EZOFrame::on_btnStatus_clicked()
 {
-    lastCmd = tm->readStatus();
+    lastCmd = stamp->readStatus();
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
 
 void EZOFrame::on_ledCheckBox_clicked(bool checked)
 {
-    lastCmd = tm->writeLED(checked);
+    lastCmd = stamp->writeLED(checked);
     //serial->write(lastCmd);
     emit cmdAvailable(lastCmd);
     QTimer::singleShot(300, this, SLOT(on_btnLED_clicked()));
@@ -231,7 +231,7 @@ void EZOFrame::on_contCB_clicked(bool checked)
 
 void EZOFrame::on_btnSleep_clicked()
 {
-    lastCmd = tm->sleep();
+    lastCmd = stamp->sleep();
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
@@ -244,6 +244,6 @@ void EZOFrame::on_cbAuto_clicked(bool checked)
 
 void EZOFrame::on_btnI2CAddr_clicked()
 {
-    lastCmd = tm->changeI2C(ui->leI2CAddress->text().toInt());
+    lastCmd = stamp->changeI2C(ui->leI2CAddress->text().toInt());
     emit cmdAvailable(lastCmd);
 }

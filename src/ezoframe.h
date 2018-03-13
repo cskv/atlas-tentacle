@@ -51,7 +51,7 @@ public:
     ~EZOFrame();
 
     QByteArray lastCmd;
-    QAtlas* tm = new QAtlas();  // wel even aanmaken !
+    QAtlas* stamp = new QAtlas();  // wel even aanmaken !
 
 public slots:
         void on_btnReadMeas_clicked();
