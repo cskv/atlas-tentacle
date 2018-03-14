@@ -12,6 +12,7 @@
         <file>images/logo2016_zonderrand.png</file>
         <file>images/orp-circuit-large.jpg</file>
         <file>images/ph-circuit-large.jpg</file>
+        <file>images/log-128.png</file>
     </qresource>
     <qresource prefix="/new/arrows">
         <file>images/1446825708_icon-arrow-up-b.ico</file>

@@ -41,7 +41,8 @@ SOURCES += \
     src/ezoframe.cpp \
     src/plotframe.cpp \
     src/serialdialog.cpp \
-    thirdparty/qcustomplot.cpp
+    thirdparty/qcustomplot.cpp \
+    src/loggingframe.cpp
 
 HEADERS += \
     src/mainwindow.h \
@@ -52,7 +53,8 @@ HEADERS += \
     src/ezoframe.h \
     src/plotframe.h \
     src/serialdialog.h \
-    thirdparty/qcustomplot.h
+    thirdparty/qcustomplot.h \
+    src/loggingframe.h
 
 FORMS += \
     src/mainwindow.ui \
@@ -60,7 +62,8 @@ FORMS += \
     src/about.ui \
     src/ezoframe.ui \
     src/plotframe.ui \
-    src/serialdialog.ui
+    src/serialdialog.ui \
+    src/loggingframe.ui
 
 RESOURCES += \
     atlasterminal.qrc

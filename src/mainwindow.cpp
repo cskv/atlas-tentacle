@@ -76,6 +76,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setupEZOFrames();
 
+    logf = new LoggingFrame(ui->logTab);
+    //lf->show();
+
     sd->setModal(true);
     sd->show();
     //connect( sd, SIGNAL(accepted()),
@@ -315,4 +318,43 @@ void MainWindow::on_actionAbout_AtlasTerminal_triggered()
 void MainWindow::on_actionAbout_Qt_triggered()
 {
     qApp->aboutQt();
+}
+
+void MainWindow::addLoggerLine()
+{
+    QString line;
+
+    //double sourceVolts = sourceMeter->getSourceVolts();
+    //double cellCurrentmA = sourceMeter->getCellAmps() * 1000;
+    //ui->lblV->setText(QString::number(sourceVolts, 'f', 1) + " V");
+    //ui->lblmA->setText(QString::number(cellCurrentmA, 'f', 3) + " mA");
+
+    //ItalianWindow::ItalianData itd;
+    //itd = itw->getItData();
+
+    //line.sprintf("%9i, %4i-%02i-%02i, %02i:%02i:%02i,  %d, %d, %d,  %8.3lf, %7.3lf,  %8.3lf, %7.3lf,  %5.2lf, %5.2lf, %5.2lf, %5.2lf, %5.3lf, %7.1lf",
+    //             unixTime, year,month,day, hour,minute,(int)second, sysCal,accCal,magCal, compAz,compAlt, measAz,measAlt,
+     //            temp1,temp2,temp3,temp4, sourceVolts, cellCurrentmA,
+     //            itd.north, itd.east,itd.south, itd.west);
+
+    //if ( (int)second == 0 )
+    //logf->write(line);
+}
+
+void MainWindow::on_btnStartLogging_clicked()
+{
+    QDateTime datetime(QDateTime::currentDateTime());
+    QString dtString = datetime.toString("yyyyMMdd_hhmmss");
+    logf->setLogFile("SolTraQ_" + dtString + ".log");
+    logf->on_btnStartLog_clicked();
+    ui->btnStartLogging->setEnabled(false);
+    ui->btnStopLogging->setEnabled(true);
+}
+
+void MainWindow::on_btnStopLogging_clicked()
+{
+    logf->on_btnStopLog_clicked();
+    ui->btnStartLogging->setEnabled(true);
+    ui->btnStopLogging->setEnabled(false);
+
 }

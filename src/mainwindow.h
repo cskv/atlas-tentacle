@@ -46,6 +46,7 @@
 #include "thirdparty/qcustomplot.h"
 #include "about.h"
 #include "serialdialog.h"
+#include "loggingframe.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -109,6 +110,7 @@ private:
     EZOFrame* pHFrame[2];
 
     PlotFrame* pf;
+    LoggingFrame* logf;
 
     QTimer* mainTimer;
     //QTimer* delayTimer;
@@ -117,6 +119,9 @@ private:
     //About* aboutAtlas;
 
     QCPPlotTitle* plotTitle;
+    void addLoggerLine();
+    void on_btnStartLogging_clicked();
+    void on_btnStopLogging_clicked();
 };
 
 #endif // MAINWINDOW_H
