@@ -119,7 +119,8 @@ private:
     //About* aboutAtlas;
 
     QCPPlotTitle* plotTitle;
-    void addLoggerLine();
+    bool isLogging = false;
+
     void on_btnStartLogging_clicked();
     void on_btnStopLogging_clicked();
 };

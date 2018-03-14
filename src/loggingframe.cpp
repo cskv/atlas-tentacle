@@ -75,16 +75,20 @@ void LoggingFrame::setLogFile(const QString &value)
     ui->leLogDir->setText(logFile.fileName());
 }
 
-
+/**
+ * @brief LoggingFrame::on_btnStartLog_clicked
+ *
+ * https://wiki.qt.io/Simple-logger
+ */
 void LoggingFrame::on_btnStartLog_clicked()
 {
     if(logFile.open(QIODevice::ReadWrite | QIODevice::Text)) {
         // We're going to streaming text to the file
         logStream.setDevice(&logFile);
+        logStream.setCodec("UTF-8");
 
         // Write header line to log file:
-        logStream << "# unixTime, year,month,day, hour,min,sec, sys,acc,mag, compAz,compAlt, measAz,measAlt, "
-                  "temp1, temp2, temp3, temp4, sourceVolts, cellCurrentmA, north, east, south, west" << endl;
+        logStream << "# unixTime, yyyy-MM-dd, hh:mm:ss, pH, pH" << endl;
     }
 }
 

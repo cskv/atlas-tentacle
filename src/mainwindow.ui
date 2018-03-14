@@ -46,8 +46,8 @@
     </property>
     <property name="iconSize">
      <size>
-      <width>32</width>
-      <height>32</height>
+      <width>24</width>
+      <height>24</height>
      </size>
     </property>
     <property name="elideMode">
@@ -271,7 +271,7 @@ color: orange;
     <widget class="QWidget" name="logTab">
      <attribute name="icon">
       <iconset resource="../atlasterminal.qrc">
-       <normaloff>:/new/images/images/log-128.png</normaloff>:/new/images/images/log-128.png</iconset>
+       <normaloff>:/new/images/images/log-file-format.png</normaloff>:/new/images/images/log-file-format.png</iconset>
      </attribute>
      <attribute name="title">
       <string>Logging</string>

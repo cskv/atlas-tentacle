@@ -19,13 +19,14 @@ public:
     explicit LoggingFrame(QWidget *parent = 0);
     ~LoggingFrame();
 
+// getters and setters
     QDir getLogDir() const;
     void setLogDir(const QDir &value);
+    void setLogFile(const QString &value);
 
     void write(const QString &line);
     void read();
 
-    void setLogFile(const QString &value);
     void on_btnStartLog_clicked();
     void on_btnStopLog_clicked();
 
