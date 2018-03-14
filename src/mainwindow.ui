@@ -42,7 +42,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <property name="iconSize">
      <size>
@@ -223,7 +223,7 @@ color: orange;
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnStartLogging">
+     <widget class="QPushButton" name="btnLogStart">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -236,7 +236,7 @@ color: orange;
        <string>Start logging</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnStopLogging">
+     <widget class="QPushButton" name="btnLogStop">
       <property name="geometry">
        <rect>
         <x>140</x>

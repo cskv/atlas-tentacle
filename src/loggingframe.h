@@ -27,12 +27,14 @@ public:
     void write(const QString &line);
     void read();
 
-    void on_btnStartLog_clicked();
-    void on_btnStopLog_clicked();
+    void on_btnStart_clicked();
+    void on_btnStop_clicked();
 
 private slots:
     void on_btnWrite_clicked();
     void on_btnRead_clicked();
+
+
 
 private:
     Ui::LoggingFrame *ui;

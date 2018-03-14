@@ -28,7 +28,6 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-//#include "settingsdialog.h"
 
 #include <QMessageBox>
 #include <QtSerialPort/QSerialPort>
@@ -77,7 +76,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setupEZOFrames();
 
     logf = new LoggingFrame(ui->logTab);
-    //lf->show();
+    //logf->setLogDir("C:/Data");
+    //lf->setLogFile(qs.value("LogFile", "SolTraQ_").toString());
 
     sd->setModal(true);
     sd->show();
@@ -273,26 +273,43 @@ void MainWindow::on_contCB_clicked(bool checked)
     else mainTimer->stop();
 }
 
-
-
-/*
-void MainWindow::readRawI2CData()
+void MainWindow::on_actionScreenshot_triggered()
 {
-    while(serial->canReadLine()) {
-        QByteArray serialdata = serial->readLine();
-//reads in data line by line, separated by \n or \r characters
-        qDebug() << serialdata;
-        QByteArray reply = serialdata.trimmed();
-        if (reply[0] == (char)0x01) {
-            ui->statusBar->showMessage("Success");
-            tm1->parseAtlasI2C(reply);
-        }
-        else if (reply[0] == (char)0x02) ui->statusBar->showMessage("Request Failed");
-        else if (reply.at(0) == (char)0xFE) ui->statusBar->showMessage("Data Pending");
-        else if (reply.at(0) == (char)0xFF) ui->statusBar->showMessage("No Data");
-    }
+    ui->centralWidget->grab().save("image.png");
 }
-*/
+
+void MainWindow::on_actionAbout_AtlasTerminal_triggered()
+{
+    About aboutAtlas;
+    aboutAtlas.exec();
+}
+
+void MainWindow::on_actionAbout_Qt_triggered()
+{
+    qApp->aboutQt();
+}
+
+void MainWindow::on_btnLogStart_clicked()
+{
+    QDateTime datetime(QDateTime::currentDateTime());
+    QString dtString = datetime.toString("yyyyMMdd_hhmmss");
+    logf->setLogFile("C:/Data/Atlas_" + dtString + ".log");
+
+    logf->on_btnStart_clicked();
+    isLogging = true;
+
+    ui->btnLogStart->setEnabled(false);
+    ui->btnLogStop->setEnabled(true);
+}
+
+void MainWindow::on_btnLogStop_clicked()
+{
+    isLogging = false;
+    logf->on_btnStop_clicked();
+
+    ui->btnLogStart->setEnabled(true);
+    ui->btnLogStop->setEnabled(false);
+}
 
 /*
 void MainWindow::readAtlasUSBData()
@@ -318,40 +335,23 @@ void MainWindow::readAtlasUSBData()
 }
 */
 
-void MainWindow::on_actionScreenshot_triggered()
+/*
+void MainWindow::readRawI2CData()
 {
-    ui->centralWidget->grab().save("image.png");
+    while(serial->canReadLine()) {
+        QByteArray serialdata = serial->readLine();
+//reads in data line by line, separated by \n or \r characters
+        qDebug() << serialdata;
+        QByteArray reply = serialdata.trimmed();
+        if (reply[0] == (char)0x01) {
+            ui->statusBar->showMessage("Success");
+            tm1->parseAtlasI2C(reply);
+        }
+        else if (reply[0] == (char)0x02) ui->statusBar->showMessage("Request Failed");
+        else if (reply.at(0) == (char)0xFE) ui->statusBar->showMessage("Data Pending");
+        else if (reply.at(0) == (char)0xFF) ui->statusBar->showMessage("No Data");
+    }
 }
+*/
 
-void MainWindow::on_actionAbout_AtlasTerminal_triggered()
-{
-    About aboutAtlas;
-    aboutAtlas.exec();
-}
 
-void MainWindow::on_actionAbout_Qt_triggered()
-{
-    qApp->aboutQt();
-}
-
-void MainWindow::on_btnStartLogging_clicked()
-{
-    QDateTime datetime(QDateTime::currentDateTime());
-    QString dtString = datetime.toString("yyyyMMdd_hhmmss");
-    logf->setLogFile("C:\Data\Atlas_" + dtString + ".log");
-
-    logf->on_btnStartLog_clicked();
-    isLogging = true;
-
-    ui->btnStartLogging->setEnabled(false);
-    ui->btnStopLogging->setEnabled(true);
-}
-
-void MainWindow::on_btnStopLogging_clicked()
-{
-    isLogging = false;
-    logf->on_btnStopLog_clicked();
-
-    ui->btnStartLogging->setEnabled(true);
-    ui->btnStopLogging->setEnabled(false);
-}

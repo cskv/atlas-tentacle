@@ -29,7 +29,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtCore/QtGlobal>
+//#include <QtCore/QtGlobal>
 
 #include <QMainWindow>
 
@@ -55,8 +55,6 @@ class MainWindow;
 }
 
 QT_END_NAMESPACE
-
-//class SettingsDialog;
 
 class MainWindow : public QMainWindow
 {
@@ -96,6 +94,10 @@ private slots:
 
     void on_actionAbout_Qt_triggered();
 
+    void on_btnLogStart_clicked();
+
+    void on_btnLogStop_clicked();
+
 private:
     Ui::MainWindow *ui;
     LedIndicator* ledStateLed;
@@ -120,9 +122,6 @@ private:
 
     QCPPlotTitle* plotTitle;
     bool isLogging = false;
-
-    void on_btnStartLogging_clicked();
-    void on_btnStopLogging_clicked();
 };
 
 #endif // MAINWINDOW_H

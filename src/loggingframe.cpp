@@ -7,6 +7,7 @@ LoggingFrame::LoggingFrame(QWidget *parent) :
     ui(new Ui::LoggingFrame)
 {
     ui->setupUi(this);
+    logDir = QDir("C:/Data");
 }
 
 LoggingFrame::~LoggingFrame()
@@ -76,14 +77,15 @@ void LoggingFrame::setLogFile(const QString &value)
 }
 
 /**
- * @brief LoggingFrame::on_btnStartLog_clicked
+ * @brief LoggingFrame::on_btnStart_clicked
  *
  * https://wiki.qt.io/Simple-logger
  */
-void LoggingFrame::on_btnStartLog_clicked()
+void LoggingFrame::on_btnStart_clicked()
 {
     if(logFile.open(QIODevice::ReadWrite | QIODevice::Text)) {
         // We're going to streaming text to the file
+        qDebug() << logFile.fileName();
         logStream.setDevice(&logFile);
         logStream.setCodec("UTF-8");
 
@@ -92,10 +94,9 @@ void LoggingFrame::on_btnStartLog_clicked()
     }
 }
 
-void LoggingFrame::on_btnStopLog_clicked()
+void LoggingFrame::on_btnStop_clicked()
 {
     if(logFile.isOpen()) {
         logFile.close();
     }
 }
-
