@@ -60,6 +60,8 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+    static const int NUMSTAMPS = 4;
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -101,9 +103,13 @@ private slots:
     void on_pushButton_clicked();
 
 private:
-    const int NUMSTAMPS = 4;
-
     Ui::MainWindow *ui;
+
+    //const int NUMSTAMPS = 4;
+    EZOFrame* pHFrame[NUMSTAMPS];
+    QLabel* lblEZO[NUMSTAMPS];
+    QLabel* lblValue[NUMSTAMPS];
+
     LedIndicator* ledStateLed;
 
     //SettingsDialog *settings;
@@ -113,9 +119,6 @@ private:
 
     //EZOFrame* pH1Frame;
     //EZOFrame* pH2Frame;
-    EZOFrame* pHFrame[2];
-    QLabel* lblEZO[4];
-    QLabel* lblValue[4];
 
     PlotFrame* pf;
     LoggingFrame* logf;
