@@ -96,8 +96,8 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(on_mainTimer()));
 
     for (int n = 0; n < NUMSTAMPS; n++) {
-        pHFrame[n] = new EZOFrame(this->EZOTab[n]);
-        pHFrame[n]->stamp->setI2cAddress(16+n);
+        ezof[n] = new EZOFrame(this->EZOTab[n]);
+        ezof[n]->stamp->setI2cAddress(16+n);
     }
 
     setupEZOFrames();
@@ -122,21 +122,21 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupEZOFrames()
 {
-    connect( pHFrame[0], SIGNAL(cmdAvailable(QByteArray)),
+    connect( ezof[0], SIGNAL(cmdAvailable(QByteArray)),
              this, SLOT(writeData(QByteArray)) );
-    connect( pHFrame[1], SIGNAL(cmdAvailable(QByteArray)),
+    connect( ezof[1], SIGNAL(cmdAvailable(QByteArray)),
              this, SLOT(writeData(QByteArray)) );
 
-    connect( pHFrame[0]->stamp, SIGNAL(measRead()),
+    connect( ezof[0]->stamp, SIGNAL(measRead()),
              this, SLOT(displayAllMeas()) );
-    connect( pHFrame[1]->stamp, SIGNAL(measRead()),
+    connect( ezof[1]->stamp, SIGNAL(measRead()),
              this, SLOT(displayAllMeas()) );
 }
 
 void MainWindow::on_mainTimer()
 {
-    pHFrame[0]->on_btnReadMeas_clicked();
-    pHFrame[1]->on_btnReadMeas_clicked();
+    ezof[0]->on_btnReadMeas_clicked();
+    ezof[1]->on_btnReadMeas_clicked();
 }
 
 void MainWindow::openSerialPort2()
@@ -186,7 +186,7 @@ void MainWindow::displayAllMeas()
     QString pt[2] = {"pH", "pH"};
 
     for (int n = 0; n < 2; n++) {
-        pr[n] = pHFrame[n]->stamp->getEZOProps();
+        pr[n] = ezof[n]->stamp->getEZOProps();
         pt[n] = pr[n].probeType;
     }
 
@@ -283,10 +283,10 @@ void MainWindow::readTentacleI2CData()
                     //adr = strtok(reply.data(), ":");
                     reply = reply.mid(colonpos+1, -1);
                     if ( !reply.isEmpty() ) {
-                        if (address == pHFrame[0]->stamp->getI2cAddress())
-                          pHFrame[0]->stamp->parseTentacleMini(reply);
-                        if (address == pHFrame[1]->stamp->getI2cAddress())
-                          pHFrame[1]->stamp->parseTentacleMini(reply);
+                        if (address == ezof[0]->stamp->getI2cAddress())
+                          ezof[0]->stamp->parseTentacleMini(reply);
+                        if (address == ezof[1]->stamp->getI2cAddress())
+                          ezof[1]->stamp->parseTentacleMini(reply);
                     }
                 }
             }

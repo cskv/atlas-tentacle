@@ -35,9 +35,9 @@ EZOFrame::EZOFrame(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->stateLed->setOnColor(Qt::blue);
-    ui->stateLed->setOffColor(Qt::gray);
-    ui->stateLed->setState(true);
+    //ui->stateLed->setOnColor(Qt::blue);
+    //ui->stateLed->setOffColor(Qt::gray);
+    //ui->stateLed->setState(true);
 
     stampTimer = new QTimer;
 
@@ -67,7 +67,7 @@ void EZOFrame::updateInfo()
 
 void EZOFrame::displayLedState()
 {
-    ui->stateLed->setState( stamp->getEZOProps().ledState );
+    //ui->stateLed->setState( stamp->getEZOProps().ledState );
 }
 
 void EZOFrame::displayInfo()

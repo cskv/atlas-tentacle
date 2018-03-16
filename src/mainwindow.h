@@ -100,11 +100,11 @@ private:
 
     //const int NUMSTAMPS = 4;
     QWidget* EZOTab[NUMSTAMPS];
-    EZOFrame* pHFrame[NUMSTAMPS];
+    EZOFrame* ezof[NUMSTAMPS];
     QLabel* lblEZO[NUMSTAMPS];
     QLabel* lblValue[NUMSTAMPS];
 
-    LedIndicator* ledStateLed;
+    //LedIndicator* ledStateLed;
 
     SerialDialog* sd;
     QSerialPort *serial;
