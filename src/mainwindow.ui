@@ -63,172 +63,48 @@
      <attribute name="title">
       <string>Main</string>
      </attribute>
-     <widget class="QLabel" name="lblEZO1">
+     <widget class="QPushButton" name="btnLogStop">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>394</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Stop Logging</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>110</y>
-        <width>122</width>
-        <height>60</height>
+        <y>356</y>
+        <width>110</width>
+        <height>23</height>
        </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>40</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: red;</string>
       </property>
       <property name="text">
-       <string>pH</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
+       <string>Insert Comment</string>
       </property>
      </widget>
-     <widget class="QLabel" name="lblValue1">
+     <widget class="QLineEdit" name="leComment">
       <property name="geometry">
        <rect>
-        <x>156</x>
-        <y>110</y>
-        <width>311</width>
-        <height>71</height>
+        <x>130</x>
+        <y>356</y>
+        <width>401</width>
+        <height>20</height>
        </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>40</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background: black;
-color: orange;
-</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::PlainText</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="margin">
-       <number>4</number>
-      </property>
-     </widget>
-     <widget class="QGroupBox" name="groupBox">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>131</width>
-        <height>71</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="title">
-       <string>Information</string>
-      </property>
-      <widget class="QCheckBox" name="contCB">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>101</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Continuous</string>
-       </property>
-      </widget>
-     </widget>
-     <widget class="QLabel" name="lblValue2">
-      <property name="geometry">
-       <rect>
-        <x>156</x>
-        <y>226</y>
-        <width>311</width>
-        <height>71</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>40</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background: black;
-color: orange;
-</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::PlainText</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="margin">
-       <number>4</number>
-      </property>
-     </widget>
-     <widget class="QLabel" name="lblEZO2">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>220</y>
-        <width>122</width>
-        <height>60</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>40</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: red;</string>
-      </property>
-      <property name="text">
-       <string>pH</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
       </property>
      </widget>
      <widget class="QPushButton" name="btnLogStart">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>360</y>
-        <width>101</width>
+        <x>10</x>
+        <y>394</y>
+        <width>110</width>
         <height>31</height>
        </rect>
       </property>
@@ -236,17 +112,17 @@ color: orange;
        <string>Start logging</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnLogStop">
+     <widget class="QCheckBox" name="contCB">
       <property name="geometry">
        <rect>
-        <x>140</x>
-        <y>360</y>
-        <width>101</width>
-        <height>31</height>
+        <x>10</x>
+        <y>326</y>
+        <width>110</width>
+        <height>17</height>
        </rect>
       </property>
       <property name="text">
-       <string>Stop Logging</string>
+       <string>Continuous</string>
       </property>
      </widget>
     </widget>

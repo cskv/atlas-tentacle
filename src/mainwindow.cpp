@@ -37,6 +37,28 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    for (int n = 0; n < NUMSTAMPS; n++) {
+        lblEZO[n] = new QLabel(ui->mainTab);
+        //ui->mainTab->layout()->addWidget(lblEZO[n]);
+        lblEZO[n]->setGeometry(20, 20+76*n, 130, 56);
+        //lblEZO[n]->setFont(QFont::Bold);
+        lblEZO[n]->setText("pH");
+        lblEZO[n]->setStyleSheet("color: red;"
+                                 "font: bold 36pt");
+    }
+
+    for (int n = 0; n < NUMSTAMPS; n++) {
+        lblValue[n] = new QLabel(ui->mainTab);
+        //ui->mainTab->layout()->addWidget(lblEZO[n]);
+        lblValue[n]->setGeometry(150, 20+76*n, 360, 56);
+        lblValue[n]->setText("7.00");
+        lblValue[n]->setStyleSheet("background: black; "
+                                   "color: orange;"
+                                   "font: bold 36pt ""Arial"" ");
+        lblValue[n]->setAlignment(Qt::AlignCenter);
+    }
+
     ad = new AtlasDialog(this);
     //aboutAtlas = new About(this);
 
@@ -68,10 +90,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mainTimer, SIGNAL(timeout()),
             this, SLOT(on_mainTimer()));
 
-    pHFrame[0] = new EZOFrame(ui->EZOTab1);
-    pHFrame[1] = new EZOFrame(ui->EZOTab2);
-    pHFrame[0]->stamp->setI2cAddress(16);
-    pHFrame[1]->stamp->setI2cAddress(17);
+    //for (int n = 0; n < NUMSTAMPS; n++) {
+        pHFrame[0] = new EZOFrame(ui->EZOTab1);
+        pHFrame[1] = new EZOFrame(ui->EZOTab2);
+        pHFrame[0]->stamp->setI2cAddress(16);
+        pHFrame[1]->stamp->setI2cAddress(17);
+    //}
 
     setupEZOFrames();
 
@@ -157,21 +181,23 @@ void MainWindow::displayAllMeas()
     double dval[2] = {0.0, 0.0};
     QString pt[2] = {"pH", "pH"};
 
-    pr[0] = pHFrame[0]->stamp->getEZOProps();
-    pr[1] = pHFrame[1]->stamp->getEZOProps();
-    pt[0] = pr[0].probeType;
-    pt[1] = pr[1].probeType;
+    for (int n = 0; n < 2; n++) {
+        pr[n] = pHFrame[n]->stamp->getEZOProps();
+        pt[n] = pr[n].probeType;
+    }
 
-    if ( !ui->lblEZO1->text().startsWith(pt[0]) ) {
-        ui->lblEZO1->setText(pt[0]);
+    //for (int n = 0; n < 2; n++) {
+
+    if ( !this->lblEZO[0]->text().startsWith(pt[0]) ) {
+        this->lblEZO[0]->setText(pt[0]);
         if (pt[0] == "pH"){
-            ui->lblEZO1->setStyleSheet("QLabel {color : red;}");
+            this->lblEZO[0]->setStyleSheet("QLabel {color : red;}");
             ui->tabWidget->setTabIcon(1, *(new QIcon(":/new/images/images/ph-circuit-large.jpg")));
         } else if (pt[0] == "ORP"){
-            ui->lblEZO1->setStyleSheet("QLabel {color : blue;}");
+            this->lblEZO[0]->setStyleSheet("QLabel {color : blue;}");
             ui->tabWidget->setTabIcon(1, *(new QIcon(":/new/images/images/orp-circuit-large.jpg")));
         } else if (pt[0] == "EC"){
-            ui->lblEZO1->setStyleSheet("QLabel {color : green;}");
+            this->lblEZO[0]->setStyleSheet("QLabel {color : green;}");
             ui->tabWidget->setTabIcon(1, *(new QIcon(":/new/images/images/ec-circuit-large.jpg")));
         }
     }
@@ -186,26 +212,39 @@ void MainWindow::displayAllMeas()
 */
     dval[0] = pr[0].currentpH;
     if (dval[0] > 0 && dval[0] < 14) {
-        ui->lblValue1->setText(QString::number(dval[0], 'f', 2 ));
+        this->lblValue[0]->setText(QString::number(dval[0], 'f', 2 ));
     }
     dval[1] = pr[1].currentpH;
     if (dval[1] > 0 && dval[1] < 14) {
-        ui->lblValue2->setText(QString::number(dval[1], 'f', 2 ));
+        this->lblValue[1]->setText(QString::number(dval[1], 'f', 2 ));
     }
     pf->realtimeTentacleSlot(dval[0], dval[1]);
 
     if (isLogging) {
-        QString line;
+        //QString line;
 
         QDateTime dt = QDateTime::currentDateTime();
         int32_t unixTime = dt.toSecsSinceEpoch();
         QString dateStr = dt.toString("yyyy-MM-dd");
         QString timeStr = dt.toString("hh:mm:ss");
 
-        line.sprintf("%10i, %s, %s, %5.2lf, %5.2lf",
-                     unixTime, dateStr, timeStr, dval[0], dval[1]);
+        //line.sprintf("%10i, %s, %s, %5.2lf, %5.2lf",
+        //             unixTime, dateStr, timeStr, dval[0], dval[1]);
+
+
+
+        QString line = QString("%1, %2, %3, %4, %5")
+                .arg(unixTime)
+                .arg(dateStr)
+                .arg(timeStr)
+                .arg(dval[0])
+                .arg(dval[1]);
 
         logf->write(line);
+        if (!commentLine.isEmpty()) {
+            logf-> write(commentLine);
+            commentLine.clear();
+        }
     }
 }
 
@@ -311,6 +350,12 @@ void MainWindow::on_btnLogStop_clicked()
     ui->btnLogStop->setEnabled(false);
 }
 
+void MainWindow::on_pushButton_clicked()
+{
+    commentLine = ui->leComment->text();
+    commentLine.prepend("# ");
+}
+
 /*
 void MainWindow::readAtlasUSBData()
 {
@@ -353,5 +398,6 @@ void MainWindow::readRawI2CData()
     }
 }
 */
+
 
 

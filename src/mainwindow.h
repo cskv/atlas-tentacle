@@ -98,7 +98,11 @@ private slots:
 
     void on_btnLogStop_clicked();
 
+    void on_pushButton_clicked();
+
 private:
+    const int NUMSTAMPS = 4;
+
     Ui::MainWindow *ui;
     LedIndicator* ledStateLed;
 
@@ -110,9 +114,12 @@ private:
     //EZOFrame* pH1Frame;
     //EZOFrame* pH2Frame;
     EZOFrame* pHFrame[2];
+    QLabel* lblEZO[4];
+    QLabel* lblValue[4];
 
     PlotFrame* pf;
     LoggingFrame* logf;
+    QString commentLine;
 
     QTimer* mainTimer;
     //QTimer* delayTimer;
