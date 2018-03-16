@@ -67,8 +67,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void openSerialPort2();
+    void setupEZOFrames();
 
+    void openSerialPort2();
     void closeSerialPort();
     void handleError(QSerialPort::SerialPortError error);
 
@@ -77,48 +78,37 @@ private slots:
 
     void readTentacleI2CData();
     //void readAtlasUSBData();
-
-    void on_action_Help_Tentacle_triggered();
+    //void readRawI2CData();
 
     void displayAllMeas();
 
-    //void readRawI2CData();
-
     void on_contCB_clicked(bool checked);
-
-
-    void on_actionScreenshot_triggered();
-    void setupEZOFrames();
 
     void on_mainTimer();
 
+    void on_action_Help_Tentacle_triggered();
+    void on_actionScreenshot_triggered();
     void on_actionAbout_AtlasTerminal_triggered();
-
     void on_actionAbout_Qt_triggered();
 
     void on_btnLogStart_clicked();
-
     void on_btnLogStop_clicked();
-
     void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
 
     //const int NUMSTAMPS = 4;
+    QWidget* EZOtab[NUMSTAMPS];
     EZOFrame* pHFrame[NUMSTAMPS];
     QLabel* lblEZO[NUMSTAMPS];
     QLabel* lblValue[NUMSTAMPS];
 
     LedIndicator* ledStateLed;
 
-    //SettingsDialog *settings;
     SerialDialog* sd;
     QSerialPort *serial;
     QByteArray lastCmd;
-
-    //EZOFrame* pH1Frame;
-    //EZOFrame* pH2Frame;
 
     PlotFrame* pf;
     LoggingFrame* logf;

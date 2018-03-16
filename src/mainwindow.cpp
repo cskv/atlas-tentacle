@@ -59,6 +59,14 @@ MainWindow::MainWindow(QWidget *parent) :
         lblValue[n]->setAlignment(Qt::AlignCenter);
     }
 
+    for (int n = 0; n < NUMSTAMPS; n++) {
+        EZOtab[n] = new QWidget();
+        ui->tabWidget->addTab(EZOtab[n], QString("EZO%1").arg(n));
+    }
+    //ui->tabWidget->addTab(new QWidget(), "EZO3");
+    //ui->tabWidget->addTab(pHFrame[2], "EZO3");
+    //}
+
     ad = new AtlasDialog(this);
     //aboutAtlas = new About(this);
 
@@ -97,6 +105,7 @@ MainWindow::MainWindow(QWidget *parent) :
         pHFrame[1]->stamp->setI2cAddress(17);
     //}
 
+    //ui->tabWidget->addTab(pHFrame[2], "EZO3");
     setupEZOFrames();
 
     logf = new LoggingFrame(ui->logTab);
