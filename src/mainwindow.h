@@ -99,7 +99,7 @@ private:
     Ui::MainWindow *ui;
 
     //const int NUMSTAMPS = 4;
-    QWidget* EZOtab[NUMSTAMPS];
+    QWidget* EZOTab[NUMSTAMPS];
     EZOFrame* pHFrame[NUMSTAMPS];
     QLabel* lblEZO[NUMSTAMPS];
     QLabel* lblValue[NUMSTAMPS];

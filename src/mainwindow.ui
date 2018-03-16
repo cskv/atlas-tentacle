@@ -126,24 +126,6 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="EZOTab1">
-     <attribute name="icon">
-      <iconset resource="../atlasterminal.qrc">
-       <normaloff>:/new/images/images/ph-circuit-large.jpg</normaloff>:/new/images/images/ph-circuit-large.jpg</iconset>
-     </attribute>
-     <attribute name="title">
-      <string>pH1</string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="EZOTab2">
-     <attribute name="icon">
-      <iconset resource="../atlasterminal.qrc">
-       <normaloff>:/new/images/images/ph-circuit-large.jpg</normaloff>:/new/images/images/ph-circuit-large.jpg</iconset>
-     </attribute>
-     <attribute name="title">
-      <string>pH2</string>
-     </attribute>
-    </widget>
     <widget class="QWidget" name="logTab">
      <attribute name="icon">
       <iconset resource="../atlasterminal.qrc">

@@ -60,12 +60,9 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     for (int n = 0; n < NUMSTAMPS; n++) {
-        EZOtab[n] = new QWidget();
-        ui->tabWidget->addTab(EZOtab[n], QString("EZO%1").arg(n));
+        EZOTab[n] = new QWidget();
+        ui->tabWidget->insertTab(n+1, EZOTab[n], QString("EZO %1").arg(n));
     }
-    //ui->tabWidget->addTab(new QWidget(), "EZO3");
-    //ui->tabWidget->addTab(pHFrame[2], "EZO3");
-    //}
 
     ad = new AtlasDialog(this);
     //aboutAtlas = new About(this);
@@ -98,14 +95,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mainTimer, SIGNAL(timeout()),
             this, SLOT(on_mainTimer()));
 
-    //for (int n = 0; n < NUMSTAMPS; n++) {
-        pHFrame[0] = new EZOFrame(ui->EZOTab1);
-        pHFrame[1] = new EZOFrame(ui->EZOTab2);
-        pHFrame[0]->stamp->setI2cAddress(16);
-        pHFrame[1]->stamp->setI2cAddress(17);
-    //}
+    for (int n = 0; n < NUMSTAMPS; n++) {
+        pHFrame[n] = new EZOFrame(this->EZOTab[n]);
+        pHFrame[n]->stamp->setI2cAddress(16+n);
+    }
 
-    //ui->tabWidget->addTab(pHFrame[2], "EZO3");
     setupEZOFrames();
 
     logf = new LoggingFrame(ui->logTab);
@@ -119,6 +113,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 }
 
+MainWindow::~MainWindow()
+{
+    //delete sd;
+    delete ui;
+}
+//*********************************************************************
+
 void MainWindow::setupEZOFrames()
 {
     connect( pHFrame[0], SIGNAL(cmdAvailable(QByteArray)),
@@ -130,12 +131,6 @@ void MainWindow::setupEZOFrames()
              this, SLOT(displayAllMeas()) );
     connect( pHFrame[1]->stamp, SIGNAL(measRead()),
              this, SLOT(displayAllMeas()) );
-}
-
-MainWindow::~MainWindow()
-{
-    //delete sd;
-    delete ui;
 }
 
 void MainWindow::on_mainTimer()
