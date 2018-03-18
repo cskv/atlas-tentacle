@@ -7,7 +7,6 @@
  *
  * @author Paul JM van Kan (cskv)
  */
-
 /***************************************************************************
 **
 **  This file is part of AtlasTerminal, a host computer GUI for
@@ -39,7 +38,6 @@
 #ifndef QATLAS_H
 #define QATLAS_H
 
-//#include <QtCore>
 #include <QObject>
 
 class QAtlas :public QObject
@@ -54,20 +52,24 @@ public:
 /** @brief struct containing all parameters and measurement values of EZO stamp.
  *
  */
-typedef struct {
+struct EZOProperties {
     bool    ledState = true;      /**< LED on EZO stamp enabled (true)/disabled (false) */
     double  currentpH = 7.0;      /**< pH measurement */
     double  currentORP = -999.9;  /**< ORP measurement */
+    double  currentEC = -1.0;     /**< EC measurement */
     double  currentTemp = -273.0; /**< Temperature */
     int     calState = -1;        /**< Calibration state: 0,1,2,3 (uncal, mid, low, high) */
     double  acidSlope = 0.0;      /**< Calibration slope pH < 7 */
     double  basicSlope = 0.0;     /**< Calibration slope pH > 7  */
+    QString name = "Stamp";       /**< string to give device a name */
     QString probeType = "";       /**< pH, ORP, EC or D.O. */
     QString version = "";         /**< firmware version */
     QString rstCode = "";         /**< Reset code */
     double  voltage = 0;          /**< supply voltage EZO stamp */
     qint8   i2cAddress = -1;      /**< 7-bits I2C address (1..127)  */
-    } EZOProperties;
+    int     baud = 9600;          /**< baudrate of virtual serial port to EZO stamp */
+    bool    isConnectedAsSerial = true;          /**< serial or I2C */
+    };
 
 // getters
     EZOProperties getEZOProps() const;
@@ -107,7 +109,7 @@ public slots:
 
 signals:
     void ledRead(bool state);
-    void infoRead();  //class QATLAS moet hiervoor een QOBJECT zijn
+    void infoRead();          //class QATLAS moet hiervoor een QOBJECT zijn
     void measRead();
 
 private:

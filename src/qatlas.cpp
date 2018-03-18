@@ -449,6 +449,7 @@ void QAtlas::setEZOProps(const EZOProperties &value)
 {
     props = value;
 }
+
 void QAtlas::setI2cAddress(const qint8 &value)
 {
     props.i2cAddress = value;
