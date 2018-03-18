@@ -2,9 +2,9 @@
 **
 **  This file is part of AtlasTerminal, a host computer GUI for
 **  Atlas Scientific(TM) stamps
-**  connected to an Arduino(TM)
-**  with Tentacle (TM) interface shield.
-**  Copyright (C) 2016 Paul JM van Kan
+**  connected to an Arduino(TM) with
+**  Whitebox Labs Tentacle (TM) or Tentacle Mini(TM) interface shield.
+**  Copyright (C) 2016-2018 Paul JM van Kan
 **
 **  AtlasTerminal is free software: you can redistribute it and/or modify
 **  it under the terms of the GNU General Public License as published by
@@ -30,13 +30,10 @@
 #define EZOFRAME_H
 
 #include <QFrame>
-
 #include <QTimer>
 
 #include "atlasdialog.h"
 #include "qatlas.h"
-//#include "qatlasusb.h"
-#include "ledindicator.h"
 
 namespace Ui {
 class EZOFrame;

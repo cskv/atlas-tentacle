@@ -4,7 +4,7 @@
 **  Atlas Scientific(TM) stamps
 **  connected to an Arduino(TM)
 **  with Tentacle (TM) interface shield.
-**  Copyright (C) 2016 Paul JM van Kan
+**  Copyright (C) 2016-2018 Paul JM van Kan
 **
 **  AtlasTerminal is free software: you can redistribute it and/or modify
 **  it under the terms of the GNU General Public License as published by
