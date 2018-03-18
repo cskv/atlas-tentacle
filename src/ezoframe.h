@@ -80,7 +80,6 @@ private slots:
 
     void updateInfo();
 
-    void displayLedState();
     void displayInfo();
     void displayMeas();
 
@@ -90,7 +89,6 @@ private slots:
 
 private:
     Ui::EZOFrame *ui;
-    LedIndicator* ledStateLed;
     QTimer* stampTimer;
 };
 

@@ -35,16 +35,10 @@ EZOFrame::EZOFrame(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //ui->stateLed->setOnColor(Qt::blue);
-    //ui->stateLed->setOffColor(Qt::gray);
-    //ui->stateLed->setState(true);
-
     stampTimer = new QTimer;
 
     connect(stampTimer, SIGNAL(timeout()), this, SLOT(on_btnReadMeas_clicked()));
 
-    connect( stamp, SIGNAL(ledRead(bool)),
-             this, SLOT(displayLedState()) );
     connect( stamp, SIGNAL(infoRead()),
              this, SLOT(displayInfo()) );
     connect( stamp, SIGNAL(measRead()),
@@ -63,11 +57,6 @@ void EZOFrame::updateInfo()
     ui->btnStatus->click();
     ui->btnGetTemp->click();
     ui->btnCal->click();
-}
-
-void EZOFrame::displayLedState()
-{
-    //ui->stateLed->setState( stamp->getEZOProps().ledState );
 }
 
 void EZOFrame::displayInfo()

@@ -106,8 +106,8 @@ public slots:
     void parseAtlasI2C(QByteArray atlasdata);
 
 signals:
-    void ledRead(bool state); //class QATLAS moet hiervoor een QOBJECT zijn
-    void infoRead();
+    void ledRead(bool state);
+    void infoRead();  //class QATLAS moet hiervoor een QOBJECT zijn
     void measRead();
 
 private:
