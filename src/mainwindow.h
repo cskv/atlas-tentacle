@@ -60,7 +60,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    static const int NUMSTAMPS = 4;
+    static const int NUMSTAMPS = 2;
 
 public:
     explicit MainWindow(QWidget *parent = 0);
