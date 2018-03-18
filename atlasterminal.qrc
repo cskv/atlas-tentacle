@@ -4,22 +4,15 @@
         <file>images/disconnect.png</file>
         <file>images/application-exit.png</file>
         <file>images/clear.png</file>
-        <file>images/atlas-logo-blue.png</file>
         <file>images/atlas-logo-red.png</file>
         <file>images/top_logo.png</file>
         <file>images/settings.png</file>
         <file>images/AtlasHelp1.png</file>
-        <file>images/logo2016_zonderrand.png</file>
         <file>images/orp-circuit-large.jpg</file>
         <file>images/ph-circuit-large.jpg</file>
-        <file>images/log-128.png</file>
-        <file>images/28811.png</file>
         <file>images/log-file-format.png</file>
     </qresource>
     <qresource prefix="/new/arrows">
-        <file>images/1446825708_icon-arrow-up-b.ico</file>
         <file>images/1446825729_icon-arrow-down-b.ico</file>
-        <file>images/1446825746_icon-arrow-left-b.ico</file>
-        <file>images/1458581231_icon-arrow-right-b.ico</file>
     </qresource>
 </RCC>
