@@ -29,8 +29,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-//#include <QtCore/QtGlobal>
-
 #include <QMainWindow>
 
 #include <QtSerialPort/QSerialPort>
@@ -40,7 +38,6 @@
 //#include "qatlas.h"
 //#include "qatlasusb.h"
 
-#include "ledindicator.h"
 #include "ezoframe.h"
 #include "plotframe.h"
 #include "thirdparty/qcustomplot.h"
@@ -67,14 +64,14 @@ public:
     ~MainWindow();
 
 private slots:
-    void setupEZOFrames();
-
     void openSerialPort2();
     void closeSerialPort();
     void handleError(QSerialPort::SerialPortError error);
 
     void writeData(const QByteArray &data);
     void readData();
+
+    void setupEZOFrames();
 
     void readTentacleI2CData();
     //void readAtlasUSBData();
@@ -95,6 +92,8 @@ private slots:
     void on_btnLogStop_clicked();
     void on_pushButton_clicked();
 
+    void on_actionConnect_triggered();
+
 private:
     Ui::MainWindow *ui;
 
@@ -103,8 +102,6 @@ private:
     EZOFrame* ezof[NUMSTAMPS];
     QLabel* lblEZO[NUMSTAMPS];
     QLabel* lblValue[NUMSTAMPS];
-
-    //LedIndicator* ledStateLed;
 
     SerialDialog* sd;
     QSerialPort *serial;

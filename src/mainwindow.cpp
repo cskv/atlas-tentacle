@@ -38,6 +38,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //QPalette p = ui->tabWidget->palette();
+    //p.setColor(QPalette::Background, Qt::red);
+    //ui->tabWidget->setPalette(p);
+
     for (int n = 0; n < NUMSTAMPS; n++) {
         lblEZO[n] = new QLabel(ui->mainTab);
         //ui->mainTab->layout()->addWidget(lblEZO[n]);
@@ -65,8 +69,6 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     ad = new AtlasDialog(this);
-    //aboutAtlas = new About(this);
-
     pf = new PlotFrame(ui->centralWidget);
     pf->move(560,20);
 
@@ -80,10 +82,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionQuit->setEnabled(true);
 
 // make all connections //initActionsConnections in Terminal example
-    connect(ui->actionConnect, SIGNAL(triggered()), this, SLOT(openSerialPort2()));
-    connect(ui->actionDisconnect, SIGNAL(triggered()), this, SLOT(closeSerialPort()));
-    connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
-    connect(ui->actionConfigure, SIGNAL(triggered()), sd, SLOT(show()));
+    //connect(ui->actionConnect, SIGNAL(triggered()),
+            //this, SLOT(openSerialPort2()));
+    connect(ui->actionDisconnect, SIGNAL(triggered()),
+            this, SLOT(closeSerialPort()));
+    connect(ui->actionQuit, SIGNAL(triggered()),
+            this, SLOT(close()));
+    connect(ui->actionConfigure, SIGNAL(triggered()),
+            sd, SLOT(show()));
 
 // make other connections (see Terminal example)
     connect(serial, SIGNAL(error(QSerialPort::SerialPortError)),
@@ -405,3 +411,11 @@ void MainWindow::readRawI2CData()
 
 
 
+
+void MainWindow::on_actionConnect_triggered()
+{
+    openSerialPort2();
+    for (int n = 0; n < NUMSTAMPS; n++) {
+        ezof[n]->on_btnInfo_clicked();
+    }
+}

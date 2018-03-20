@@ -82,9 +82,8 @@ void QAtlas::prependI2CAddr(QByteArray &anyCmd)         // pH, ORP
 /*!
  * \brief Get the current state of the LED on the Atlas Scientific stamp.
  *
- * Example:
- * \code readLED(); \endcode
  * Atlas function: L?
+ * \return cmd for EZO function L,?
  * Response: 1?L,x with x is 0 (LED off) or 1 (LED on)
  */
 QByteArray QAtlas::readLED()         // pH, ORP
@@ -173,8 +172,6 @@ QByteArray QAtlas::writeTemp(double temperature)
  * Response: ?Cal,x with x is 0, 1, 2, 3
  */
 QByteArray QAtlas::readCal()
-//Atlas function: Cal?
-//Response: ?CAL,x with x is 0, 1, 2, 3
 {
     QByteArray cmd = "Cal,?\r";
     prependI2CAddr(cmd);
@@ -320,8 +317,11 @@ QByteArray QAtlas::serial(int baudrate) // switch to UART mode
 }
 //---------------------------------------
 /**
- * @brief QATLAS::factoryReset
- * @return
+ * @brief Reset to factory settings (UART mode, 9600 baud, green led).
+ *
+ * Atlas function: Factory
+ * Response: issue STATUS query after this command
+ * and see if "S" is in the reply
  */
 QByteArray QAtlas::factoryReset()
 //Atlas function: Factory
@@ -337,7 +337,6 @@ QByteArray QAtlas::factoryReset()
  * @brief Parse the response of the EZO stamp
  *
  * @param atlasdata
- * @retval void
  */
 void QAtlas::parseAtlasI2C(QByteArray atlasdata)
 {
@@ -348,7 +347,7 @@ void QAtlas::parseAtlasI2C(QByteArray atlasdata)
         t = atlasdata.mid(3,1);
         props.ledState = (t.toInt() == 1);
         props.ledState = (t.toInt() != 0);
-        //emit ledChanged(ledState);
+        //emit ledChanged(props.ledState);
     }
     if ( atlasdata.contains("?T,") ) {
         t = atlasdata.mid(4,4);
@@ -440,14 +439,14 @@ QAtlas::EZOProperties QAtlas::getEZOProps() const
     return props;
 }
 
-qint8 QAtlas::getI2cAddress() const
-{
-    return props.i2cAddress;
-}
-
 void QAtlas::setEZOProps(const EZOProperties &value)
 {
     props = value;
+}
+
+qint8 QAtlas::getI2cAddress() const
+{
+    return props.i2cAddress;
 }
 
 void QAtlas::setI2cAddress(const qint8 &value)

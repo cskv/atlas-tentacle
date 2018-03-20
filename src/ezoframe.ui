@@ -819,7 +819,7 @@ color: lime;
 </string>
     </property>
     <property name="text">
-     <string>bla</string>
+     <string/>
     </property>
     <property name="frame">
      <bool>false</bool>

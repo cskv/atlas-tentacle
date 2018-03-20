@@ -51,7 +51,8 @@ public:
     QAtlas* stamp = new QAtlas();  // wel even aanmaken !
 
 public slots:
-        void on_btnReadMeas_clicked();
+    void on_btnInfo_clicked();
+    void on_btnReadMeas_clicked();
 
 signals:
     void cmdAvailable(QByteArray newCommand);
@@ -68,7 +69,7 @@ private slots:
     void on_btnCalHigh_clicked();
 
     void on_btnSlope_clicked();
-    void on_btnInfo_clicked();
+
     void on_btnStatus_clicked();
     void on_ledCheckBox_clicked(bool checked);
     void on_btnLED_clicked();

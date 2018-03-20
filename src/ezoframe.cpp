@@ -36,8 +36,8 @@ EZOFrame::EZOFrame(QWidget *parent) :
     ui->setupUi(this);
 
     stampTimer = new QTimer;
-
-    connect(stampTimer, SIGNAL(timeout()), this, SLOT(on_btnReadMeas_clicked()));
+    connect(stampTimer, SIGNAL(timeout()),
+            this, SLOT(on_btnReadMeas_clicked()));
 
     connect( stamp, SIGNAL(infoRead()),
              this, SLOT(displayInfo()) );
@@ -107,7 +107,6 @@ void EZOFrame::displayMeas()
         if (dval > -1021 && dval < 1021) ui->valueLabel->setText(QString::number(dval, 'f', 1 ) + " mV");
     }
 }
-    //if (dval > -1 && dval < 15) ui->pHLabel->setText(QString::number(dval, 'f', 2 ));
 
 void EZOFrame::on_btnGetTemp_clicked()
 {
