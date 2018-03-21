@@ -50,6 +50,8 @@ public:
     QByteArray lastCmd;
     QAtlas* stamp = new QAtlas();  // wel even aanmaken !
 
+    void updateInfo();
+
 public slots:
     void on_btnInfo_clicked();
     void on_btnReadMeas_clicked();
@@ -59,7 +61,6 @@ signals:
 
 private slots:
     void on_btnGetTemp_clicked();
-
     void on_btnSetTemp_clicked();
 
     void on_btnCal_clicked();
@@ -67,7 +68,6 @@ private slots:
     void on_btnCalMid_clicked();
     void on_btnCalLow_clicked();
     void on_btnCalHigh_clicked();
-
     void on_btnSlope_clicked();
 
     void on_btnStatus_clicked();
@@ -76,15 +76,12 @@ private slots:
     //void on_contCB_clicked(bool checked);  // not implemented in I2C mode
     void on_btnSleep_clicked();
 
-    void updateInfo();
-
     void displayInfo();
     void displayMeas();
 
-    void on_cbAuto_clicked(bool checked);
+    void on_cbAuto_clicked(bool checked);  // AutoRead starts timer
 
     void on_btnI2CAddr_clicked();
-
     void on_btnSerial_clicked();
 
 private:

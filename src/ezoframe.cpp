@@ -34,6 +34,7 @@ EZOFrame::EZOFrame(QWidget *parent) :
     ui(new Ui::EZOFrame)
 {
     ui->setupUi(this);
+//disable EZO functions not implemented for I2C
     ui->btnGetName->setEnabled(false);
     ui->btnSetName->setEnabled(false);
     ui->btnSerial->setEnabled(false);

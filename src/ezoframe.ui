@@ -781,6 +781,9 @@ color: lime;
     </property>
    </widget>
    <widget class="QLineEdit" name="leName">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>88</x>

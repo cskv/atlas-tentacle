@@ -416,6 +416,6 @@ void MainWindow::on_actionConnect_triggered()
 {
     openSerialPort2();
     for (int n = 0; n < NUMSTAMPS; n++) {
-        ezof[n]->on_btnInfo_clicked();
+        ezof[n]->updateInfo();
     }
 }
