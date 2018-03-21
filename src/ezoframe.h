@@ -72,8 +72,8 @@ private slots:
 
     void on_btnStatus_clicked();
     void on_ledCheckBox_clicked(bool checked);
-    void on_btnLED_clicked();
-    void on_contCB_clicked(bool checked);
+
+    //void on_contCB_clicked(bool checked);  // not implemented in I2C mode
     void on_btnSleep_clicked();
 
     void updateInfo();
@@ -84,6 +84,8 @@ private slots:
     void on_cbAuto_clicked(bool checked);
 
     void on_btnI2CAddr_clicked();
+
+    void on_btnSerial_clicked();
 
 private:
     Ui::EZOFrame *ui;

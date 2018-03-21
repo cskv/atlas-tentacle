@@ -299,13 +299,17 @@ QByteArray QAtlas::sleep()
 }
 //---------------------------------------
 /**
- * @brief QATLAS::serial
+ * @brief QATLAS::changeSerial
  * @param baudrate
  * @return
+ *
+ * Atlas function: SERIAL, baudrate
+ * in SERIAL mode: change baudrate
+ * in I2C mode:    change to UART mode with baudrate
+ * 1. 300 bps 2. 1200 bps 3. 2400 bps 4. 9600 bps 5. 19200 bps
+ * 6. 38400 bps 7. 57600 bps 8. 115200 bps
 */
-QByteArray QAtlas::serial(int baudrate) // switch to UART mode
-//Atlas function: SERIAL, baudrate
-//Response: none
+QByteArray QAtlas::changeSerial(int baudrate) // switch to UART mode
 {
     QByteArray cmd = "SERIAL,";
     //cmd.append(QByteArray::number(baudrate));

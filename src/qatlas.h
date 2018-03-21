@@ -99,7 +99,7 @@ public slots:
 
     QByteArray changeI2C(qint8 newAddr);
     QByteArray sleep();
-    QByteArray serial(int baudrate); // switch to UART mode
+    QByteArray changeSerial(int baudrate); // switch to UART mode
     QByteArray factoryReset();
 
 // Parsing of Atlas Scientific stamp response bytes

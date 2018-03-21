@@ -34,6 +34,12 @@ EZOFrame::EZOFrame(QWidget *parent) :
     ui(new Ui::EZOFrame)
 {
     ui->setupUi(this);
+    ui->btnGetName->setEnabled(false);
+    ui->btnSetName->setEnabled(false);
+    ui->btnSerial->setEnabled(false);
+    ui->btnFactReset->setEnabled(false);
+    ui->respCB->setEnabled(false);
+    ui->contCB->setEnabled(false);
 
     stampTimer = new QTimer;
     connect(stampTimer, SIGNAL(timeout()),
@@ -68,7 +74,7 @@ void EZOFrame::displayInfo()
     dval = pr.basicSlope;
     if (dval > 0) ui->basicSlopeLabel->setText(QString::number(dval));
 
-
+    //ui->leName->setText(pr.name);
     ui->probeLabel->setText(pr.probeType);
     ui->versionLabel->setText(pr.version);
 
@@ -118,13 +124,6 @@ void EZOFrame::on_btnGetTemp_clicked()
 void EZOFrame::on_btnReadMeas_clicked()
 {
     lastCmd = stamp->readpHORP();
-    emit cmdAvailable(lastCmd);
-    //serial->write(lastCmd);
-}
-
-void EZOFrame::on_btnLED_clicked()
-{
-    lastCmd = stamp->readLED();
     emit cmdAvailable(lastCmd);
     //serial->write(lastCmd);
 }
@@ -211,12 +210,6 @@ void EZOFrame::on_ledCheckBox_clicked(bool checked)
     QTimer::singleShot(300, this, SLOT(on_btnLED_clicked()));
 }
 
-void EZOFrame::on_contCB_clicked(bool checked)
-{
-    if (checked) stampTimer->start(1000);
-    else stampTimer->stop();
-}
-
 void EZOFrame::on_btnSleep_clicked()
 {
     lastCmd = stamp->sleep();
@@ -224,14 +217,54 @@ void EZOFrame::on_btnSleep_clicked()
     //serial->write(lastCmd);
 }
 
+/**
+ * @brief EZOFrame::on_cbAuto_clicked
+ * @param checked
+ *
+ * start stampTimer
+ * timeout SLOT sends "R\n" command to stamp
+ * with regular intervals ( >= 1000 ms due to conversion time
+ * this SLOT works in both SERIAL and I2C mode
+ * note: I2C protocol is synchronous
+ */
 void EZOFrame::on_cbAuto_clicked(bool checked)
 {
     if (checked) stampTimer->start(1000);
     else stampTimer->stop();
 }
 
+/**
+ * @brief EZOFrame::on_btnI2CAddr_clicked
+ *
+ * in I2C mode
+ * this SLOT changes the I2C address of the stamp
+ * if working with a Tentacle (Mini) shield for Arduino
+ * - this application with its serial port object must be closed
+ * - the I2C address must be MANUALLY changed in the Arduino sketch
+ * - the sketch must be compiled and uploaded to the Arduino
+ * - this application must be restarted
+ *
+ * if working with a Tentacle T3 shield for RPi
+ *                 or EZO Carrier board (non USB)
+ * - this SLOT can be useful for changing the I2C address programmatically
+ */
 void EZOFrame::on_btnI2CAddr_clicked()
 {
     lastCmd = stamp->changeI2C(ui->leI2CAddress->text().toInt());
+    emit cmdAvailable(lastCmd);
+}
+
+//-------------------------------------------------------------------
+// I2C only commands
+//-------------------------------------------------------------------
+/**
+ * @brief EZOFrame::on_btnSerial_clicked
+ *
+ * changes baudrate for stamp in SERIAL mode
+ * changes control from I2C to SERIAL mode in I2C mode
+ */
+void EZOFrame::on_btnSerial_clicked()
+{
+    lastCmd = stamp->changeSerial(ui->leBaud->text().toInt());
     emit cmdAvailable(lastCmd);
 }
