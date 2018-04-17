@@ -63,6 +63,21 @@ Sleep       Enter low power sleep mode (pg.45)
 Serial      Switch back to UART mode (pg.46)
 Factory     Factory reset (p.47)
 PLOCK       Protocol lock (p.49)
+
+EZO EC
+L           Enable / Disable or Query the LEDs (pg.48)
+R           Returns a single reading (pg.49)
+K           Set or Query the probe constant (p.50)
+T           Set or Query temp. comp. (p.51)
+O           Enable / Disable or Query part of the output string (p.55)
+Cal         Performs calibration (pg.52)
+I           Device information (pg.57)
+Status      Retrieve status information (pg.58)
+I2C         I2C address change (pg.44)
+Sleep       Enter low power sleep mode (pg.60)
+Serial      Switch back to UART mode (pg.61)
+Factory     Factory reset (p.62)
+PLOCK       Protocol lock (p.64)
 */
 
 // ATLAS commands
@@ -336,51 +351,75 @@ QByteArray QAtlas::factoryReset()
     lastEZOCmd = cmd;
     return cmd;
 }
-//----------------------------------------------------------------
-/**
- * @brief Parse the response of the EZO stamp
- *
- * @param atlasdata
- */
-void QAtlas::parseAtlasI2C(QByteArray atlasdata)
-{
-    QByteArray t;
-    //qDebug() << atlasdata;
 
-    if ( atlasdata.contains("?L,") ) {
-        t = atlasdata.mid(3,1);
-        props.ledState = (t.toInt() == 1);
-        props.ledState = (t.toInt() != 0);
-        //emit ledChanged(props.ledState);
-    }
-    if ( atlasdata.contains("?T,") ) {
-        t = atlasdata.mid(4,4);
-        props.currentTemp = t.toDouble();
-    }
-    if ( atlasdata.contains("?CAL,") ) {
-        t = atlasdata.mid(6,1);
-        props.calState = t.toInt();
-    }
-    if ( atlasdata.contains("?SLOPE,") ) {
-        t = atlasdata.mid(8,4);
-        props.acidSlope = t.toDouble();
-        t = atlasdata.mid(13,5);
-        props.basicSlope = t.toDouble();
-    }
-    if ( atlasdata.contains("?I,") ) {
-        t = atlasdata.mid(3,3);
-        t =t.trimmed();
-        props.probeType = QString(t);
-        t = atlasdata.mid(5,4);
-        props.version = QString(t);
-    }
-    if ( atlasdata.contains("?STATUS,") ) {
-        t = atlasdata.mid(8,1);
-        props.rstCode = t;
-        t = atlasdata.mid(10,5);
-        props.voltage = t.toDouble();
-    }
+//---------------------------------------------------------
+/**
+ * @brief Get the current output quantities from an Atlas Scientific EC stamp
+ *
+ * Example:
+ * @code readOutputs(); @endcode
+ * Atlas function: O?
+ * Response: ?O,EC.TDS,S, SG
+ */
+QByteArray QAtlas::readOutputs()
+{
+    QByteArray cmd = "O,?\r";
+    prependI2CAddr(cmd);
+    lastEZOCmd = cmd;
+    return cmd;
 }
+/**
+ * @brief Set the output quantities of an Atlas Scientific EC stamp
+ *
+ * Example:
+ * @code writeOutputs(); @endcode
+ * Atlas function: O,xx.xx?
+ * Response: 1
+ */
+QByteArray QAtlas::writeOutputs(const QByteArray &quantities)
+{
+    QByteArray cmd = "O,";
+    cmd.append(quantities);
+    cmd.append("\r");
+    prependI2CAddr(cmd);
+    lastEZOCmd = cmd;
+    return cmd;
+}
+
+/**
+ * @brief Get the cell constant K from an Atlas Scientific EC stamp/probe
+ *
+ * Example:
+ * @code readK(); @endcode
+ * Atlas function: O?
+ * Response: ?O,EC.TDS,S, SG
+ */
+QByteArray QAtlas::readK()
+{
+    QByteArray cmd = "K,?\r";
+    prependI2CAddr(cmd);
+    lastEZOCmd = cmd;
+    return cmd;
+}
+/**
+ * @brief Set the cell constant K of an Atlas Scientific EC stamp/probe
+ *
+ * Example:
+ * @code writeK(); @endcode
+ * Atlas function: O,xx.xx?
+ * Response: 1
+ */
+QByteArray QAtlas::writeK(const double &cellK)
+{
+    QByteArray cmd = "K,";
+    cmd.append(QByteArray::number(cellK, 'f', 2));
+    cmd.append("\r");
+    prependI2CAddr(cmd);
+    lastEZOCmd = cmd;
+    return cmd;
+}
+
+//----------------------------------------------------------------
 
 /**
  * @brief Parse the response of the EZO stamp connected via a Tentacle Mini interface board.
@@ -412,8 +451,8 @@ void QAtlas::parseTentacleMini(QByteArray atlasdata)
         emit infoRead();
     } else if ( atlasdata.startsWith("?I,") ) {
         t = atlasdata.mid(3,2);
-        if (t.contains("pH")) {
-            props.probeType = QString(t);     // EZO "pH" stamp
+        if ( (t.contains("pH")) || (t.contains("EC")) ) {
+            props.probeType = QString(t);     // EZO "pH" or "EC" stamp
             t = atlasdata.mid(6,4);
             props.version = QString(t);
         } else {
@@ -429,11 +468,31 @@ void QAtlas::parseTentacleMini(QByteArray atlasdata)
         t = atlasdata.mid(10,5);
         props.voltage = t.toDouble();
         emit infoRead();
+    } else if ( atlasdata.startsWith("?O,") ) {
+        t = atlasdata.mid(3,11);
+        props.ecQuantities = QString(t);
+        emit infoRead();
+    } else if ( atlasdata.startsWith("?K,") ) {
+        t = atlasdata.mid(3,5);
+        props.ecCellConstant = t.toDouble();
+        emit infoRead();
     } else {
-        t = atlasdata.mid(0,7);     // pH: 6 bytes ORP: 7 bytes max
-        props.currentpH = t.toDouble();
-        if ( props.currentpH > 0 &&
-             props.currentpH < 14 )emit measRead();
+        if (props.probeType.contains("pH")) {
+            t = atlasdata.mid(0,6);     // pH: 6 bytes ORP: 7 bytes max
+            props.currentpH = t.toDouble();
+            if ( props.currentpH > -1.0 &&
+             props.currentpH < 15.0 ) emit measRead();
+        } else if (props.probeType.contains("ORP")) {
+            t = atlasdata.mid(0,7);     // pH: 6 bytes ORP: 7 bytes max
+            props.currentORP = t.toDouble();
+            if ( props.currentORP > -1000.0 &&
+             props.currentORP < 1000.0 ) emit measRead();
+        } else if (props.probeType.contains("EC")) {
+            t = atlasdata.mid(0,32);     // EC: max 32 bytes
+            props.currentEC = t.toDouble();
+            if ( props.currentEC > 1.0 &&
+             props.currentEC < 100000.0 ) emit measRead();
+        }
     }
 }
 

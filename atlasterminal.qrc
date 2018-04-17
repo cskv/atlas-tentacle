@@ -11,6 +11,7 @@
         <file>images/orp-circuit-large.jpg</file>
         <file>images/ph-circuit-large.jpg</file>
         <file>images/log-file-format.png</file>
+        <file>images/ec-circuit-large.jpg</file>
     </qresource>
     <qresource prefix="/new/arrows">
         <file>images/1446825729_icon-arrow-down-b.ico</file>

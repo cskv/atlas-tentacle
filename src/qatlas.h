@@ -69,6 +69,8 @@ struct EZOProperties {
     qint8   i2cAddress = -1;      /**< 7-bits I2C address (1..127)  */
     int     baud = 9600;          /**< baudrate of virtual serial port to EZO stamp */
     bool    isConnectedAsSerial = true;          /**< serial or I2C */
+    QString ecQuantities = "";                   /**< EC,TDS,Salinity,SG */
+    double  ecCellConstant = 1.0;                /**< cell constant K of EC probe */
     };
 
 // getters
@@ -102,10 +104,15 @@ public slots:
     QByteArray changeSerial(int baudrate); // switch to UART mode
     QByteArray factoryReset();
 
+    QByteArray readOutputs();                       // for EZO EC only
+    QByteArray writeOutputs(const QByteArray &quantities);
+
+    QByteArray writeK(const double &cellK);
+    QByteArray readK();
+
 // Parsing of Atlas Scientific stamp response bytes
     //void parseAtlas(QByteArray atlasdata);
     void parseTentacleMini(QByteArray atlasdata);
-    void parseAtlasI2C(QByteArray atlasdata);
 
 signals:
     void ledRead(bool state);

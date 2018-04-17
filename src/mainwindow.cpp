@@ -366,6 +366,14 @@ void MainWindow::on_pushButton_clicked()
     commentLine.prepend("# ");
 }
 
+void MainWindow::on_actionConnect_triggered()
+{
+    openSerialPort2();
+    for (int n = 0; n < NUMSTAMPS; n++) {
+        ezof[n]->updateInfo();
+    }
+}
+
 /*
 void MainWindow::readAtlasUSBData()
 {
@@ -412,10 +420,4 @@ void MainWindow::readRawI2CData()
 
 
 
-void MainWindow::on_actionConnect_triggered()
-{
-    openSerialPort2();
-    for (int n = 0; n < NUMSTAMPS; n++) {
-        ezof[n]->updateInfo();
-    }
-}
+
