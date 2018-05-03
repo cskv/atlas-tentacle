@@ -84,6 +84,14 @@ private slots:
     void on_btnI2CAddr_clicked();
     void on_btnSerial_clicked();
 
+    void on_btnGetK_clicked();
+
+    void on_btnSetK_clicked();
+
+    void on_btnGetOutput_clicked();
+
+    void on_btnSetOutput_clicked();
+
 private:
     Ui::EZOFrame *ui;
     QTimer* stampTimer;

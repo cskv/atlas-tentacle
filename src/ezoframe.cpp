@@ -269,3 +269,27 @@ void EZOFrame::on_btnSerial_clicked()
     lastCmd = stamp->changeSerial(ui->leBaud->text().toInt());
     emit cmdAvailable(lastCmd);
 }
+
+void EZOFrame::on_btnGetK_clicked()
+{
+    lastCmd = stamp->readK();
+    emit cmdAvailable(lastCmd);
+}
+
+void EZOFrame::on_btnSetK_clicked()
+{
+    lastCmd = stamp->writeK(ui->leK->text().toDouble());
+    emit cmdAvailable(lastCmd);
+}
+
+void EZOFrame::on_btnGetOutput_clicked()
+{
+    lastCmd = stamp->readOutputs();
+    emit cmdAvailable(lastCmd);
+}
+
+void EZOFrame::on_btnSetOutput_clicked()
+{
+    lastCmd = stamp->writeOutputs(QByteArray(ui->leOutput->text().toUtf8()));
+    emit cmdAvailable(lastCmd);
+}

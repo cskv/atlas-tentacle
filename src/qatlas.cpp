@@ -488,8 +488,9 @@ void QAtlas::parseTentacleMini(QByteArray atlasdata)
             if ( props.currentORP > -1000.0 &&
              props.currentORP < 1000.0 ) emit measRead();
         } else if (props.probeType.contains("EC")) {
-            t = atlasdata.mid(0,32);     // EC: max 32 bytes
-            props.currentEC = t.toDouble();
+            QString ecstr= QString(atlasdata.mid(0,32));     // EC: max 32 bytes
+            QStringList eclist = ecstr.split(',');
+            props.currentEC = eclist[0].toDouble();
             if ( props.currentEC > 1.0 &&
              props.currentEC < 100000.0 ) emit measRead();
         }
